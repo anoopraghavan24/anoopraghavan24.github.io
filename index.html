@@ -3,164 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Briefing: Asset F-550</title>
+    <title>Project Mobile: Master Operational Briefing</title>
     <style>
+        :root {
+            --bus-blue: #1b2631;
+            --trip-green: #1e8449;
+            --accent-gold: #f1c40f;
+            --warning-red: #c0392b;
+            --bg-light: #f4f6f7;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f4f4f9;
+            background-color: var(--bg-light);
         }
         header {
-            background-color: #1b2631;
-            color: #f1c40f;
-            padding: 20px;
+            background-color: var(--bus-blue);
+            color: white;
+            padding: 40px 20px;
             text-align: center;
-            border-radius: 8px 8px 0 0;
-            border-bottom: 5px solid #f1c40f;
+            border-bottom: 8px solid var(--accent-gold);
+            margin-bottom: 30px;
         }
-        section {
-            background: #fff;
-            padding: 20px;
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+            padding: 10px;
+            color: white;
+            border-radius: 5px 5px 0 0;
+        }
+        .bus-bg { background-color: var(--bus-blue); }
+        .trip-bg { background-color: var(--trip-green); }
+        
+        .content-box {
+            background: white;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-top: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
             margin-bottom: 20px;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-        h2 {
-            color: #1b2631;
-            border-bottom: 2px solid #f1c40f;
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            font-size: 1.2rem;
-        }
-        .spec-grid {
+        .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin: 20px 0;
         }
-        .spec-item {
+        .card {
             background: #f9f9f9;
-            padding: 10px;
-            border-left: 4px solid #1b2631;
-        }
-        .label {
-            font-weight: bold;
-            display: block;
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
-        }
-        .value {
-            font-size: 1rem;
-            color: #2c3e50;
-        }
-        .checklist {
-            list-style: none;
-            padding: 0;
-        }
-        .checklist li {
-            background: #fdfefe;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #d5dbdb;
-        }
-        .checklist li::before {
-            content: "☐ ";
-            font-weight: bold;
-            color: #1b2631;
-        }
-        .warning {
-            background-color: #fef9e7;
-            border: 1px solid #f39c12;
             padding: 15px;
+            border-left: 5px solid var(--accent-gold);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th { background-color: #eee; text-align: left; padding: 12px; border: 1px solid #ddd; }
+        td { padding: 12px; border: 1px solid #ddd; }
+        
+        .critical {
+            background-color: #fdedec;
+            border: 2px solid var(--warning-red);
+            padding: 20px;
             border-radius: 5px;
-            font-size: 0.9rem;
+            margin: 20px 0;
         }
-        @media print {
-            body { background: white; }
-            section { box-shadow: none; border: 1px solid #eee; }
-        }
+        .spec-label { font-weight: bold; color: var(--bus-blue); text-transform: uppercase; font-size: 0.85rem; }
+        .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 50px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>2012 Ford F-550 Shuttle Bus</h1>
-    <p>Mechanical & Chassis Specification Briefing</p>
+    <h1>PROJECT MOBILE: FINAL DIRECTIVE</h1>
+    <p>Asset Acquisition (F-550) & Family Expedition Logistics</p>
+    <p>Target Date: April 26 – 30, 2026</p>
 </header>
 
-<section>
-    <h2>I. Powertrain Architecture</h2>
-    <p>The 6.7L PowerStroke was Ford's first in-house diesel engine, engineered to deliver massive torque at low RPMs for heavy-duty shuttle applications.</p>
+<div class="section-header bus-bg">
+    <h2>PART I: THE ASSET (2012 FORD F-550)</h2>
+</div>
+<div class="content-box">
+    <h3>Mechanical Architecture</h3>
+    <p>The 2012 F-550 is a Class 5 Medium-Duty chassis. This is a professional-grade platform designed for 250,000+ mile service lives in high-stress environments.</p>
     
-    
-
-    <div class="spec-grid">
-        <div class="spec-item">
-            <span class="label">Engine</span>
-            <span class="value">6.7L PowerStroke V8 Turbo Diesel</span>
+    <div class="grid">
+        <div class="card">
+            <span class="spec-label">Engine: 6.7L PowerStroke V8</span>
+            <p>300 HP / 660 Lb-Ft Torque. Features a "Reverse-Flow" cooling system and a CGI (Compacted Graphite Iron) block for extreme durability.</p>
         </div>
-        <div class="spec-item">
-            <span class="label">Output</span>
-            <span class="value">300 HP / 660 Lb-Ft Torque</span>
+        <div class="card">
+            <span class="spec-label">Chassis: 19,500 Lb GVWR</span>
+            <p>The frame is a straight-rail design, 50k PSI steel. This allows for massive payload capacity for a full camper conversion.</p>
         </div>
-        <div class="spec-item">
-            <span class="label">Transmission</span>
-            <span class="value">TorqShift 6-Speed Auto (6R140)</span>
+        <div class="card">
+            <span class="spec-label">Charging: Dual Alternators</span>
+            <p>Standard on most shuttle builds. Provides ~300+ Amps of current, perfect for charging large "house" battery banks while driving.</p>
         </div>
-        <div class="spec-item">
-            <span class="label">Emissions</span>
-            <span class="value">SCR w/ Diesel Exhaust Fluid (DEF)</span>
+        <div class="card">
+            <span class="spec-label">Transmission: 6R140 TorqShift</span>
+            <p>Heavy-duty 6-speed with a double-overdrive and "Tow/Haul" mode for effective engine braking on descents.</p>
         </div>
     </div>
-</section>
 
-<section>
-    <h2>II. Chassis & Structural</h2>
-    <p>Built on a Class 5 Medium-Duty frame, this chassis is significantly more robust than consumer-grade F-250/F-350 trucks.</p>
-    
-    
-
-    <div class="spec-grid">
-        <div class="spec-item">
-            <span class="label">GVWR</span>
-            <span class="value">19,500 Lbs (Commercial Grade)</span>
-        </div>
-        <div class="spec-item">
-            <span class="label">Frame Style</span>
-            <span class="value">Straight-Channel Steel</span>
-        </div>
-        <div class="spec-item">
-            <span class="label">Charging</span>
-            <span class="value">Dual Heavy-Duty Alternators</span>
-        </div>
-        <div class="spec-item">
-            <span class="label">Rear Axle</span>
-            <span class="value">Dana Spicer S110 (Dual Rear Wheels)</span>
-        </div>
-    </div>
-</section>
-
-<section>
-    <h2>III. Pre-Flight Mechanical Checklist</h2>
+    <h3>Mandatory Pre-Flight Checklist</h3>
     <ul class="checklist">
-        <li><strong>Fluid Integrity:</strong> Check Oil (15W-40) and Coolant (Ford Gold). Ensure DEF tank is at least 50% full.</li>
-        <li><strong>The "Glitter" Test:</strong> Inspect primary fuel filter housing for metallic flakes (indicates fuel pump health).</li>
-        <li><strong>Tire Age:</strong> Verify DOT date codes. If older than 6 years, exercise extreme caution on the highway.</li>
-        <li><strong>Electrical Drain:</strong> Test dual batteries for 12.6V charge; check alternator output after startup.</li>
-        <li><strong>Braking Surface:</strong> Inspect rotors for deep pitting or uneven wear from extended sitting.</li>
+        <li><strong>The "Glitter Test":</strong> Open the primary fuel filter housing. Inspect for metallic debris (indicates CP4 pump wear).</li>
+        <li><strong>Tire Date Codes:</strong> Verify the 4-digit DOT code. If the tires are older than 2020, they are considered "at-risk" for a 5-hour highway haul.</li>
+        <li><strong>DEF Status:</strong> Ensure the Diesel Exhaust Fluid tank is at least 50% full. Low DEF will trigger a 50 MPH speed governor.</li>
+        <li><strong>Coolant Inspection:</strong> Verify the color is Gold/Yellow. Inspect the degas bottle for "oil film," which would indicate a failing oil cooler.</li>
     </ul>
-</section>
+</div>
 
-<section>
-    <div class="warning">
-        <strong>Conversion Note:</strong> The F-550's flat-rail frame allows for mounting grey-water tanks, diesel heaters, and storage boxes directly to the frame rails beneath the body, making it the ideal platform for a high-end camper build.
+<div class="section-header trip-bg">
+    <h2>PART II: THE OPERATION (THE EXPEDITION)</h2>
+</div>
+<div class="content-box">
+    <h3>Family Logistics & Activity Schedule</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Activity</th>
+                <th>Kid Focus (4, 6, 9)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Mon PM</strong></td>
+                <td>USS Alabama Battleship Park</td>
+                <td>Exploring the "Steel Maze," climbing gun turrets, and the A-12 Blackbird plane.</td>
+            </tr>
+            <tr>
+                <td><strong>Tue AM</strong></td>
+                <td>Lake Shelby "Dog Pond"</td>
+                <td>Coco's vacation. Only legal off-leash swimming. Beach play for kids.</td>
+            </tr>
+            <tr>
+                <td><strong>Tue PM</strong></td>
+                <td>Exploreum Science Center</td>
+                <td>100% Indoor A/C. "Animation Academy" (Pixar/Shrek) and "Wharf of Wonder" for the 4yo.</td>
+            </tr>
+            <tr>
+                <td><strong>Wed AM</strong></td>
+                <td>The Wharf Ferris Wheel</td>
+                <td>One of the tallest in the SE. A final "high-point" before the drive home.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Comparative Financial Modeling</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>"Ironman" (Mon-Wed)</th>
+                <th>"Strategic" (Sun-Wed)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Hotel (Tillman's Corner)</td>
+                <td>$285 (2 Nights)</td>
+                <td>$390 (3 Nights)</td>
+            </tr>
+            <tr>
+                <td>Fuel (Pacifica + Bus)</td>
+                <td>$210</td>
+                <td>$210</td>
+            </tr>
+            <tr>
+                <td>Dining & Provisions</td>
+                <td>$300</td>
+                <td>$400</td>
+            </tr>
+            <tr>
+                <td>Admissions & Parking</td>
+                <td>$178</td>
+                <td>$178</td>
+            </tr>
+            <tr>
+                <td>Mechanical Go-Bag</td>
+                <td>$200</td>
+                <td>$200</td>
+            </tr>
+            <tr style="font-weight: bold; background-color: #e8f8f5;">
+                <td>TOTAL ESTIMATED COST</td>
+                <td>$1,173</td>
+                <td>$1,378</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="critical">
+        <h3>CRITICAL SAFETY & OPERATIONAL NOTES</h3>
+        <ul>
+            <li><strong>3:00 AM Departure:</strong> Required for the Ironman scenario to hit the 8:00 AM warehouse window.</li>
+            <li><strong>The "Coco" Rule:</strong> Pets are banned from the Science Center and Battleship. One adult must stay in the Pacifica with the A/C running if the hotel room is not yet ready.</li>
+            <li><strong>Alligator Awareness:</strong> Lake Shelby is a natural habitat. Do not let kids or Coco wander outside the fenced "Dog Pond" area.</li>
+            <li><strong>Caravan Communication:</strong> Use Walkie-Talkies. The Pacifica stays 1/4 mile ahead of the bus to scout traffic and signal lane changes.</li>
+        </ul>
     </div>
-</section>
+</div>
+
+<div class="footer">
+    <p>Operational Document for Anoop Raghavan Kangalath | Warehouse: 251-460-6150</p>
+</div>
 
 </body>
 </html>
