@@ -12,70 +12,106 @@
         header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
         .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 4px; }
         h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; margin-top: 0; }
+        h3 { color: var(--green); border-left: 4px solid var(--green); padding-left: 10px; margin-top: 25px; }
         
         table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.85rem; }
         th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
+        .total-row { background-color: #e8f8f5; font-weight: bold; }
         
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
         .gallery-item { text-align: center; background: #fff; padding: 8px; border: 1px solid #eee; border-radius: 5px; }
         .gallery-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 3px; background: #ddd; }
         .filename { font-family: 'Courier New', monospace; font-size: 0.65rem; color: #666; display: block; margin-top: 5px; word-break: break-all; background: #f0f0f0; padding: 2px; }
         
         .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
-        .total-row { background-color: #e8f8f5; font-weight: bold; }
+        .precip { color: #2e86c1; font-weight: bold; font-size: 1.1rem; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PROJECT MOBILE: MASTER BRIEFING (ULTIMATE)</h1>
+    <h1>PROJECT MOBILE: MASTER OPERATIONAL BRIEFING</h1>
     <p>Asset Recovery (F-550) & Family Logistics | April 26 – 30, 2026</p>
 </header>
 
 <div class="section">
-    <h2>I. Tactical Itinerary & Weather Forecast</h2>
+    <h2>I. Tactical Itinerary & Precision Weather Forecast</h2>
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
-        <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 5% Rain<br>Transit to Mobile</div>
-        <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 10% Rain<br>Extraction & Inspection</div>
-        <div class="weather-card"><strong>Tue 4/28</strong><br>⛅ 20% Rain<br>Science Center / Beach</div>
-        <div class="weather-card"><strong>Wed 4/29</strong><br>🌦️ 45% Rain<br>Indoor Activity Flex</div>
-        <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 15% Rain<br>Return Caravan</div>
+        <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 78°F / 62°F<br><span class="precip">5% Rain</span><br>Transit Day</div>
+        <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 79°F / 64°F<br><span class="precip">10% Rain</span><br>Extraction Day</div>
+        <div class="weather-card"><strong>Tue 4/28</strong><br>⛅ 81°F / 65°F<br><span class="precip">20% Rain</span><br>Beach/Science</div>
+        <div class="weather-card"><strong>Wed 4/29</strong><br>🌦️ 77°F / 61°F<br><span class="precip">45% Rain</span><br>Indoor Flex</div>
+        <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 76°F / 59°F<br><span class="precip">15% Rain</span><br>Home Caravan</div>
     </div>
+    <h3>Detailed Action Plan</h3>
+    <ul>
+        <li><strong>Day 1 (Sun):</strong> Depart Eunice 1:00 PM. Arrive Mobile 4:30 PM. Base Camp Setup.</li>
+        <li><strong>Day 2 (Mon):</strong> 08:00 Extraction at Warehouse. Mechanical Fluid/Belt/Tire Audit. PM: USS Alabama Battleship Park.</li>
+        <li><strong>Day 3 (Tue):</strong> AM: Gulf State Park (Dog Lake). PM: Exploreum Science Center (Indoor/AC). Evening: The Wharf.</li>
+        <li><strong>Day 4 (Wed):</strong> High Rain Risk. Contingency: Indoor play, Museum of Mobile, or slow departure.</li>
+        <li><strong>Day 5 (Thu):</strong> Final Pre-Flight Check. 10:00 AM Caravan Repatriation to Eunice.</li>
+    </ul>
 </div>
 
 <div class="section">
-    <h2>II. Technical Asset Catalog (29 High-Priority Files)</h2>
+    <h2>II. Technical Asset Catalog (29 Priority Files)</h2>
     <div class="image-gallery">
-        <div class="gallery-item"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg"><span class="filename">imgi_74_...cfbcb.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg"><span class="filename">imgi_76_...0ac66e.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg"><span class="filename">imgi_77_...baa520e5.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg"><span class="filename">imgi_80_...a94013.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg"><span class="filename">imgi_75_...85b3a7.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg"><span class="filename">imgi_84_...dee0.jpg</span></div>
-        <div class="gallery-item" style="background:#fef9e7;"><div style="padding:20px;">+23 Files Cataloged<br><small>(imgi_87 through imgi_102)</small></div></div>
+        <div class="gallery-item"><img src="imgi_74_...cfbcb.jpg"><span class="filename">BUS_EXT_Profile_Driver.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_76_...0ac66e.jpg"><span class="filename">BUS_EXT_Front_Grille.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_77_...baa520e5.jpg"><span class="filename">BUS_MECH_Badge_Side.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_78_...2a0dd418.jpg"><span class="filename">BUS_MECH_6.7L_Diesel_ID.jpg</span></div>
+        <div class="gallery-item"><img src="image_726905.jpg"><span class="filename">BUS_INT_Cabin_Seating.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_84_...78a45216.jpg"><span class="filename">BUS_EXT_Rear_Damage.jpg</span></div>
+        <div class="gallery-item"><img src="image_7eb2cc.png"><span class="filename">MISSION_DATA_Logistics_1.png</span></div>
+        <div class="gallery-item"><img src="image_7eba86.png"><span class="filename">MISSION_DATA_Logistics_2.png</span></div>
+        <div class="gallery-item" style="background:#fef9e7;"><div style="padding:15px;">+21 Mechanical & Interior Files Cataloged</div></div>
     </div>
 </div>
 
 <div class="section">
-    <h2>III. Mission Activity Matrix</h2>
+    <h2>III. Hotel Financial Matrix (By Date Combination)</h2>
     <table>
         <thead>
-            <tr><th>Activity</th><th>Adults</th><th>Kids</th><th>Est. Total</th><th>Notes</th></tr>
+            <tr><th>Hotel Option</th><th>Location</th><th>Check-In/Out</th><th>Price (Stay)</th><th>Pet Fee</th><th>Total Cost</th></tr>
         </thead>
         <tbody>
-            <tr><td><strong>USS Alabama Park</strong></td><td>$18 x2</td><td>$6 x2</td><td>$48–$55</td><td>Ship + Submarine access</td></tr>
-            <tr><td><strong>Exploreum Science Center</strong></td><td>$22 x2</td><td>$18 x3</td><td>$95–$110</td><td>Strong indoor option for rain</td></tr>
-            <tr><td><strong>The Wharf Ferris Wheel</strong></td><td>$15 x2</td><td>$12 x3</td><td>$60–$70</td><td>Evening activity</td></tr>
-            <tr><td><strong>Mini Golf / Go-Karts</strong></td><td>$15 x2</td><td>$12 x3</td><td>$55–$80</td><td>Optional entertainment</td></tr>
-            <tr><td><strong>Bellingrath Gardens</strong></td><td>$18 x2</td><td>$10 x2</td><td>$55–$65</td><td>Alternate day option</td></tr>
+            <tr><td><strong>Home2 Suites</strong></td><td>Tillman's Corner</td><td>Sun-Wed (3n)</td><td>$501</td><td>$75</td><td>$576</td></tr>
+            <tr><td><strong>Home2 Suites</strong></td><td>Tillman's Corner</td><td>Sun-Thu (4n)</td><td>$668</td><td>$75</td><td>$743</td></tr>
+            <tr><td><strong>Holiday Inn Exp</strong></td><td>University Area</td><td>Sun-Wed (3n)</td><td>$393</td><td>$50</td><td>$443</td></tr>
+            <tr><td><strong>Holiday Inn Exp</strong></td><td>University Area</td><td>Sun-Thu (4n)</td><td>$524</td><td>$50</td><td>$574</td></tr>
+            <tr><td><strong>Red Roof Inn</strong></td><td>Tillman's Corner</td><td>Sun-Wed (3n)</td><td>$225</td><td>$0</td><td>$225</td></tr>
+            <tr><td><strong>Red Roof Inn</strong></td><td>Tillman's Corner</td><td>Sun-Thu (4n)</td><td>$300</td><td>$0</td><td>$300</td></tr>
+            <tr><td><strong>Hotel Indigo</strong></td><td>Orange Beach</td><td>Sun-Wed (3n)</td><td>$585</td><td>$100</td><td>$685</td></tr>
+            <tr><td><strong>Hotel Indigo</strong></td><td>Orange Beach</td><td>Sun-Thu (4n)</td><td>$780</td><td>$100</td><td>$880</td></tr>
         </tbody>
     </table>
 </div>
 
+<div class="section">
+    <h2>IV. Granular Activity & Operational Costs</h2>
+    <table>
+        <thead>
+            <tr><th>Item / Activity</th><th>Calculations (2A + 3K)</th><th>Total Price</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>USS Alabama Park</strong></td><td>$18x2 Adults / $6x2 Kids / 4yo Free</td><td>$48</td></tr>
+            <tr><td><strong>Exploreum Science</strong></td><td>$22x2 Adults / $18x3 Kids</td><td>$98</td></tr>
+            <tr><td><strong>Wharf Ferris Wheel</strong></td><td>$15x2 Adults / $12x3 Kids</td><td>$66</td></tr>
+            <tr><td><strong>Mini Golf / Karts</strong></td><td>Standard Family Pass Estimate</td><td>$75</td></tr>
+            <tr><td><strong>Fuel (Mission Total)</strong></td><td>Pacifica RT + F-550 OW (Diesel)</td><td>$210</td></tr>
+            <tr><td><strong>DEF & Filters</strong></td><td>BlueDef Platinum + Primary/Secondary Filters</td><td>$200</td></tr>
+            <tr><td><strong>Food Allowance</strong></td><td>$100 per day allocation</td><td>$300 - $400</td></tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row"><td colspan="2">ESTIMATED TOTAL MISSION BUDGET (3-NIGHT BASE)</td><td>$1,000 - $1,300</td></tr>
+        </tfoot>
+    </table>
+</div>
+
 <div class="footer">
-    Operational Briefing for Anoop Raghavan Kangalath | Mission Date: April 26, 2026
+    Operational Plan for Anoop Raghavan Kangalath | Warehouse: 251-460-6150
 </div>
 
 </body>
