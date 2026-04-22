@@ -1,126 +1,764 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Operational Briefing: Project Mobile</title>
-    <style>
-        :root {
-            --navy: #1b2631; --green: #1e8449; --gold: #f1c40f; --danger: #c0392b; --light: #f8f9f9;
-        }
-        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1300px; margin: 0 auto; padding: 20px; background-color: var(--light); }
-        header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
-        .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 4px; }
-        h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; margin-top: 0; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.85rem; }
-        th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
-        td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
-        .total-row { background-color: #e8f8f5; font-weight: bold; }
-        
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 20px; }
-        .gallery-item { text-align: center; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 5px; }
-        .filename { font-family: 'Courier New', monospace; font-size: 0.6rem; color: #555; display: block; word-break: break-all; background: #f4f4f4; padding: 5px; }
-        
-        .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
-        .precip { color: #2e86c1; font-weight: bold; }
-        .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Mobile: Alabama Mission Dossier</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111418;
+    --surface2: #181c22;
+    --border: #2a3040;
+    --accent: #e8a020;
+    --accent2: #4a9eff;
+    --danger: #e84040;
+    --success: #30c060;
+    --text: #c8d0dc;
+    --text-dim: #6a7585;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Oswald', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 300;
+    min-height: 100vh;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(42,48,64,0.3) 39px, rgba(42,48,64,0.3) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(42,48,64,0.15) 39px, rgba(42,48,64,0.15) 40px);
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* === HEADER === */
+  .header {
+    border-left: 4px solid var(--accent);
+    padding: 0 0 0 20px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+  .header::before {
+    content: 'CLASSIFIED // OPERATIONAL USE ONLY';
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--danger);
+    display: block;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-family: var(--head);
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #fff;
+    line-height: 1;
+  }
+  .header h1 span { color: var(--accent); }
+  .header .subtitle {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 8px;
+    letter-spacing: 0.15em;
+  }
+  .header .operative {
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+  }
+
+  /* === SECTIONS === */
+  .section {
+    margin-bottom: 48px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: rgba(232,160,32,0.12);
+    border: 1px solid rgba(232,160,32,0.3);
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+  }
+  .section-title {
+    font-family: var(--head);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  /* === WEATHER GRID === */
+  .weather-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .weather-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 14px 10px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .weather-card.risk-high { border-color: var(--danger); }
+  .weather-card.risk-high::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--danger);
+  }
+  .weather-card .day {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .weather-card .date {
+    font-family: var(--head);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .weather-card .rain {
+    font-family: var(--mono);
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .weather-card .rain.low { color: var(--success); }
+  .weather-card .rain.med { color: var(--accent); }
+  .weather-card .rain.high { color: var(--danger); }
+  .weather-card .temp {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: var(--mono);
+  }
+
+  /* === ITINERARY === */
+  .itinerary {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .itinerary-day {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    border-left: 2px solid var(--border);
+    padding: 0 0 24px 20px;
+    position: relative;
+    gap: 16px;
+  }
+  .itinerary-day::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+  .itinerary-day.risk::before { background: var(--danger); }
+  .day-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding-top: 2px;
+  }
+  .day-label .date-short {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 2px;
+    font-family: var(--head);
+  }
+  .day-content {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .day-content strong {
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* === TABLES === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead tr {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--accent);
+  }
+  th {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: normal;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--body);
+  }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  tr.highlight td { color: #fff; }
+  td.mono { font-family: var(--mono); font-size: 12px; }
+  td.accent { color: var(--accent); font-family: var(--mono); }
+  td.good { color: var(--success); }
+  td.warn { color: var(--accent); }
+  td.bad { color: var(--danger); }
+
+  /* === FINANCIAL CARDS === */
+  .financial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+  .hotel-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+  }
+  .hotel-card .hotel-name {
+    font-family: var(--head);
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .hotel-card .hotel-loc {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    letter-spacing: 0.08em;
+  }
+  .hotel-scenario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-top: 1px solid var(--border);
+  }
+  .hotel-scenario .nights {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .hotel-scenario .price {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: bold;
+  }
+  .hotel-scenario .price.best { color: var(--success); }
+
+  /* === ACTIVITY TABLE === */
+  .activity-total {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: bold;
+  }
+
+  /* === FILE CATALOG === */
+  .file-catalog {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 20px;
+  }
+  .file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .file-entry {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .file-entry:hover { border-color: var(--accent2); }
+  .file-entry img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+    background: var(--surface);
+  }
+  .file-entry .fname {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--text-dim);
+    padding: 5px 7px;
+    word-break: break-all;
+    letter-spacing: 0.02em;
+    border-top: 1px solid var(--border);
+  }
+  .file-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  /* === WARNINGS === */
+  .warning-block {
+    border-left: 3px solid var(--danger);
+    background: rgba(232,64,64,0.06);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+  .warning-block .warn-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--danger);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .warning-block .warn-body {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .warning-block .warn-body code {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent2);
+    background: rgba(74,158,255,0.1);
+    padding: 1px 5px;
+  }
+
+  /* === FOOTER === */
+  .footer {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .weather-grid { grid-template-columns: repeat(3, 1fr); }
+    .itinerary-day { grid-template-columns: 1fr; }
+    .day-label { padding-bottom: 0; }
+    th, td { padding: 8px 10px; }
+  }
+</style>
 </head>
 <body>
+<div class="page">
 
-<header>
-    <h1>PROJECT MOBILE: MASTER OPERATIONAL BRIEFING</h1>
-    <p>Asset Recovery (F-550) & Family Logistics | April 26 – 30, 2026</p>
-</header>
+  <!-- HEADER -->
+  <header class="header">
+    <h1>PROJECT <span>MOBILE</span><br>ALABAMA MISSION</h1>
+    <div class="subtitle">FULL EXTRACTION OF ALL OPERATIONAL &amp; LOGISTICAL DATA // DOSSIER</div>
+    <div class="operative">OPERATIVE: ANOOP RAGHAVAN KANGALATH &nbsp;|&nbsp; MISSION DATE: APRIL 26–30, 2026</div>
+  </header>
 
-<div class="section">
-    <h2>I. Global Drive-Time Matrix</h2>
-    <table>
-        <thead>
-            <tr><th>Origin</th><th>Destination</th><th>Distance</th><th>Est. Drive Time</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>Eunice, LA</td><td>Mobile Warehouse (Pickup)</td><td>218 Miles</td><td>3h 15m</td></tr>
-            <tr><td>Eunice, LA</td><td>Orange Beach, AL</td><td>255 Miles</td><td>4h 10m</td></tr>
-            <tr><td>Mobile Warehouse</td><td>Orange Beach, AL</td><td>58 Miles</td><td>1h 15m</td></tr>
-            <tr><td>Mobile Warehouse</td><td>USS Alabama Park</td><td>12 Miles</td><td>18m</td></tr>
-            <tr><td>Mobile Warehouse</td><td>Exploreum Science Center</td><td>11 Miles</td><td>15m</td></tr>
-            <tr><td>Orange Beach (The Wharf)</td><td>USS Alabama Park</td><td>52 Miles</td><td>55m</td></tr>
-            <tr><td>Orange Beach (The Wharf)</td><td>Exploreum Science Center</td><td>53 Miles</td><td>58m</td></tr>
-            <tr><td>Orange Beach (The Wharf)</td><td>Bellingrath Gardens</td><td>61 Miles</td><td>1h 05m</td></tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="section">
-    <h2>II. Full Hotel Cost Matrix (3-Night vs 4-Night)</h2>
-    <table>
-        <thead>
-            <tr><th>Hotel Option</th><th>Check-In/Out Scenario</th><th>Base Price</th><th>Pet Fee</th><th>Grand Total</th></tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>Red Roof Inn (Tillman's Corner)</strong></td><td>Sun-Wed (3n)</td><td>$225</td><td>$0</td><td class="total-row">$225</td></tr>
-            <tr><td><strong>Red Roof Inn (Tillman's Corner)</strong></td><td>Sun-Thu (4n)</td><td>$300</td><td>$0</td><td class="total-row">$300</td></tr>
-            <tr><td><strong>Holiday Inn Express (University)</strong></td><td>Sun-Wed (3n)</td><td>$393</td><td>$50</td><td class="total-row">$443</td></tr>
-            <tr><td><strong>Holiday Inn Express (University)</strong></td><td>Sun-Thu (4n)</td><td>$524</td><td>$50</td><td class="total-row">$574</td></tr>
-            <tr><td><strong>Home2 Suites (Tillman's Corner)</strong></td><td>Sun-Wed (3n)</td><td>$501</td><td>$75</td><td class="total-row">$576</td></tr>
-            <tr><td><strong>Home2 Suites (Tillman's Corner)</strong></td><td>Sun-Thu (4n)</td><td>$668</td><td>$75</td><td class="total-row">$743</td></tr>
-            <tr><td><strong>Hotel Indigo (Orange Beach)</strong></td><td>Sun-Wed (3n)</td><td>$585</td><td>$100</td><td class="total-row">$685</td></tr>
-            <tr><td><strong>Hotel Indigo (Orange Beach)</strong></td><td>Sun-Thu (4n)</td><td>$780</td><td>$100</td><td class="total-row">$880</td></tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="section">
-    <h2>III. Technical Asset Catalog (Full 29-File Index)</h2>
-    <div class="image-gallery">
-        <div class="gallery-item"><span class="filename">imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_82_20201_5000_f0e554f0-b3f2-436e-a848-99ea1ce6ccfd.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_85_20201_5000_3371dc5a-c727-45ec-be85-6cb6bcca78da.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_88_20201_5000_e392976a-11e8-4ebb-b4a0-4e743f58add6.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_90_20201_5000_1babaa6e-ff17-478e-a464-85964d711ca4.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_91_20201_5000_df40af1a-38a5-42ee-a946-7327e3c1ff83.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_94_20201_5000_f64c1725-0791-4bd2-bf6f-e04bde2941bc.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_99_20201_5000_2055389e-5016-424f-999a-ba13645ed23e.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_100_20201_5000_a3889082-1f21-4074-910c-dc1c4eb93be8.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg</span></div>
-        <div class="gallery-item"><span class="filename">imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg</span></div>
+  <!-- SECTION I: TIMELINE & WEATHER -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ I</span>
+      <span class="section-title">Mission Timeline &amp; Weather Forecast</span>
     </div>
-</div>
 
-<div class="section">
-    <h2>IV. Mission Environment Summary</h2>
-    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
-        <div class="weather-card"><strong>Sun 4/26</strong><br><span class="precip">5% Rain</span></div>
-        <div class="weather-card"><strong>Mon 4/27</strong><br><span class="precip">10% Rain</span></div>
-        <div class="weather-card"><strong>Tue 4/28</strong><br><span class="precip">20% Rain</span></div>
-        <div class="weather-card"><strong>Wed 4/29</strong><br><span class="precip">45% Rain</span></div>
-        <div class="weather-card"><strong>Thu 4/30</strong><br><span class="precip">15% Rain</span></div>
+    <div class="weather-grid">
+      <div class="weather-card">
+        <div class="day">SUN</div>
+        <div class="date">APR 26</div>
+        <div class="rain low">5% Rain</div>
+        <div class="temp">78°F / 62°F</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">MON</div>
+        <div class="date">APR 27</div>
+        <div class="rain low">10% Rain</div>
+        <div class="temp">79°F / 64°F</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">TUE</div>
+        <div class="date">APR 28</div>
+        <div class="rain med">20% Rain</div>
+        <div class="temp">81°F / 65°F</div>
+      </div>
+      <div class="weather-card risk-high">
+        <div class="day">WED</div>
+        <div class="date">APR 29</div>
+        <div class="rain high">45% Rain ⚠</div>
+        <div class="temp">77°F / 61°F</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">THU</div>
+        <div class="date">APR 30</div>
+        <div class="rain low">15% Rain</div>
+        <div class="temp">76°F / 59°F</div>
+      </div>
     </div>
-</div>
 
-<div class="footer">
-    Operational Briefing | Anoop Raghavan Kangalath | 2026 Vehicle Recovery
-</div>
+    <div class="itinerary">
+      <div class="itinerary-day">
+        <div class="day-label"><span class="date-short">SUN 4/26</span>DEPLOY DAY</div>
+        <div class="day-content">
+          <strong>1:00 PM</strong> Depart Eunice, LA &nbsp;→&nbsp; <strong>4:30 PM</strong> Arrive Mobile Base Camp.<br>
+          Supply run and hotel check-in.
+        </div>
+      </div>
+      <div class="itinerary-day">
+        <div class="day-label"><span class="date-short">MON 4/27</span>EXTRACTION</div>
+        <div class="day-content">
+          <strong>08:00 AM</strong> Warehouse Extraction. Full Mechanical Audit (Fluids / Belts / Tires).<br>
+          <strong>Afternoon:</strong> USS Alabama Battleship Park.
+        </div>
+      </div>
+      <div class="itinerary-day">
+        <div class="day-label"><span class="date-short">TUE 4/28</span>RECON</div>
+        <div class="day-content">
+          <strong>Morning:</strong> Gulf State Park / Lake Shelby (Dog Swim).<br>
+          <strong>Afternoon:</strong> Exploreum Science Center.<br>
+          <strong>Evening:</strong> The Wharf &amp; Ferris Wheel.
+        </div>
+      </div>
+      <div class="itinerary-day risk">
+        <div class="day-label"><span class="date-short">WED 4/29</span>⚠ RISK DAY</div>
+        <div class="day-content">
+          <strong>Primary Weather Risk Day (45% Rain).</strong><br>
+          Contingency: Museum of Mobile / Indoor activities or early caravan prep.
+        </div>
+      </div>
+      <div class="itinerary-day">
+        <div class="day-label"><span class="date-short">THU 4/30</span>REPATRIATION</div>
+        <div class="day-content">
+          Final Pre-Flight Mechanical Fluid Check.<br>
+          <strong>10:00 AM</strong> Caravan Repatriation to Eunice.
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- SECTION II: DRIVE-TIME MATRIX -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ II</span>
+      <span class="section-title">Drive-Time Matrix</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Route</th>
+          <th>Distance</th>
+          <th>Est. Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">DEPLOYMENT</td>
+          <td>Eunice, LA → Mobile Warehouse</td>
+          <td class="accent">218 mi</td>
+          <td class="mono">3h 15m</td>
+        </tr>
+        <tr>
+          <td class="mono">BEACH TRANSIT</td>
+          <td>Eunice, LA → Orange Beach, AL</td>
+          <td class="accent">255 mi</td>
+          <td class="mono">4h 10m</td>
+        </tr>
+        <tr>
+          <td class="mono">COMMUTE</td>
+          <td>Mobile Warehouse → Orange Beach</td>
+          <td class="accent">58 mi</td>
+          <td class="mono">1h 15m</td>
+        </tr>
+        <tr>
+          <td class="mono">LOCAL</td>
+          <td>Mobile Warehouse → USS Alabama Park</td>
+          <td class="accent">12 mi</td>
+          <td class="mono good">18m</td>
+        </tr>
+        <tr>
+          <td class="mono">LOCAL</td>
+          <td>Mobile Warehouse → Science Center</td>
+          <td class="accent">11 mi</td>
+          <td class="mono good">15m</td>
+        </tr>
+        <tr>
+          <td class="mono">ATTRACTION</td>
+          <td>Orange Beach → USS Alabama Park</td>
+          <td class="accent">52 mi</td>
+          <td class="mono">55m</td>
+        </tr>
+        <tr>
+          <td class="mono">ATTRACTION</td>
+          <td>Orange Beach → Science Center</td>
+          <td class="accent">53 mi</td>
+          <td class="mono">58m</td>
+        </tr>
+        <tr>
+          <td class="mono">ATTRACTION</td>
+          <td>Orange Beach → Bellingrath Gardens</td>
+          <td class="accent">61 mi</td>
+          <td class="mono">1h 05m</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION III: FINANCIAL MATRIX -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ III</span>
+      <span class="section-title">Financial Matrix: Lodging &amp; Scenarios</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Hotel</th>
+          <th>Scenario</th>
+          <th>Base Price</th>
+          <th>Pet Fee</th>
+          <th>Grand Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Red Roof Inn <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
+          <td class="mono">Sun–Wed (3n)</td>
+          <td class="mono">$225</td>
+          <td class="good mono">$0</td>
+          <td class="accent mono">$225</td>
+        </tr>
+        <tr>
+          <td>Red Roof Inn <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
+          <td class="mono">Sun–Thu (4n)</td>
+          <td class="mono">$300</td>
+          <td class="good mono">$0</td>
+          <td class="accent mono">$300</td>
+        </tr>
+        <tr>
+          <td>Holiday Inn Exp <span style="font-size:10px;color:var(--text-dim)">(University)</span></td>
+          <td class="mono">Sun–Wed (3n)</td>
+          <td class="mono">$393</td>
+          <td class="warn mono">$50</td>
+          <td class="accent mono">$443</td>
+        </tr>
+        <tr>
+          <td>Holiday Inn Exp <span style="font-size:10px;color:var(--text-dim)">(University)</span></td>
+          <td class="mono">Sun–Thu (4n)</td>
+          <td class="mono">$524</td>
+          <td class="warn mono">$50</td>
+          <td class="accent mono">$574</td>
+        </tr>
+        <tr>
+          <td>Home2 Suites <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
+          <td class="mono">Sun–Wed (3n)</td>
+          <td class="mono">$501</td>
+          <td class="warn mono">$75</td>
+          <td class="accent mono">$576</td>
+        </tr>
+        <tr>
+          <td>Home2 Suites <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
+          <td class="mono">Sun–Thu (4n)</td>
+          <td class="mono">$668</td>
+          <td class="warn mono">$75</td>
+          <td class="accent mono">$743</td>
+        </tr>
+        <tr>
+          <td>Hotel Indigo <span style="font-size:10px;color:var(--text-dim)">(Beach)</span></td>
+          <td class="mono">Sun–Wed (3n)</td>
+          <td class="mono">$585</td>
+          <td class="bad mono">$100</td>
+          <td class="accent mono">$685</td>
+        </tr>
+        <tr>
+          <td>Hotel Indigo <span style="font-size:10px;color:var(--text-dim)">(Beach)</span></td>
+          <td class="mono">Sun–Thu (4n)</td>
+          <td class="mono">$780</td>
+          <td class="bad mono">$100</td>
+          <td class="accent mono">$880</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION IV: ACTIVITY & RECOVERY -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ IV</span>
+      <span class="section-title">Activity &amp; Recovery Expenses</span>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Expense Item</th>
+          <th>Notes / Breakdown</th>
+          <th>Total Est.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>USS Alabama Park</td>
+          <td style="font-size:12px;color:var(--text-dim)">$18×2 Adults / $6×2 Kids / 4yo Free</td>
+          <td class="activity-total">$48</td>
+        </tr>
+        <tr>
+          <td>Exploreum Science Center</td>
+          <td style="font-size:12px;color:var(--text-dim)">$22×2 Adults / $18×3 Kids</td>
+          <td class="activity-total">$98</td>
+        </tr>
+        <tr>
+          <td>Wharf Ferris Wheel</td>
+          <td style="font-size:12px;color:var(--text-dim)">$15×2 Adults / $12×3 Kids</td>
+          <td class="activity-total">$66</td>
+        </tr>
+        <tr>
+          <td>Wharf Go-Karts / Mini-Golf</td>
+          <td style="font-size:12px;color:var(--text-dim)">Family Entertainment Estimate</td>
+          <td class="activity-total">$75</td>
+        </tr>
+        <tr>
+          <td>Bellingrath Gardens</td>
+          <td style="font-size:12px;color:var(--text-dim)">$18×2 Adults / $10×2 Kids</td>
+          <td class="activity-total">$56</td>
+        </tr>
+        <tr>
+          <td>Recovery Mission Fuel</td>
+          <td style="font-size:12px;color:var(--text-dim)">RT Chrysler Pacifica + OW F-550 (Diesel)</td>
+          <td class="activity-total">$210</td>
+        </tr>
+        <tr>
+          <td>Recovery Supplies</td>
+          <td style="font-size:12px;color:var(--text-dim)">High-Quality DEF, Oil, Primary/Secondary Filters</td>
+          <td class="activity-total">$200</td>
+        </tr>
+        <tr>
+          <td>Daily Dining</td>
+          <td style="font-size:12px;color:var(--text-dim)">Family of 5 ($100 per day allocation)</td>
+          <td class="activity-total">$300–$400</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION V: TECHNICAL ASSET CATALOG -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ V</span>
+      <span class="section-title">Technical Asset Catalog (29 High-Priority Files)</span>
+    </div>
+    <div class="file-catalog">
+      <div class="file-count">ASSET COUNT: 29 FILES &nbsp;|&nbsp; FORMAT: JPG &nbsp;|&nbsp; SOURCE: 20201_5000</div>
+      <div class="file-grid">
+        <div class="file-entry"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg" alt="imgi_74"><div class="fname">imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg</div></div>
+        <div class="file-entry"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg" alt="imgi_75"><div class="fname">imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg</div></div>
+        <div class="file-entry"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89dfe6d8210ac66e.jpg" alt="imgi_76"><div class="fname">imgi_76_20201_5000_3b4616df-ab2c-46c8-89dfe6d8210ac66e.jpg</div></div>
+        <div class="file-entry"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg" alt="imgi_77"><div class="fname">imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg</div></div>
+        <div class="file-entry"><img src="imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg" alt="imgi_78"><div class="fname">imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</div></div>
+        <div class="file-entry"><img src="imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg" alt="imgi_79"><div class="fname">imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg</div></div>
+        <div class="file-entry"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4cccc304a94013.jpg" alt="imgi_80"><div class="fname">imgi_80_20201_5000_d67b5400-896e-4173-9b4cccc304a94013.jpg</div></div>
+        <div class="file-entry"><img src="imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg" alt="imgi_81"><div class="fname">imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg</div></div>
+        <div class="file-entry"><img src="imgi_82_20201_5000_f0e554f0-b3f2-436ea848-99ea1ce6ccfd.jpg" alt="imgi_82"><div class="fname">imgi_82_20201_5000_f0e554f0-b3f2-436ea848-99ea1ce6ccfd.jpg</div></div>
+        <div class="file-entry"><img src="imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg" alt="imgi_83"><div class="fname">imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg</div></div>
+        <div class="file-entry"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg" alt="imgi_84"><div class="fname">imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</div></div>
+        <div class="file-entry"><img src="imgi_85_20201_5000_3371dc5a-c727-45ecbe85-6cb6bcca78da.jpg" alt="imgi_85"><div class="fname">imgi_85_20201_5000_3371dc5a-c727-45ecbe85-6cb6bcca78da.jpg</div></div>
+        <div class="file-entry"><img src="imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg" alt="imgi_86"><div class="fname">imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg</div></div>
+        <div class="file-entry"><img src="imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg" alt="imgi_87"><div class="fname">imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg</div></div>
+        <div class="file-entry"><img src="imgi_88_20201_5000_e392976a-11e8-4ebbb4a0-4e743f58add6.jpg" alt="imgi_88"><div class="fname">imgi_88_20201_5000_e392976a-11e8-4ebbb4a0-4e743f58add6.jpg</div></div>
+        <div class="file-entry"><img src="imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg" alt="imgi_89"><div class="fname">imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg</div></div>
+        <div class="file-entry"><img src="imgi_90_20201_5000_1babaa6e-ff17-478ea464-85964d711ca4.jpg" alt="imgi_90"><div class="fname">imgi_90_20201_5000_1babaa6e-ff17-478ea464-85964d711ca4.jpg</div></div>
+        <div class="file-entry"><img src="imgi_91_20201_5000_df40af1a-38a5-42eea946-7327e3c1ff83.jpg" alt="imgi_91"><div class="fname">imgi_91_20201_5000_df40af1a-38a5-42eea946-7327e3c1ff83.jpg</div></div>
+        <div class="file-entry"><img src="imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg" alt="imgi_92"><div class="fname">imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg</div></div>
+        <div class="file-entry"><img src="imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg" alt="imgi_93"><div class="fname">imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg</div></div>
+        <div class="file-entry"><img src="imgi_94_20201_5000_f64c1725-0791-4bd2-bf6fe04bde2941bc.jpg" alt="imgi_94"><div class="fname">imgi_94_20201_5000_f64c1725-0791-4bd2-bf6fe04bde2941bc.jpg</div></div>
+        <div class="file-entry"><img src="imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg" alt="imgi_95"><div class="fname">imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg</div></div>
+        <div class="file-entry"><img src="imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg" alt="imgi_96"><div class="fname">imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg</div></div>
+        <div class="file-entry"><img src="imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg" alt="imgi_97"><div class="fname">imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg</div></div>
+        <div class="file-entry"><img src="imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg" alt="imgi_98"><div class="fname">imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg</div></div>
+        <div class="file-entry"><img src="imgi_99_20201_5000_2055389e-5016-424f-999aba13645ed23e.jpg" alt="imgi_99"><div class="fname">imgi_99_20201_5000_2055389e-5016-424f-999aba13645ed23e.jpg</div></div>
+        <div class="file-entry"><img src="imgi_100_20201_5000_a3889082-1f21-4074-910cdc1c4eb93be8.jpg" alt="imgi_100"><div class="fname">imgi_100_20201_5000_a3889082-1f21-4074-910cdc1c4eb93be8.jpg</div></div>
+        <div class="file-entry"><img src="imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg" alt="imgi_101"><div class="fname">imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg</div></div>
+        <div class="file-entry"><img src="imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg" alt="imgi_102"><div class="fname">imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION VI: MECHANICAL WARNINGS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">§ VI</span>
+      <span class="section-title">Mechanical &amp; Environmental Warnings</span>
+    </div>
+
+    <div class="warning-block">
+      <div class="warn-title">⚠ ASSET AUDIT — 6.7L POWERSTROKE DIESEL</div>
+      <div class="warn-body">
+        Asset <code>imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</code> confirms 6.7L PowerStroke Diesel.
+        Critical inspection: Check Primary Fuel Filter for metallic "glitter" (HPFP indicator).
+        Ensure Diesel Exhaust Fluid (DEF) is full to prevent Limp Mode.
+      </div>
+    </div>
+
+    <div class="warning-block">
+      <div class="warn-title">⚠ SAFE TRANSIT — STRUCTURAL IMPACT / WEATHER RISK</div>
+      <div class="warn-body">
+        Asset <code>imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</code> confirms structural impact on rear fiberglass.
+        Monitor during heavy vibration. Wednesday rain risk (45%) requires extended following distances for 19,500 lb chassis.
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>GENERATED OPERATIONAL BRIEFING // ANOOP RAGHAVAN KANGALATH</span>
+    <span>MISSION DATE: APRIL 26–30, 2026</span>
+    <span>CLASSIFICATION: OPERATIONAL USE ONLY</span>
+  </footer>
+
+</div>
 </body>
 </html>
