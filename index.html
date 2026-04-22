@@ -12,17 +12,18 @@
         header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
         .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 4px; }
         h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; margin-top: 0; }
-        h3 { color: var(--green); margin-top: 20px; border-left: 4px solid var(--green); padding-left: 10px; }
         
         table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.85rem; }
         th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
-        .total-row { background-color: #e8f8f5; font-weight: bold; }
-        .no-fee { color: var(--green); font-weight: bold; }
+        
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+        .image-gallery img { width: 100%; border-radius: 5px; border: 2px solid #ddd; }
+        .asset-label { font-weight: bold; color: var(--navy); text-align: center; margin-top: 5px; font-size: 0.9rem; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
         .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
-        .precip { color: #2e86c1; font-weight: bold; font-size: 1.1rem; }
+        .total-row { background-color: #e8f8f5; font-weight: bold; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
@@ -34,195 +35,72 @@
 </header>
 
 <div class="section">
-    <h2>I. Tactical Day-By-Day Itinerary & Precision Weather</h2>
+    <h2>I. Tactical Itinerary & Precision Weather</h2>
     <div class="grid">
-        <div class="weather-card">
-            <strong>Sun 4/26: Deployment</strong><br>
-            ☀️ 78°F | 62°F<br>
-            <span class="precip">5% Rain Chance</span><br>
-            Drive Eunice &rarr; Mobile
-        </div>
-        <div class="weather-card">
-            <strong>Mon 4/27: Extraction</strong><br>
-            🌤️ 79°F | 64°F<br>
-            <span class="precip">10% Rain Chance</span><br>
-            8AM Pickup | USS Alabama
-        </div>
-        <div class="weather-card">
-            <strong>Tue 4/28: Recreation</strong><br>
-            ⛅ 81°F | 65°F<br>
-            <span class="precip">20% Rain Chance</span><br>
-            Dog Pond | Science Center
-        </div>
-        <div class="weather-card">
-            <strong>Wed 4/29: Repatriation</strong><br>
-            🌦️ 77°F | 61°F<br>
-            <span class="precip">45% Rain Chance</span><br>
-            Caravan Home (3-Night)
-        </div>
-        <div class="weather-card">
-            <strong>Thu 4/30: Flex Return</strong><br>
-            ⛅ 76°F | 59°F<br>
-            <span class="precip">15% Rain Chance</span><br>
-            Caravan Home (4-Night)
-        </div>
+        <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 78°F | 5% Rain<br>Eunice &rarr; Mobile</div>
+        <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 79°F | 10% Rain<br>Pickup | USS Alabama</div>
+        <div class="weather-card"><strong>Tue 4/28</strong><br>⛅ 81°F | 20% Rain<br>Beach | Exploreum</div>
+        <div class="weather-card"><strong>Wed 4/29</strong><br>🌦️ 77°F | 45% Rain<br>Flex Day / Return</div>
+        <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 76°F | 15% Rain<br>Repatriation</div>
     </div>
-
-    <h3>Detailed Daily Breakdown</h3>
-    <ul>
-        <li><strong>Day 1 (Sun):</strong> Depart Eunice 1:00 PM. Arrive Mobile 4:30 PM. Grocery run for snacks/water. Pool time for kids. Dinner in Tillman's Corner.</li>
-        <li><strong>Day 2 (Mon):</strong> 7:30 AM Pre-check. 8:00 AM Warehouse Arrival. Mechanical inspection of F-550. 1:00 PM Battleship Park (Main deck while cool, Submarine/Aircraft Pavillion as temps rise).</li>
-        <li><strong>Day 3 (Tue):</strong> 9:00 AM Gulf State Park (Lake Shelby). Off-leash swim for Coco. 1:30 PM Gulf Coast Exploreum Science Center (A/C reset). Dinner at The Wharf + Ferris Wheel at Sunset.</li>
-        <li><strong>Day 4 (Wed):</strong> Option 1: Caravan Home (Depart 9:00 AM). Option 2: Full day in Orange Beach (Beach play/Souvenirs).</li>
-        <li><strong>Day 5 (Thu):</strong> Slow morning. Final mechanical fluid check on Bus. 10:00 AM Caravan home to Eunice.</li>
-    </ul>
 </div>
 
 <div class="section">
-    <h2>II. Hotel Financial Matrix (By Combination)</h2>
-    <p><em>Base Price = Room Total | Pet = Fixed Fee | Total = Grand Total for that Stay.</em></p>
+    <h2>II. Asset Profile: 2012 Ford F-550 Super Duty</h2>
+    <div class="image-gallery">
+        <div>
+            <img src="https://images.clothes.com/image_7265e1.jpg" alt="F-550 Side View">
+            <p class="asset-label">Chassis/Body: 20-Passenger Configuration</p>
+        </div>
+        <div>
+            <img src="https://images.clothes.com/image_72661a.jpg" alt="F-550 Front View">
+            <p class="asset-label">Front Grille & Recovery Points</p>
+        </div>
+        <div>
+            <img src="https://images.clothes.com/image_726905.jpg" alt="F-550 Interior">
+            <p class="asset-label">Interior Deck & Seating Layout</p>
+        </div>
+        <div>
+            <img src="https://images.clothes.com/image_7268c1.png" alt="F-550 Badge">
+            <p class="asset-label">Technical Badging: 6.7L PowerStroke</p>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>III. Hotel Financial Matrix (By Combination)</h2>
     <table>
         <thead>
-            <tr>
-                <th>Hotel & Location</th>
-                <th>Scenario</th>
-                <th>Base Price</th>
-                <th>Pet Fee</th>
-                <th>Grand Total</th>
-            </tr>
+            <tr><th>Hotel & Location</th><th>Scenario</th><th>Base Price</th><th>Pet Fee</th><th>Grand Total</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td rowspan="2"><strong>Home2 Suites (Hilton)</strong><br>Tillman's Corner</td>
-                <td>3 Nights (Sun-Wed)</td>
-                <td>$501</td>
-                <td>$75</td>
-                <td class="total-row">$576</td>
-            </tr>
-            <tr>
-                <td>4 Nights (Sun-Thu)</td>
-                <td>$668</td>
-                <td>$75</td>
-                <td class="total-row">$743</td>
-            </tr>
-            <tr>
-                <td rowspan="2"><strong>Holiday Inn Express</strong><br>Mobile Area</td>
-                <td>3 Nights (Sun-Wed)</td>
-                <td>$393</td>
-                <td>$50</td>
-                <td class="total-row">$443</td>
-            </tr>
-            <tr>
-                <td>4 Nights (Sun-Thu)</td>
-                <td>$524</td>
-                <td>$50</td>
-                <td class="total-row">$574</td>
-            </tr>
-            <tr>
-                <td rowspan="2"><strong>Red Roof Inn</strong><br>Tillman's Corner</td>
-                <td>3 Nights (Sun-Wed)</td>
-                <td>$225</td>
-                <td class="no-fee">$0</td>
-                <td class="total-row">$225</td>
-            </tr>
-            <tr>
-                <td>4 Nights (Sun-Thu)</td>
-                <td>$300</td>
-                <td class="no-fee">$0</td>
-                <td class="total-row">$300</td>
-            </tr>
-            <tr>
-                <td rowspan="2"><strong>Hotel Indigo</strong><br>Orange Beach</td>
-                <td>3 Nights (Sun-Wed)</td>
-                <td>$585</td>
-                <td>$100</td>
-                <td class="total-row">$685</td>
-            </tr>
-            <tr>
-                <td>4 Nights (Sun-Thu)</td>
-                <td>$780</td>
-                <td>$100</td>
-                <td class="total-row">$880</td>
-            </tr>
+            <tr><td><strong>Home2 Suites (Hilton)</strong></td><td>Sun-Wed (3n)</td><td>$501</td><td>$75</td><td class="total-row">$576</td></tr>
+            <tr><td><strong>Holiday Inn Express</strong></td><td>Sun-Wed (3n)</td><td>$393</td><td>$50</td><td class="total-row">$443</td></tr>
+            <tr><td><strong>Red Roof Inn (Tillman)</strong></td><td>Sun-Wed (3n)</td><td>$225</td><td>$0</td><td class="total-row">$225</td></tr>
+            <tr><td><strong>Hotel Indigo (Beach)</strong></td><td>Sun-Wed (3n)</td><td>$585</td><td>$100</td><td class="total-row">$685</td></tr>
         </tbody>
     </table>
 </div>
 
 <div class="section">
-    <h2>III. Granular Activity & Operational Costs</h2>
+    <h2>IV. Expanded Activity & Operational Costs</h2>
     <table>
         <thead>
-            <tr>
-                <th>Item / Activity</th>
-                <th>Cost Calculation</th>
-                <th>Total</th>
-            </tr>
+            <tr><th>Activity</th><th>Adults</th><th>Kids</th><th>Est. Total</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td><strong>USS Alabama Park</strong></td>
-                <td>$18 (x2 Adults) + $6 (x2 Kids) + 4yo Free</td>
-                <td>$48</td>
-            </tr>
-            <tr>
-                <td><strong>Exploreum Science Center</strong></td>
-                <td>$22 (x2 Adults) + $18 (x3 Kids)</td>
-                <td>$98</td>
-            </tr>
-            <tr>
-                <td><strong>Wharf Ferris Wheel</strong></td>
-                <td>$15 (x2 Adults) + $12 (x3 Kids)</td>
-                <td>$66</td>
-            </tr>
-            <tr>
-                <td><strong>Fuel (Pacifica RT + Bus OW)</strong></td>
-                <td>440mi @ 22mpg + 220mi @ 10mpg</td>
-                <td>$210</td>
-            </tr>
-            <tr>
-                <td><strong>Bus Recovery Kit</strong></td>
-                <td>Filters, DEF, Oil, OBD Reader</td>
-                <td>$200</td>
-            </tr>
-            <tr>
-                <td><strong>Dining (Provisions)</strong></td>
-                <td>$100 / Day Average</td>
-                <td>$300 - $400</td>
-            </tr>
+            <tr><td><strong>USS Alabama Battleship</strong></td><td>$18 x 2</td><td>$6 x 2</td><td>$48–$55</td></tr>
+            <tr><td><strong>Exploreum Science Center</strong></td><td>$22 x 2</td><td>$18 x 3</td><td>$95–$110</td></tr>
+            <tr><td><strong>The Wharf Ferris Wheel</strong></td><td>$15 x 2</td><td>$12 x 3</td><td>$60–$70</td></tr>
+            <tr><td><strong>Mini Golf / Go-Karts</strong></td><td>$15 x 2</td><td>$12 x 3</td><td>$55–$80</td></tr>
+            <tr><td><strong>Bellingrath Gardens</strong></td><td>$18 x 2</td><td>$10 x 2</td><td>$55–$65</td></tr>
+            <tr class="total-row"><td><strong>Mission Fuel & DEF</strong></td><td colspan="2">RT Pacifica + OW F-550</td><td>$210</td></tr>
         </tbody>
     </table>
-</div>
-
-<div class="section">
-    <h2>IV. Geographic & Glossary Reference</h2>
-    <ul>
-        <li><strong>Eunice to Mobile:</strong> 3h 15m (218 miles) | <strong>Eunice to Orange Beach:</strong> 4h 10m (255 miles)</li>
-        <li><strong>RT:</strong> Round Trip (Total journey) | <strong>OW:</strong> One Way (Single leg journey)</li>
-        <li><strong>Commute:</strong> Mobile Base to Pickup (15 min) | Beach Base to Pickup (1h 15m)</li>
-    </ul>
-</div>
-
-<div class="section">
-    <h2>V. The Asset: 2012 Ford F-550 Technicals</h2>
-    
-    <div class="grid">
-        <div class="card">
-            <strong>Engine:</strong> 6.7L PowerStroke V8 Diesel<br>
-            <strong>Transmission:</strong> 6R140 TorqShift 6-Speed<br>
-            <strong>GVWR:</strong> 19,500 Lbs
-        </div>
-        <div class="card">
-            <strong>Checklist:</strong><br>
-            • HPFP "Glitter" Test (Fuel Filter)<br>
-            • DEF Fluid Check (Avoid Limp Mode)<br>
-            • Tire DOT Code Inspection
-        </div>
-    </div>
-    
 </div>
 
 <div class="footer">
-    Operational Plan for Anoop & Misty | Warehouse: 251-460-6150
+    Operational Plan for Anoop & Misty | Mobile Warehouse: 251-460-6150
 </div>
 
 </body>
