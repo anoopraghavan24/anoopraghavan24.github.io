@@ -3,761 +3,660 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Mobile: Alabama Mission Dossier</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Oswald:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<title>🌊 Alabama Family Adventure 2026!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0a0c0f;
-    --surface: #111418;
-    --surface2: #181c22;
-    --border: #2a3040;
-    --accent: #e8a020;
-    --accent2: #4a9eff;
-    --danger: #e84040;
-    --success: #30c060;
-    --text: #c8d0dc;
-    --text-dim: #6a7585;
-    --mono: 'Share Tech Mono', monospace;
-    --head: 'Oswald', sans-serif;
-    --body: 'Barlow', sans-serif;
+    --sky: #0ea5e9;
+    --ocean: #0369a1;
+    --sand: #fef3c7;
+    --sun: #f59e0b;
+    --sun2: #fbbf24;
+    --coral: #f97316;
+    --grass: #22c55e;
+    --pink: #ec4899;
+    --purple: #a855f7;
+    --white: #ffffff;
+    --dark: #1e3a5f;
+    --card: #ffffff;
+    --text: #1e3a5f;
+    --text-light: #64748b;
+    --border: #e0f2fe;
+    --warn-bg: #fff7ed;
+    --warn-border: #f97316;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--bg);
+    background: linear-gradient(160deg, #e0f7ff 0%, #fff9ed 50%, #e8fdf0 100%);
     color: var(--text);
-    font-family: var(--body);
-    font-weight: 300;
+    font-family: 'Nunito', sans-serif;
     min-height: 100vh;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(42,48,64,0.3) 39px, rgba(42,48,64,0.3) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(42,48,64,0.15) 39px, rgba(42,48,64,0.15) 40px);
   }
 
+  /* === HERO HEADER === */
+  .hero {
+    background: linear-gradient(135deg, var(--sky) 0%, var(--ocean) 60%, #075985 100%);
+    padding: 50px 24px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0; right: 0;
+    height: 50px;
+    background: linear-gradient(160deg, #e0f7ff 0%, #fff9ed 100%);
+    clip-path: ellipse(55% 100% at 50% 100%);
+  }
+  .hero-waves {
+    position: absolute;
+    bottom: 10px; left: 0; right: 0;
+    font-size: 28px;
+    letter-spacing: 4px;
+    opacity: 0.3;
+  }
+  .hero-emoji {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+  }
+  .hero h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(28px, 6vw, 56px);
+    color: #fff;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--sun2); }
+  .hero .tagline {
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+  .hero .dates-badge {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--dark);
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    padding: 8px 24px;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+  }
+
+  /* === PAGE === */
   .page {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 40px 24px 80px;
+    padding: 32px 20px 80px;
   }
 
-  /* === HEADER === */
-  .header {
-    border-left: 4px solid var(--accent);
-    padding: 0 0 0 20px;
-    margin-bottom: 48px;
-    position: relative;
-  }
-  .header::before {
-    content: 'CLASSIFIED // OPERATIONAL USE ONLY';
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    color: var(--danger);
-    display: block;
-    margin-bottom: 10px;
-  }
-  .header h1 {
-    font-family: var(--head);
-    font-size: clamp(28px, 5vw, 52px);
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    color: #fff;
-    line-height: 1;
-  }
-  .header h1 span { color: var(--accent); }
-  .header .subtitle {
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--text-dim);
-    margin-top: 8px;
-    letter-spacing: 0.15em;
-  }
-  .header .operative {
-    margin-top: 12px;
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 0.1em;
-  }
-
-  /* === SECTIONS === */
-  .section {
-    margin-bottom: 48px;
-  }
+  /* === SECTION HEADERS === */
+  .section { margin-bottom: 48px; }
   .section-header {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
   }
-  .section-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    background: rgba(232,160,32,0.12);
-    border: 1px solid rgba(232,160,32,0.3);
-    padding: 3px 8px;
-    letter-spacing: 0.1em;
+  .section-icon {
+    font-size: 28px;
+    line-height: 1;
   }
   .section-title {
-    font-family: var(--head);
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: #fff;
-    text-transform: uppercase;
+    font-family: 'Fredoka One', cursive;
+    font-size: 24px;
+    color: var(--ocean);
+    letter-spacing: 0.02em;
+  }
+  .section-line {
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, var(--sky), transparent);
+    border-radius: 2px;
   }
 
   /* === WEATHER GRID === */
   .weather-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 12px;
     margin-bottom: 28px;
   }
   .weather-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 14px 10px;
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 18px;
+    padding: 16px 10px;
     text-align: center;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(14,165,233,0.1);
+    transition: transform 0.2s;
   }
-  .weather-card.risk-high { border-color: var(--danger); }
-  .weather-card.risk-high::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--danger);
+  .weather-card:hover { transform: translateY(-3px); }
+  .weather-card.risk-high {
+    border-color: var(--coral);
+    background: linear-gradient(135deg, #fff7f3, #fff);
   }
-  .weather-card .day {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
-  }
-  .weather-card .date {
-    font-family: var(--head);
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 8px;
-  }
-  .weather-card .rain {
-    font-family: var(--mono);
-    font-size: 13px;
-    margin-bottom: 6px;
-  }
-  .weather-card .rain.low { color: var(--success); }
-  .weather-card .rain.med { color: var(--accent); }
-  .weather-card .rain.high { color: var(--danger); }
-  .weather-card .temp {
+  .weather-card .w-emoji { font-size: 28px; margin-bottom: 4px; }
+  .weather-card .w-day {
     font-size: 11px;
-    color: var(--text-dim);
-    font-family: var(--mono);
+    font-weight: 800;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .weather-card .w-date {
+    font-family: 'Fredoka One', cursive;
+    font-size: 15px;
+    color: var(--dark);
+    margin: 2px 0 6px;
+  }
+  .weather-card .w-rain {
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .weather-card .w-rain.low { color: var(--grass); }
+  .weather-card .w-rain.med { color: var(--sun); }
+  .weather-card .w-rain.high { color: var(--coral); }
+  .weather-card .w-temp {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 600;
   }
 
   /* === ITINERARY === */
-  .itinerary {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .itinerary-day {
+  .itinerary { display: flex; flex-direction: column; gap: 0; }
+  .itin-day {
     display: grid;
-    grid-template-columns: 120px 1fr;
-    border-left: 2px solid var(--border);
-    padding: 0 0 24px 20px;
-    position: relative;
+    grid-template-columns: 110px 1fr;
     gap: 16px;
+    padding: 0 0 20px 24px;
+    border-left: 4px solid var(--sky);
+    position: relative;
+    margin-left: 12px;
   }
-  .itinerary-day::before {
-    content: '';
+  .itin-day::before {
+    content: attr(data-emoji);
     position: absolute;
-    left: -5px;
-    top: 4px;
-    width: 8px;
-    height: 8px;
-    background: var(--accent);
+    left: -18px;
+    top: 0;
+    font-size: 20px;
+    background: #fff;
     border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--sky);
   }
-  .itinerary-day.risk::before { background: var(--danger); }
-  .day-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0.08em;
-    padding-top: 2px;
-  }
-  .day-label .date-short {
+  .itin-day.risk { border-color: var(--coral); }
+  .itin-day.risk::before { border-color: var(--coral); }
+  .itin-label { padding-top: 2px; }
+  .itin-label .iday {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: var(--ocean);
     display: block;
-    font-size: 13px;
-    font-weight: bold;
-    color: #fff;
-    margin-bottom: 2px;
-    font-family: var(--head);
   }
-  .day-content {
-    font-size: 13px;
+  .itin-label .idate {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .itin-content {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 12px 16px;
+    font-size: 14px;
     line-height: 1.7;
-    color: var(--text);
+    box-shadow: 0 2px 8px rgba(14,165,233,0.08);
+    border: 2px solid var(--border);
   }
-  .day-content strong {
-    color: var(--accent2);
-    font-weight: 500;
+  .itin-content strong { color: var(--ocean); font-weight: 800; }
+  .itin-content .risk-badge {
+    display: inline-block;
+    background: #fff7ed;
+    color: var(--coral);
+    font-weight: 800;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    border: 2px solid var(--coral);
+    margin-bottom: 6px;
   }
 
   /* === TABLES === */
-  table {
+  .fun-table {
     width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(14,165,233,0.1);
+    border: 2px solid var(--border);
   }
-  thead tr {
-    background: var(--surface2);
-    border-bottom: 1px solid var(--accent);
+  .fun-table thead tr {
+    background: linear-gradient(135deg, var(--sky), var(--ocean));
   }
-  th {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    text-transform: uppercase;
-    padding: 10px 14px;
+  .fun-table th {
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    color: #fff;
+    padding: 12px 16px;
     text-align: left;
     font-weight: normal;
+    letter-spacing: 0.03em;
   }
-  td {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    font-family: var(--body);
+  .fun-table td {
+    padding: 11px 16px;
+    border-bottom: 2px solid var(--border);
+    font-size: 13px;
+    font-weight: 600;
   }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-  tr.highlight td { color: #fff; }
-  td.mono { font-family: var(--mono); font-size: 12px; }
-  td.accent { color: var(--accent); font-family: var(--mono); }
-  td.good { color: var(--success); }
-  td.warn { color: var(--accent); }
-  td.bad { color: var(--danger); }
+  .fun-table tr:last-child td { border-bottom: none; }
+  .fun-table tr:hover td { background: #f0f9ff; }
+  td.val { font-family: 'Fredoka One', cursive; font-size: 15px; }
+  td.green { color: var(--grass); }
+  td.yellow { color: var(--sun); }
+  td.red { color: var(--coral); }
+  td.blue { color: var(--sky); }
+  td.price { color: var(--ocean); font-family: 'Fredoka One', cursive; font-size: 15px; }
+  td.dim { color: var(--text-light); font-size: 12px; }
 
-  /* === FINANCIAL CARDS === */
-  .financial-grid {
+  /* === GALLERY === */
+  .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 12px;
   }
-  .hotel-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 16px;
-  }
-  .hotel-card .hotel-name {
-    font-family: var(--head);
-    font-size: 14px;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .hotel-card .hotel-loc {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    margin-bottom: 12px;
-    letter-spacing: 0.08em;
-  }
-  .hotel-scenario {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-top: 1px solid var(--border);
-  }
-  .hotel-scenario .nights {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-  }
-  .hotel-scenario .price {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: bold;
-  }
-  .hotel-scenario .price.best { color: var(--success); }
-
-  /* === ACTIVITY TABLE === */
-  .activity-total {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: bold;
-  }
-
-  /* === FILE CATALOG === */
-  .file-catalog {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 20px;
-  }
-  .file-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 6px;
-    margin-top: 12px;
-  }
-  .file-entry {
-    background: var(--surface2);
-    border: 1px solid var(--border);
+  .gallery-card {
+    background: var(--card);
+    border-radius: 14px;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(14,165,233,0.12);
+    border: 3px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .file-entry:hover { border-color: var(--accent2); }
-  .file-entry img {
+  .gallery-card:hover {
+    transform: translateY(-4px) rotate(0.5deg);
+    box-shadow: 0 8px 24px rgba(14,165,233,0.2);
+    border-color: var(--sky);
+  }
+  .gallery-card img {
     width: 100%;
-    height: 140px;
+    height: 150px;
     object-fit: cover;
     display: block;
-    background: var(--surface);
+    background: linear-gradient(135deg, #e0f2fe, #f0fdf4);
   }
-  .file-entry .fname {
-    font-family: var(--mono);
+  .gallery-card .gname {
     font-size: 9px;
-    color: var(--text-dim);
-    padding: 5px 7px;
+    color: var(--text-light);
+    padding: 6px 8px;
+    font-weight: 700;
     word-break: break-all;
-    letter-spacing: 0.02em;
-    border-top: 1px solid var(--border);
-  }
-  .file-count {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    margin-bottom: 10px;
+    line-height: 1.4;
+    border-top: 2px solid var(--border);
   }
 
-  /* === WARNINGS === */
-  .warning-block {
-    border-left: 3px solid var(--danger);
-    background: rgba(232,64,64,0.06);
-    padding: 16px 18px;
+  /* === HEADS UP === */
+  .heads-up {
+    border-radius: 16px;
+    padding: 18px 20px;
     margin-bottom: 14px;
+    border: 3px solid;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
   }
-  .warning-block .warn-title {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--danger);
-    letter-spacing: 0.1em;
-    margin-bottom: 6px;
+  .heads-up.orange {
+    background: var(--warn-bg);
+    border-color: var(--coral);
   }
-  .warning-block .warn-body {
+  .heads-up .hu-icon { font-size: 28px; flex-shrink: 0; }
+  .heads-up .hu-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .heads-up .hu-body {
     font-size: 13px;
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--text);
+    font-weight: 600;
   }
-  .warning-block .warn-body code {
-    font-family: var(--mono);
+  .heads-up .hu-body code {
+    background: rgba(249,115,22,0.12);
+    color: var(--ocean);
     font-size: 11px;
-    color: var(--accent2);
-    background: rgba(74,158,255,0.1);
-    padding: 1px 5px;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-family: monospace;
+  }
+
+  /* === BUDGET TIP === */
+  .budget-highlight {
+    background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+    border: 3px solid var(--grass);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .budget-highlight .bh-icon { font-size: 24px; }
+  .budget-highlight .bh-text {
+    font-size: 13px;
+    font-weight: 700;
+    color: #166534;
   }
 
   /* === FOOTER === */
   .footer {
     margin-top: 60px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(135deg, var(--sky), var(--ocean));
+    border-radius: 20px;
+    color: #fff;
+  }
+  .footer .f-emoji { font-size: 32px; margin-bottom: 8px; }
+  .footer .f-name {
+    font-family: 'Fredoka One', cursive;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .footer .f-sub {
+    font-size: 13px;
+    opacity: 0.8;
+    font-weight: 600;
   }
 
   @media (max-width: 600px) {
     .weather-grid { grid-template-columns: repeat(3, 1fr); }
-    .itinerary-day { grid-template-columns: 1fr; }
-    .day-label { padding-bottom: 0; }
-    th, td { padding: 8px 10px; }
+    .itin-day { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
+
+<div class="hero">
+  <span class="hero-emoji">🌊🏖️⚓</span>
+  <h1>Alabama <span>Family</span> Adventure!</h1>
+  <div class="tagline">The Kangalath Family Road Trip • Spring 2026</div>
+  <div class="dates-badge">📅 April 26–30, 2026</div>
+  <div class="hero-waves">🌊🌊🌊🌊🌊🌊🌊🌊🌊🌊</div>
+</div>
+
 <div class="page">
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>PROJECT <span>MOBILE</span><br>ALABAMA MISSION</h1>
-    <div class="subtitle">FULL EXTRACTION OF ALL OPERATIONAL &amp; LOGISTICAL DATA // DOSSIER</div>
-    <div class="operative">OPERATIVE: ANOOP RAGHAVAN KANGALATH &nbsp;|&nbsp; MISSION DATE: APRIL 26–30, 2026</div>
-  </header>
-
-  <!-- SECTION I: TIMELINE & WEATHER -->
+  <!-- SECTION I -->
   <section class="section">
     <div class="section-header">
-      <span class="section-num">§ I</span>
-      <span class="section-title">Mission Timeline &amp; Weather Forecast</span>
+      <span class="section-icon">⛅</span>
+      <span class="section-title">Trip Schedule &amp; Weather</span>
+      <div class="section-line"></div>
     </div>
 
     <div class="weather-grid">
       <div class="weather-card">
-        <div class="day">SUN</div>
-        <div class="date">APR 26</div>
-        <div class="rain low">5% Rain</div>
-        <div class="temp">78°F / 62°F</div>
+        <div class="w-emoji">☀️</div>
+        <div class="w-day">Sun</div>
+        <div class="w-date">Apr 26</div>
+        <div class="w-rain low">5% Rain</div>
+        <div class="w-temp">78° / 62°F</div>
       </div>
       <div class="weather-card">
-        <div class="day">MON</div>
-        <div class="date">APR 27</div>
-        <div class="rain low">10% Rain</div>
-        <div class="temp">79°F / 64°F</div>
+        <div class="w-emoji">🌤️</div>
+        <div class="w-day">Mon</div>
+        <div class="w-date">Apr 27</div>
+        <div class="w-rain low">10% Rain</div>
+        <div class="w-temp">79° / 64°F</div>
       </div>
       <div class="weather-card">
-        <div class="day">TUE</div>
-        <div class="date">APR 28</div>
-        <div class="rain med">20% Rain</div>
-        <div class="temp">81°F / 65°F</div>
+        <div class="w-emoji">⛅</div>
+        <div class="w-day">Tue</div>
+        <div class="w-date">Apr 28</div>
+        <div class="w-rain med">20% Rain</div>
+        <div class="w-temp">81° / 65°F</div>
       </div>
       <div class="weather-card risk-high">
-        <div class="day">WED</div>
-        <div class="date">APR 29</div>
-        <div class="rain high">45% Rain ⚠</div>
-        <div class="temp">77°F / 61°F</div>
+        <div class="w-emoji">🌧️</div>
+        <div class="w-day">Wed</div>
+        <div class="w-date">Apr 29</div>
+        <div class="w-rain high">⚠️ 45% Rain</div>
+        <div class="w-temp">77° / 61°F</div>
       </div>
       <div class="weather-card">
-        <div class="day">THU</div>
-        <div class="date">APR 30</div>
-        <div class="rain low">15% Rain</div>
-        <div class="temp">76°F / 59°F</div>
+        <div class="w-emoji">🌤️</div>
+        <div class="w-day">Thu</div>
+        <div class="w-date">Apr 30</div>
+        <div class="w-rain low">15% Rain</div>
+        <div class="w-temp">76° / 59°F</div>
       </div>
     </div>
 
     <div class="itinerary">
-      <div class="itinerary-day">
-        <div class="day-label"><span class="date-short">SUN 4/26</span>DEPLOY DAY</div>
-        <div class="day-content">
-          <strong>1:00 PM</strong> Depart Eunice, LA &nbsp;→&nbsp; <strong>4:30 PM</strong> Arrive Mobile Base Camp.<br>
-          Supply run and hotel check-in.
+      <div class="itin-day" data-emoji="🚗">
+        <div class="itin-label">
+          <span class="iday">Departure Day</span>
+          <span class="idate">Sun Apr 26</span>
+        </div>
+        <div class="itin-content">
+          <strong>1:00 PM</strong> Leave Eunice, LA — Adventure begins! 🎉<br>
+          <strong>4:30 PM</strong> Arrive Mobile — Check into hotel &amp; grab supplies!
         </div>
       </div>
-      <div class="itinerary-day">
-        <div class="day-label"><span class="date-short">MON 4/27</span>EXTRACTION</div>
-        <div class="day-content">
-          <strong>08:00 AM</strong> Warehouse Extraction. Full Mechanical Audit (Fluids / Belts / Tires).<br>
-          <strong>Afternoon:</strong> USS Alabama Battleship Park.
+      <div class="itin-day" data-emoji="⚓">
+        <div class="itin-label">
+          <span class="iday">Battleship Day</span>
+          <span class="idate">Mon Apr 27</span>
+        </div>
+        <div class="itin-content">
+          <strong>8:00 AM</strong> Vehicle pickup from warehouse + quick checkup 🔧<br>
+          <strong>Afternoon:</strong> USS Alabama Battleship Park — so cool for the kids! ⚓🛳️
         </div>
       </div>
-      <div class="itinerary-day">
-        <div class="day-label"><span class="date-short">TUE 4/28</span>RECON</div>
-        <div class="day-content">
-          <strong>Morning:</strong> Gulf State Park / Lake Shelby (Dog Swim).<br>
-          <strong>Afternoon:</strong> Exploreum Science Center.<br>
-          <strong>Evening:</strong> The Wharf &amp; Ferris Wheel.
+      <div class="itin-day" data-emoji="🐕">
+        <div class="itin-label">
+          <span class="iday">Beach &amp; Science</span>
+          <span class="idate">Tue Apr 28</span>
+        </div>
+        <div class="itin-content">
+          <strong>Morning:</strong> Gulf State Park / Lake Shelby — dog swim time! 🐾🌊<br>
+          <strong>Afternoon:</strong> Exploreum Science Center — hands-on fun! 🔬🚀<br>
+          <strong>Evening:</strong> The Wharf &amp; Ferris Wheel — lights &amp; rides! 🎡✨
         </div>
       </div>
-      <div class="itinerary-day risk">
-        <div class="day-label"><span class="date-short">WED 4/29</span>⚠ RISK DAY</div>
-        <div class="day-content">
-          <strong>Primary Weather Risk Day (45% Rain).</strong><br>
-          Contingency: Museum of Mobile / Indoor activities or early caravan prep.
+      <div class="itin-day risk" data-emoji="🌧️">
+        <div class="itin-label">
+          <span class="iday">Flex Day</span>
+          <span class="idate">Wed Apr 29</span>
+        </div>
+        <div class="itin-content">
+          <span class="risk-badge">⚠️ 45% Rain — Have a backup plan!</span><br>
+          <strong>Rainy option:</strong> Museum of Mobile &amp; indoor fun 🏛️<br>
+          <strong>Sunny option:</strong> Bellingrath Gardens or beach time 🌸
         </div>
       </div>
-      <div class="itinerary-day">
-        <div class="day-label"><span class="date-short">THU 4/30</span>REPATRIATION</div>
-        <div class="day-content">
-          Final Pre-Flight Mechanical Fluid Check.<br>
-          <strong>10:00 AM</strong> Caravan Repatriation to Eunice.
+      <div class="itin-day" data-emoji="🏠">
+        <div class="itin-label">
+          <span class="iday">Homeward Bound</span>
+          <span class="idate">Thu Apr 30</span>
+        </div>
+        <div class="itin-content">
+          Final vehicle fluid check ✅<br>
+          <strong>10:00 AM</strong> Hit the road back to Eunice — memories made! 🎊
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION II: DRIVE-TIME MATRIX -->
+  <!-- SECTION II -->
   <section class="section">
     <div class="section-header">
-      <span class="section-num">§ II</span>
-      <span class="section-title">Drive-Time Matrix</span>
+      <span class="section-icon">🗺️</span>
+      <span class="section-title">Getting Around</span>
+      <div class="section-line"></div>
     </div>
-    <table>
+    <table class="fun-table">
       <thead>
-        <tr>
-          <th>Type</th>
-          <th>Route</th>
-          <th>Distance</th>
-          <th>Est. Time</th>
-        </tr>
+        <tr><th>Trip Leg</th><th>Route</th><th>Distance</th><th>Drive Time</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="mono">DEPLOYMENT</td>
-          <td>Eunice, LA → Mobile Warehouse</td>
-          <td class="accent">218 mi</td>
-          <td class="mono">3h 15m</td>
-        </tr>
-        <tr>
-          <td class="mono">BEACH TRANSIT</td>
-          <td>Eunice, LA → Orange Beach, AL</td>
-          <td class="accent">255 mi</td>
-          <td class="mono">4h 10m</td>
-        </tr>
-        <tr>
-          <td class="mono">COMMUTE</td>
-          <td>Mobile Warehouse → Orange Beach</td>
-          <td class="accent">58 mi</td>
-          <td class="mono">1h 15m</td>
-        </tr>
-        <tr>
-          <td class="mono">LOCAL</td>
-          <td>Mobile Warehouse → USS Alabama Park</td>
-          <td class="accent">12 mi</td>
-          <td class="mono good">18m</td>
-        </tr>
-        <tr>
-          <td class="mono">LOCAL</td>
-          <td>Mobile Warehouse → Science Center</td>
-          <td class="accent">11 mi</td>
-          <td class="mono good">15m</td>
-        </tr>
-        <tr>
-          <td class="mono">ATTRACTION</td>
-          <td>Orange Beach → USS Alabama Park</td>
-          <td class="accent">52 mi</td>
-          <td class="mono">55m</td>
-        </tr>
-        <tr>
-          <td class="mono">ATTRACTION</td>
-          <td>Orange Beach → Science Center</td>
-          <td class="accent">53 mi</td>
-          <td class="mono">58m</td>
-        </tr>
-        <tr>
-          <td class="mono">ATTRACTION</td>
-          <td>Orange Beach → Bellingrath Gardens</td>
-          <td class="accent">61 mi</td>
-          <td class="mono">1h 05m</td>
-        </tr>
+        <tr><td>🚗 Big Drive Out</td><td>Eunice, LA → Mobile Warehouse</td><td class="val blue">218 mi</td><td class="val">3h 15m</td></tr>
+        <tr><td>🏖️ Beach Run</td><td>Eunice, LA → Orange Beach, AL</td><td class="val blue">255 mi</td><td class="val">4h 10m</td></tr>
+        <tr><td>🌊 Beach Hop</td><td>Mobile Warehouse → Orange Beach</td><td class="val blue">58 mi</td><td class="val">1h 15m</td></tr>
+        <tr><td>⚓ Quick Trip</td><td>Warehouse → USS Alabama Park</td><td class="val blue">12 mi</td><td class="val green">18 min!</td></tr>
+        <tr><td>🔬 Quick Trip</td><td>Warehouse → Science Center</td><td class="val blue">11 mi</td><td class="val green">15 min!</td></tr>
+        <tr><td>⚓ Day Trip</td><td>Orange Beach → USS Alabama Park</td><td class="val blue">52 mi</td><td class="val">55 min</td></tr>
+        <tr><td>🔬 Day Trip</td><td>Orange Beach → Science Center</td><td class="val blue">53 mi</td><td class="val">58 min</td></tr>
+        <tr><td>🌸 Day Trip</td><td>Orange Beach → Bellingrath Gardens</td><td class="val blue">61 mi</td><td class="val">1h 05m</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- SECTION III: FINANCIAL MATRIX -->
+  <!-- SECTION III -->
   <section class="section">
     <div class="section-header">
-      <span class="section-num">§ III</span>
-      <span class="section-title">Financial Matrix: Lodging &amp; Scenarios</span>
+      <span class="section-icon">🏨</span>
+      <span class="section-title">Where We're Staying</span>
+      <div class="section-line"></div>
     </div>
-    <table>
+    <table class="fun-table">
       <thead>
-        <tr>
-          <th>Hotel</th>
-          <th>Scenario</th>
-          <th>Base Price</th>
-          <th>Pet Fee</th>
-          <th>Grand Total</th>
-        </tr>
+        <tr><th>Hotel</th><th>Nights</th><th>Room Cost</th><th>Pet Fee</th><th>💰 Total</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Red Roof Inn <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
-          <td class="mono">Sun–Wed (3n)</td>
-          <td class="mono">$225</td>
-          <td class="good mono">$0</td>
-          <td class="accent mono">$225</td>
-        </tr>
-        <tr>
-          <td>Red Roof Inn <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
-          <td class="mono">Sun–Thu (4n)</td>
-          <td class="mono">$300</td>
-          <td class="good mono">$0</td>
-          <td class="accent mono">$300</td>
-        </tr>
-        <tr>
-          <td>Holiday Inn Exp <span style="font-size:10px;color:var(--text-dim)">(University)</span></td>
-          <td class="mono">Sun–Wed (3n)</td>
-          <td class="mono">$393</td>
-          <td class="warn mono">$50</td>
-          <td class="accent mono">$443</td>
-        </tr>
-        <tr>
-          <td>Holiday Inn Exp <span style="font-size:10px;color:var(--text-dim)">(University)</span></td>
-          <td class="mono">Sun–Thu (4n)</td>
-          <td class="mono">$524</td>
-          <td class="warn mono">$50</td>
-          <td class="accent mono">$574</td>
-        </tr>
-        <tr>
-          <td>Home2 Suites <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
-          <td class="mono">Sun–Wed (3n)</td>
-          <td class="mono">$501</td>
-          <td class="warn mono">$75</td>
-          <td class="accent mono">$576</td>
-        </tr>
-        <tr>
-          <td>Home2 Suites <span style="font-size:10px;color:var(--text-dim)">(Tillman's)</span></td>
-          <td class="mono">Sun–Thu (4n)</td>
-          <td class="mono">$668</td>
-          <td class="warn mono">$75</td>
-          <td class="accent mono">$743</td>
-        </tr>
-        <tr>
-          <td>Hotel Indigo <span style="font-size:10px;color:var(--text-dim)">(Beach)</span></td>
-          <td class="mono">Sun–Wed (3n)</td>
-          <td class="mono">$585</td>
-          <td class="bad mono">$100</td>
-          <td class="accent mono">$685</td>
-        </tr>
-        <tr>
-          <td>Hotel Indigo <span style="font-size:10px;color:var(--text-dim)">(Beach)</span></td>
-          <td class="mono">Sun–Thu (4n)</td>
-          <td class="mono">$780</td>
-          <td class="bad mono">$100</td>
-          <td class="accent mono">$880</td>
-        </tr>
+        <tr><td>🏩 Red Roof Inn <span class="dim">(Tillman's Corner)</span></td><td>Sun–Wed (3 nights)</td><td>$225</td><td class="green">FREE 🐾</td><td class="price">$225</td></tr>
+        <tr><td>🏩 Red Roof Inn <span class="dim">(Tillman's Corner)</span></td><td>Sun–Thu (4 nights)</td><td>$300</td><td class="green">FREE 🐾</td><td class="price">$300</td></tr>
+        <tr><td>🏨 Holiday Inn Express <span class="dim">(University)</span></td><td>Sun–Wed (3 nights)</td><td>$393</td><td class="yellow">$50</td><td class="price">$443</td></tr>
+        <tr><td>🏨 Holiday Inn Express <span class="dim">(University)</span></td><td>Sun–Thu (4 nights)</td><td>$524</td><td class="yellow">$50</td><td class="price">$574</td></tr>
+        <tr><td>🛎️ Home2 Suites <span class="dim">(Tillman's Corner)</span></td><td>Sun–Wed (3 nights)</td><td>$501</td><td class="yellow">$75</td><td class="price">$576</td></tr>
+        <tr><td>🛎️ Home2 Suites <span class="dim">(Tillman's Corner)</span></td><td>Sun–Thu (4 nights)</td><td>$668</td><td class="yellow">$75</td><td class="price">$743</td></tr>
+        <tr><td>🌴 Hotel Indigo <span class="dim">(Beach)</span></td><td>Sun–Wed (3 nights)</td><td>$585</td><td class="red">$100</td><td class="price">$685</td></tr>
+        <tr><td>🌴 Hotel Indigo <span class="dim">(Beach)</span></td><td>Sun–Thu (4 nights)</td><td>$780</td><td class="red">$100</td><td class="price">$880</td></tr>
+      </tbody>
+    </table>
+    <div class="budget-highlight">
+      <span class="bh-icon">💡</span>
+      <span class="bh-text">Best Deal: Red Roof Inn is pet-friendly with NO pet fee — saves $50–$100 vs other options!</span>
+    </div>
+  </section>
+
+  <!-- SECTION IV -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🎡</span>
+      <span class="section-title">Activities &amp; Trip Budget</span>
+      <div class="section-line"></div>
+    </div>
+    <table class="fun-table">
+      <thead>
+        <tr><th>Activity / Expense</th><th>Details</th><th>💰 Est. Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>⚓ USS Alabama Battleship Park</td><td class="dim">$18×2 Adults / $6×2 Kids / 4-year-old FREE!</td><td class="price">$48</td></tr>
+        <tr><td>🔬 Exploreum Science Center</td><td class="dim">$22×2 Adults / $18×3 Kids</td><td class="price">$98</td></tr>
+        <tr><td>🎡 Wharf Ferris Wheel</td><td class="dim">$15×2 Adults / $12×3 Kids</td><td class="price">$66</td></tr>
+        <tr><td>🏎️ Wharf Go-Karts &amp; Mini-Golf</td><td class="dim">Family fun estimate</td><td class="price">$75</td></tr>
+        <tr><td>🌸 Bellingrath Gardens</td><td class="dim">$18×2 Adults / $10×2 Kids</td><td class="price">$56</td></tr>
+        <tr><td>⛽ Gas for the Trip</td><td class="dim">Round-trip Pacifica + one-way F-550 Diesel</td><td class="price">$210</td></tr>
+        <tr><td>🔧 Vehicle Supplies</td><td class="dim">DEF fluid, oil, primary &amp; secondary filters</td><td class="price">$200</td></tr>
+        <tr><td>🍔 Food &amp; Dining</td><td class="dim">Family of 5 — ~$100/day budget</td><td class="price">$300–$400</td></tr>
       </tbody>
     </table>
   </section>
 
-  <!-- SECTION IV: ACTIVITY & RECOVERY -->
+  <!-- SECTION V: PHOTO GALLERY -->
   <section class="section">
     <div class="section-header">
-      <span class="section-num">§ IV</span>
-      <span class="section-title">Activity &amp; Recovery Expenses</span>
+      <span class="section-icon">📸</span>
+      <span class="section-title">Vehicle Photo Gallery (29 Images)</span>
+      <div class="section-line"></div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Expense Item</th>
-          <th>Notes / Breakdown</th>
-          <th>Total Est.</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>USS Alabama Park</td>
-          <td style="font-size:12px;color:var(--text-dim)">$18×2 Adults / $6×2 Kids / 4yo Free</td>
-          <td class="activity-total">$48</td>
-        </tr>
-        <tr>
-          <td>Exploreum Science Center</td>
-          <td style="font-size:12px;color:var(--text-dim)">$22×2 Adults / $18×3 Kids</td>
-          <td class="activity-total">$98</td>
-        </tr>
-        <tr>
-          <td>Wharf Ferris Wheel</td>
-          <td style="font-size:12px;color:var(--text-dim)">$15×2 Adults / $12×3 Kids</td>
-          <td class="activity-total">$66</td>
-        </tr>
-        <tr>
-          <td>Wharf Go-Karts / Mini-Golf</td>
-          <td style="font-size:12px;color:var(--text-dim)">Family Entertainment Estimate</td>
-          <td class="activity-total">$75</td>
-        </tr>
-        <tr>
-          <td>Bellingrath Gardens</td>
-          <td style="font-size:12px;color:var(--text-dim)">$18×2 Adults / $10×2 Kids</td>
-          <td class="activity-total">$56</td>
-        </tr>
-        <tr>
-          <td>Recovery Mission Fuel</td>
-          <td style="font-size:12px;color:var(--text-dim)">RT Chrysler Pacifica + OW F-550 (Diesel)</td>
-          <td class="activity-total">$210</td>
-        </tr>
-        <tr>
-          <td>Recovery Supplies</td>
-          <td style="font-size:12px;color:var(--text-dim)">High-Quality DEF, Oil, Primary/Secondary Filters</td>
-          <td class="activity-total">$200</td>
-        </tr>
-        <tr>
-          <td>Daily Dining</td>
-          <td style="font-size:12px;color:var(--text-dim)">Family of 5 ($100 per day allocation)</td>
-          <td class="activity-total">$300–$400</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="gallery-grid">
+      <div class="gallery-card"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg" alt="Photo 74"><div class="gname">imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg" alt="Photo 75"><div class="gname">imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg" alt="Photo 76"><div class="gname">imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg" alt="Photo 77"><div class="gname">imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg" alt="Photo 78"><div class="gname">imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg" alt="Photo 79"><div class="gname">imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg" alt="Photo 80"><div class="gname">imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg" alt="Photo 81"><div class="gname">imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_82_20201_5000_f0e554f0-b3f2-436e-a848-99ea1ce6ccfd.jpg" alt="Photo 82"><div class="gname">imgi_82_20201_5000_f0e554f0-b3f2-436e-a848-99ea1ce6ccfd.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg" alt="Photo 83"><div class="gname">imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg" alt="Photo 84"><div class="gname">imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_85_20201_5000_3371dc5a-c727-45ec-be85-6cb6bcca78da.jpg" alt="Photo 85"><div class="gname">imgi_85_20201_5000_3371dc5a-c727-45ec-be85-6cb6bcca78da.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg" alt="Photo 86"><div class="gname">imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg" alt="Photo 87"><div class="gname">imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_88_20201_5000_e392976a-11e8-4ebb-b4a0-4e743f58add6.jpg" alt="Photo 88"><div class="gname">imgi_88_20201_5000_e392976a-11e8-4ebb-b4a0-4e743f58add6.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg" alt="Photo 89"><div class="gname">imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_90_20201_5000_1babaa6e-ff17-478e-a464-85964d711ca4.jpg" alt="Photo 90"><div class="gname">imgi_90_20201_5000_1babaa6e-ff17-478e-a464-85964d711ca4.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_91_20201_5000_df40af1a-38a5-42ee-a946-7327e3c1ff83.jpg" alt="Photo 91"><div class="gname">imgi_91_20201_5000_df40af1a-38a5-42ee-a946-7327e3c1ff83.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg" alt="Photo 92"><div class="gname">imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg" alt="Photo 93"><div class="gname">imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_94_20201_5000_f64c1725-0791-4bd2-bf6f-e04bde2941bc.jpg" alt="Photo 94"><div class="gname">imgi_94_20201_5000_f64c1725-0791-4bd2-bf6f-e04bde2941bc.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg" alt="Photo 95"><div class="gname">imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg" alt="Photo 96"><div class="gname">imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg" alt="Photo 97"><div class="gname">imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg" alt="Photo 98"><div class="gname">imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_99_20201_5000_2055389e-5016-424f-999a-ba13645ed23e.jpg" alt="Photo 99"><div class="gname">imgi_99_20201_5000_2055389e-5016-424f-999a-ba13645ed23e.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_100_20201_5000_a3889082-1f21-4074-910c-dc1c4eb93be8.jpg" alt="Photo 100"><div class="gname">imgi_100_20201_5000_a3889082-1f21-4074-910c-dc1c4eb93be8.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg" alt="Photo 101"><div class="gname">imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg</div></div>
+      <div class="gallery-card"><img src="imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg" alt="Photo 102"><div class="gname">imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg</div></div>
+    </div>
   </section>
 
-  <!-- SECTION V: TECHNICAL ASSET CATALOG -->
+  <!-- SECTION VI -->
   <section class="section">
     <div class="section-header">
-      <span class="section-num">§ V</span>
-      <span class="section-title">Technical Asset Catalog (29 High-Priority Files)</span>
+      <span class="section-icon">🔧</span>
+      <span class="section-title">Important Vehicle Notes</span>
+      <div class="section-line"></div>
     </div>
-    <div class="file-catalog">
-      <div class="file-count">ASSET COUNT: 29 FILES &nbsp;|&nbsp; FORMAT: JPG &nbsp;|&nbsp; SOURCE: 20201_5000</div>
-      <div class="file-grid">
-        <div class="file-entry"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg" alt="imgi_74"><div class="fname">imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg</div></div>
-        <div class="file-entry"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg" alt="imgi_75"><div class="fname">imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg</div></div>
-        <div class="file-entry"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89dfe6d8210ac66e.jpg" alt="imgi_76"><div class="fname">imgi_76_20201_5000_3b4616df-ab2c-46c8-89dfe6d8210ac66e.jpg</div></div>
-        <div class="file-entry"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg" alt="imgi_77"><div class="fname">imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg</div></div>
-        <div class="file-entry"><img src="imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg" alt="imgi_78"><div class="fname">imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</div></div>
-        <div class="file-entry"><img src="imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg" alt="imgi_79"><div class="fname">imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg</div></div>
-        <div class="file-entry"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4cccc304a94013.jpg" alt="imgi_80"><div class="fname">imgi_80_20201_5000_d67b5400-896e-4173-9b4cccc304a94013.jpg</div></div>
-        <div class="file-entry"><img src="imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg" alt="imgi_81"><div class="fname">imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg</div></div>
-        <div class="file-entry"><img src="imgi_82_20201_5000_f0e554f0-b3f2-436ea848-99ea1ce6ccfd.jpg" alt="imgi_82"><div class="fname">imgi_82_20201_5000_f0e554f0-b3f2-436ea848-99ea1ce6ccfd.jpg</div></div>
-        <div class="file-entry"><img src="imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg" alt="imgi_83"><div class="fname">imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg</div></div>
-        <div class="file-entry"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg" alt="imgi_84"><div class="fname">imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</div></div>
-        <div class="file-entry"><img src="imgi_85_20201_5000_3371dc5a-c727-45ecbe85-6cb6bcca78da.jpg" alt="imgi_85"><div class="fname">imgi_85_20201_5000_3371dc5a-c727-45ecbe85-6cb6bcca78da.jpg</div></div>
-        <div class="file-entry"><img src="imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg" alt="imgi_86"><div class="fname">imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg</div></div>
-        <div class="file-entry"><img src="imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg" alt="imgi_87"><div class="fname">imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg</div></div>
-        <div class="file-entry"><img src="imgi_88_20201_5000_e392976a-11e8-4ebbb4a0-4e743f58add6.jpg" alt="imgi_88"><div class="fname">imgi_88_20201_5000_e392976a-11e8-4ebbb4a0-4e743f58add6.jpg</div></div>
-        <div class="file-entry"><img src="imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg" alt="imgi_89"><div class="fname">imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg</div></div>
-        <div class="file-entry"><img src="imgi_90_20201_5000_1babaa6e-ff17-478ea464-85964d711ca4.jpg" alt="imgi_90"><div class="fname">imgi_90_20201_5000_1babaa6e-ff17-478ea464-85964d711ca4.jpg</div></div>
-        <div class="file-entry"><img src="imgi_91_20201_5000_df40af1a-38a5-42eea946-7327e3c1ff83.jpg" alt="imgi_91"><div class="fname">imgi_91_20201_5000_df40af1a-38a5-42eea946-7327e3c1ff83.jpg</div></div>
-        <div class="file-entry"><img src="imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg" alt="imgi_92"><div class="fname">imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg</div></div>
-        <div class="file-entry"><img src="imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg" alt="imgi_93"><div class="fname">imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg</div></div>
-        <div class="file-entry"><img src="imgi_94_20201_5000_f64c1725-0791-4bd2-bf6fe04bde2941bc.jpg" alt="imgi_94"><div class="fname">imgi_94_20201_5000_f64c1725-0791-4bd2-bf6fe04bde2941bc.jpg</div></div>
-        <div class="file-entry"><img src="imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg" alt="imgi_95"><div class="fname">imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg</div></div>
-        <div class="file-entry"><img src="imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg" alt="imgi_96"><div class="fname">imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg</div></div>
-        <div class="file-entry"><img src="imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg" alt="imgi_97"><div class="fname">imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg</div></div>
-        <div class="file-entry"><img src="imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg" alt="imgi_98"><div class="fname">imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg</div></div>
-        <div class="file-entry"><img src="imgi_99_20201_5000_2055389e-5016-424f-999aba13645ed23e.jpg" alt="imgi_99"><div class="fname">imgi_99_20201_5000_2055389e-5016-424f-999aba13645ed23e.jpg</div></div>
-        <div class="file-entry"><img src="imgi_100_20201_5000_a3889082-1f21-4074-910cdc1c4eb93be8.jpg" alt="imgi_100"><div class="fname">imgi_100_20201_5000_a3889082-1f21-4074-910cdc1c4eb93be8.jpg</div></div>
-        <div class="file-entry"><img src="imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg" alt="imgi_101"><div class="fname">imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg</div></div>
-        <div class="file-entry"><img src="imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg" alt="imgi_102"><div class="fname">imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg</div></div>
+
+    <div class="heads-up orange">
+      <span class="hu-icon">🚛</span>
+      <div>
+        <div class="hu-title">6.7L PowerStroke Diesel — Pre-Trip Check</div>
+        <div class="hu-body">
+          Photo <code>imgi_78</code> confirms the big PowerStroke diesel truck. Before leaving, check the Primary Fuel Filter for metallic "glitter" particles (a sign of pump wear). Make sure the Diesel Exhaust Fluid (DEF) tank is topped off — running low puts the truck into Limp Mode!
+        </div>
+      </div>
+    </div>
+
+    <div class="heads-up orange">
+      <span class="hu-icon">🚧</span>
+      <div>
+        <div class="hu-title">Fiberglass Damage &amp; Rainy Day Driving</div>
+        <div class="hu-body">
+          Photo <code>imgi_84</code> shows some damage to the rear fiberglass — keep an eye on it, especially on bumpy roads. Wednesday has a 45% rain chance, so take it extra easy with this 19,500 lb truck — leave plenty of following distance and slow down! 🌧️
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION VI: MECHANICAL WARNINGS -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-num">§ VI</span>
-      <span class="section-title">Mechanical &amp; Environmental Warnings</span>
-    </div>
-
-    <div class="warning-block">
-      <div class="warn-title">⚠ ASSET AUDIT — 6.7L POWERSTROKE DIESEL</div>
-      <div class="warn-body">
-        Asset <code>imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</code> confirms 6.7L PowerStroke Diesel.
-        Critical inspection: Check Primary Fuel Filter for metallic "glitter" (HPFP indicator).
-        Ensure Diesel Exhaust Fluid (DEF) is full to prevent Limp Mode.
-      </div>
-    </div>
-
-    <div class="warning-block">
-      <div class="warn-title">⚠ SAFE TRANSIT — STRUCTURAL IMPACT / WEATHER RISK</div>
-      <div class="warn-body">
-        Asset <code>imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</code> confirms structural impact on rear fiberglass.
-        Monitor during heavy vibration. Wednesday rain risk (45%) requires extended following distances for 19,500 lb chassis.
-      </div>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <span>GENERATED OPERATIONAL BRIEFING // ANOOP RAGHAVAN KANGALATH</span>
-    <span>MISSION DATE: APRIL 26–30, 2026</span>
-    <span>CLASSIFICATION: OPERATIONAL USE ONLY</span>
-  </footer>
+  <div class="footer">
+    <div class="f-emoji">🌊 🐾 ⚓ 🎡 🌸</div>
+    <div class="f-name">Kangalath Family Alabama Adventure 2026</div>
+    <div class="f-sub">April 26–30 • Eunice, LA → Mobile, AL &amp; Beyond • Let's make memories! 🎉</div>
+  </div>
 
 </div>
 </body>
