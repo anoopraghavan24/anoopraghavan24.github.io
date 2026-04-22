@@ -6,194 +6,223 @@
     <title>Master Operational Briefing: Project Mobile</title>
     <style>
         :root {
-            --navy: #1b2631;
-            --green: #1e8449;
-            --gold: #f1c40f;
-            --danger: #c0392b;
-            --light: #f8f9f9;
+            --navy: #1b2631; --green: #1e8449; --gold: #f1c40f; --danger: #c0392b; --light: #f8f9f9;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: var(--light); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1300px; margin: 0 auto; padding: 20px; background-color: var(--light); }
         header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
         .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 4px; }
-        h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; }
-        h3 { color: var(--green); margin-top: 20px; }
+        h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; margin-top: 0; }
+        h3 { color: var(--green); margin-top: 20px; border-left: 4px solid var(--green); padding-left: 10px; }
         
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.85rem; }
         th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
-        .total-box { background-color: #e8f8f5; font-weight: bold; padding: 15px; border: 1px solid #27ae60; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; text-align: center;}
+        .total-row { background-color: #e8f8f5; font-weight: bold; }
+        .no-fee { color: var(--green); font-weight: bold; }
         
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-        .card { background: #fdfefe; padding: 15px; border-left: 5px solid var(--gold); border: 1px solid #eee; }
-        .weather-card { text-align: center; background: #ebf5fb; padding: 10px; border-radius: 5px; }
-        .no-fee { color: var(--green); font-weight: bold; }
+        .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
+        .precip { color: #2e86c1; font-weight: bold; font-size: 1.1rem; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PROJECT MOBILE: MASTER BRIEFING (FINAL)</h1>
-    <p>Asset Recovery & Family Logistics | April 26 – 30, 2026</p>
+    <h1>PROJECT MOBILE: MASTER BRIEFING (ULTIMATE)</h1>
+    <p>Asset Recovery (F-550) & Family Logistics | April 26 – 30, 2026</p>
 </header>
 
 <div class="section">
-    <h2>I. Financial Matrix: The Sunday/Thursday Flex</h2>
-    <p><em>Estimated totals include Mobile-base Hotel + Fuel + Food + Activity Fees.</em></p>
+    <h2>I. Tactical Day-By-Day Itinerary & Precision Weather</h2>
     <div class="grid">
-        <div class="card">
-            <h3>"The Ironman"</h3>
-            <p><strong>Mon – Wed (2 Nights)</strong></p>
-            <p>• Sun: 3AM Drive from Eunice<br>• Wed: Return PM</p>
-            <div class="total-box">Est: $1,150</div>
+        <div class="weather-card">
+            <strong>Sun 4/26: Deployment</strong><br>
+            ☀️ 78°F | 62°F<br>
+            <span class="precip">5% Rain Chance</span><br>
+            Drive Eunice &rarr; Mobile
         </div>
-        <div class="card">
-            <h3>"The Pro Start"</h3>
-            <p><strong>Sun – Wed (3 Nights)</strong></p>
-            <p>• Sun: Arrive 5PM (Relaxed)<br>• Wed: Return PM</p>
-            <div class="total-box">Est: $1,365</div>
+        <div class="weather-card">
+            <strong>Mon 4/27: Extraction</strong><br>
+            🌤️ 79°F | 64°F<br>
+            <span class="precip">10% Rain Chance</span><br>
+            8AM Pickup | USS Alabama
         </div>
-        <div class="card">
-            <h3>"The Vacation Finish"</h3>
-            <p><strong>Mon – Thu (3 Nights)</strong></p>
-            <p>• Sun: 3AM Drive from Eunice<br>• Thu: Return PM (Relaxed)</p>
-            <div class="total-box">Est: $1,365</div>
+        <div class="weather-card">
+            <strong>Tue 4/28: Recreation</strong><br>
+            ⛅ 81°F | 65°F<br>
+            <span class="precip">20% Rain Chance</span><br>
+            Dog Pond | Science Center
         </div>
-        <div class="card">
-            <h3>"The Full Expedition"</h3>
-            <p><strong>Sun – Thu (4 Nights)</strong></p>
-            <p>• Rested Start & Relaxed Finish<br>• Full 4-Day Schedule</p>
-            <div class="total-box">Est: $1,580</div>
+        <div class="weather-card">
+            <strong>Wed 4/29: Repatriation</strong><br>
+            🌦️ 77°F | 61°F<br>
+            <span class="precip">45% Rain Chance</span><br>
+            Caravan Home (3-Night)
+        </div>
+        <div class="weather-card">
+            <strong>Thu 4/30: Flex Return</strong><br>
+            ⛅ 76°F | 59°F<br>
+            <span class="precip">15% Rain Chance</span><br>
+            Caravan Home (4-Night)
         </div>
     </div>
+
+    <h3>Detailed Daily Breakdown</h3>
+    <ul>
+        <li><strong>Day 1 (Sun):</strong> Depart Eunice 1:00 PM. Arrive Mobile 4:30 PM. Grocery run for snacks/water. Pool time for kids. Dinner in Tillman's Corner.</li>
+        <li><strong>Day 2 (Mon):</strong> 7:30 AM Pre-check. 8:00 AM Warehouse Arrival. Mechanical inspection of F-550. 1:00 PM Battleship Park (Main deck while cool, Submarine/Aircraft Pavillion as temps rise).</li>
+        <li><strong>Day 3 (Tue):</strong> 9:00 AM Gulf State Park (Lake Shelby). Off-leash swim for Coco. 1:30 PM Gulf Coast Exploreum Science Center (A/C reset). Dinner at The Wharf + Ferris Wheel at Sunset.</li>
+        <li><strong>Day 4 (Wed):</strong> Option 1: Caravan Home (Depart 9:00 AM). Option 2: Full day in Orange Beach (Beach play/Souvenirs).</li>
+        <li><strong>Day 5 (Thu):</strong> Slow morning. Final mechanical fluid check on Bus. 10:00 AM Caravan home to Eunice.</li>
+    </ul>
 </div>
 
 <div class="section">
-    <h2>II. Hotel Inventory: Specific Options & Fees</h2>
+    <h2>II. Hotel Financial Matrix (By Combination)</h2>
+    <p><em>Base Price = Room Total | Pet = Fixed Fee | Total = Grand Total for that Stay.</em></p>
     <table>
         <thead>
             <tr>
-                <th>Hotel Name</th>
-                <th>Location</th>
-                <th>Avg Nightly</th>
-                <th>Pet Policy / Fee</th>
-                <th>5-Person Room</th>
+                <th>Hotel & Location</th>
+                <th>Scenario</th>
+                <th>Base Price</th>
+                <th>Pet Fee</th>
+                <th>Grand Total</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Home2 Suites (Hilton)</strong></td>
-                <td>Tillman's Corner</td>
-                <td>$167</td>
-                <td>$75 (One-time)</td>
-                <td>2 Queens + Sofa Bed</td>
-            </tr>
-            <tr>
-                <td><strong>Holiday Inn Express</strong></td>
-                <td>University Area</td>
-                <td>$131</td>
-                <td>$50 (One-time)</td>
-                <td>Suites Available</td>
-            </tr>
-            <tr>
-                <td><strong>Red Roof Inn</strong></td>
-                <td>Tillman's Corner</td>
+                <td rowspan="2"><strong>Home2 Suites (Hilton)</strong><br>Tillman's Corner</td>
+                <td>3 Nights (Sun-Wed)</td>
+                <td>$501</td>
                 <td>$75</td>
-                <td class="no-fee">Pets Stay FREE ($0)</td>
-                <td>2 Doubles (Tight)</td>
+                <td class="total-row">$576</td>
             </tr>
             <tr>
-                <td><strong>Hotel Indigo</strong></td>
-                <td>Orange Beach</td>
-                <td>$195</td>
-                <td>$100 (One-time)</td>
-                <td>Upscale / Beach View</td>
+                <td>4 Nights (Sun-Thu)</td>
+                <td>$668</td>
+                <td>$75</td>
+                <td class="total-row">$743</td>
             </tr>
             <tr>
-                <td><strong>Hilton Garden Inn</strong></td>
-                <td>Orange Beach</td>
-                <td>$216</td>
-                <td>$75 (One-time)</td>
-                <td>Beachfront Access</td>
+                <td rowspan="2"><strong>Holiday Inn Express</strong><br>Mobile Area</td>
+                <td>3 Nights (Sun-Wed)</td>
+                <td>$393</td>
+                <td>$50</td>
+                <td class="total-row">$443</td>
+            </tr>
+            <tr>
+                <td>4 Nights (Sun-Thu)</td>
+                <td>$524</td>
+                <td>$50</td>
+                <td class="total-row">$574</td>
+            </tr>
+            <tr>
+                <td rowspan="2"><strong>Red Roof Inn</strong><br>Tillman's Corner</td>
+                <td>3 Nights (Sun-Wed)</td>
+                <td>$225</td>
+                <td class="no-fee">$0</td>
+                <td class="total-row">$225</td>
+            </tr>
+            <tr>
+                <td>4 Nights (Sun-Thu)</td>
+                <td>$300</td>
+                <td class="no-fee">$0</td>
+                <td class="total-row">$300</td>
+            </tr>
+            <tr>
+                <td rowspan="2"><strong>Hotel Indigo</strong><br>Orange Beach</td>
+                <td>3 Nights (Sun-Wed)</td>
+                <td>$585</td>
+                <td>$100</td>
+                <td class="total-row">$685</td>
+            </tr>
+            <tr>
+                <td>4 Nights (Sun-Thu)</td>
+                <td>$780</td>
+                <td>$100</td>
+                <td class="total-row">$880</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="section">
-    <h2>III. Granular Activity Cost Breakdown</h2>
-    <p><em>Calculation for 2 Adults, 3 Kids (Ages 4, 6, 9)</em></p>
+    <h2>III. Granular Activity & Operational Costs</h2>
     <table>
         <thead>
             <tr>
-                <th>Activity</th>
-                <th>Adult Cost</th>
-                <th>Kid Cost</th>
+                <th>Item / Activity</th>
+                <th>Cost Calculation</th>
                 <th>Total</th>
-                <th>Notes</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>USS Alabama Park</strong></td>
-                <td>$18 x 2</td>
-                <td>$6 x 2 (4yo Free)</td>
+                <td>$18 (x2 Adults) + $6 (x2 Kids) + 4yo Free</td>
                 <td>$48</td>
-                <td>Battleship + Aircraft Pavillion</td>
             </tr>
             <tr>
                 <td><strong>Exploreum Science Center</strong></td>
-                <td>$22 x 2</td>
-                <td>$18 x 3</td>
+                <td>$22 (x2 Adults) + $18 (x3 Kids)</td>
                 <td>$98</td>
-                <td>Best for 4yo "Wharf of Wonder"</td>
             </tr>
             <tr>
                 <td><strong>Wharf Ferris Wheel</strong></td>
-                <td>$15 x 2</td>
-                <td>$12 x 3</td>
+                <td>$15 (x2 Adults) + $12 (x3 Kids)</td>
                 <td>$66</td>
-                <td>Great for sunset view</td>
             </tr>
             <tr>
-                <td><strong>Lake Shelby (Dog Pond)</strong></td>
-                <td>Free</td>
-                <td>Free</td>
-                <td>$10</td>
-                <td>Est. Parking Fee</td>
+                <td><strong>Fuel (Pacifica RT + Bus OW)</strong></td>
+                <td>440mi @ 22mpg + 220mi @ 10mpg</td>
+                <td>$210</td>
             </tr>
             <tr>
-                <td><strong>Dining Allowance</strong></td>
-                <td>—</td>
-                <td>—</td>
-                <td>$100/day</td>
-                <td>Total depends on scenario days</td>
+                <td><strong>Bus Recovery Kit</strong></td>
+                <td>Filters, DEF, Oil, OBD Reader</td>
+                <td>$200</td>
+            </tr>
+            <tr>
+                <td><strong>Dining (Provisions)</strong></td>
+                <td>$100 / Day Average</td>
+                <td>$300 - $400</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="section">
-    <h2>IV. Day-by-Day Tactical Plan</h2>
-    <div class="grid">
-        <div class="weather-card"><strong>Sun 4/26: Deployment</strong><br>☀️ 78°F | RT 6.5h<br>Drive Eunice &rarr; Mobile</div>
-        <div class="weather-card"><strong>Mon 4/27: Extraction</strong><br>🌤️ 79°F | Bus Mission<br>8AM Pickup | PM USS Alabama</div>
-        <div class="weather-card"><strong>Tue 4/28: Recreation</strong><br>⛅ 81°F | Beach Mission<br>Dog Pond | Science Center</div>
-        <div class="weather-card"><strong>Wed 4/29: Repatriation</strong><br>🌦️ 77°F | OW 3.5h<br>Caravan Home (Bus + Pacifica)</div>
-    </div>
-</div>
-
-<div class="section">
-    <h2>V. Geographical Analysis (Travel Time)</h2>
+    <h2>IV. Geographic & Glossary Reference</h2>
     <ul>
-        <li><strong>Eunice to Mobile:</strong> 3h 15m | <strong>Eunice to Orange Beach:</strong> 4h 10m</li>
-        <li><strong>RT:</strong> Round Trip (Total) | <strong>OW:</strong> One Way (Single Trip)</li>
+        <li><strong>Eunice to Mobile:</strong> 3h 15m (218 miles) | <strong>Eunice to Orange Beach:</strong> 4h 10m (255 miles)</li>
+        <li><strong>RT:</strong> Round Trip (Total journey) | <strong>OW:</strong> One Way (Single leg journey)</li>
         <li><strong>Commute:</strong> Mobile Base to Pickup (15 min) | Beach Base to Pickup (1h 15m)</li>
     </ul>
 </div>
 
+<div class="section">
+    <h2>V. The Asset: 2012 Ford F-550 Technicals</h2>
+    
+    <div class="grid">
+        <div class="card">
+            <strong>Engine:</strong> 6.7L PowerStroke V8 Diesel<br>
+            <strong>Transmission:</strong> 6R140 TorqShift 6-Speed<br>
+            <strong>GVWR:</strong> 19,500 Lbs
+        </div>
+        <div class="card">
+            <strong>Checklist:</strong><br>
+            • HPFP "Glitter" Test (Fuel Filter)<br>
+            • DEF Fluid Check (Avoid Limp Mode)<br>
+            • Tire DOT Code Inspection
+        </div>
+    </div>
+    
+</div>
+
 <div class="footer">
-    Operational Document | Anoop Raghavan Kangalath | Warehouse: 251-460-6150
+    Operational Plan for Anoop & Misty | Warehouse: 251-460-6150
 </div>
 
 </body>
