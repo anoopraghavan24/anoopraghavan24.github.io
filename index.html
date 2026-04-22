@@ -386,10 +386,154 @@
     font-weight: 600;
   }
 
+  /* === INSIGHT CARDS === */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .insight-card {
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    padding: 16px 18px;
+    box-shadow: 0 3px 10px rgba(14,165,233,0.08);
+  }
+  .insight-card .ic-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 15px;
+    color: var(--ocean);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .insight-card .ic-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .insight-card .ic-body strong { color: var(--coral); }
+
+  /* === PRO TIP BOX === */
+  .pro-tip {
+    background: linear-gradient(135deg, #fef9c3, #fefce8);
+    border: 3px solid var(--sun);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .pro-tip .pt-icon { font-size: 26px; flex-shrink: 0; }
+  .pro-tip .pt-label {
+    font-family: 'Fredoka One', cursive;
+    font-size: 14px;
+    color: #92400e;
+    margin-bottom: 3px;
+  }
+  .pro-tip .pt-body {
+    font-size: 13px;
+    line-height: 1.65;
+    color: #78350f;
+    font-weight: 600;
+  }
+
+  /* === CHECKLIST === */
+  .checklist-block {
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 22px;
+    margin-bottom: 16px;
+    box-shadow: 0 3px 10px rgba(14,165,233,0.07);
+    color: var(--dark);
+  }
+  .checklist-block .cb-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 17px;
+    color: var(--ocean);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .checklist-block .cb-sub {
+    font-size: 12px;
+    color: var(--text-light);
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .check-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .check-list li {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.6;
+    font-weight: 600;
+    color: var(--dark);
+  }
+  .check-list li .cb-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .check-list li strong { color: var(--ocean); }
+
+  /* === MAINT STEPS === */
+  .maint-block {
+    background: var(--card);
+    border: 3px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .maint-block .mb-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 16px;
+    color: var(--ocean);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .maint-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .maint-grid .mg-label {
+    color: var(--text-light);
+    font-weight: 800;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 2px;
+    white-space: nowrap;
+  }
+  .maint-grid .mg-val { color: var(--text); line-height: 1.55; }
+  .maint-grid .mg-val.warn { color: var(--coral); font-weight: 800; }
+  .maint-grid .mg-val.crucial {
+    background: #fff7ed;
+    border: 2px solid var(--coral);
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: var(--coral);
+  }
+
   @media (max-width: 600px) {
     .weather-grid { grid-template-columns: repeat(3, 1fr); }
     .itin-day { grid-template-columns: 1fr; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .insight-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -511,24 +655,46 @@
   <section class="section">
     <div class="section-header">
       <span class="section-icon">🗺️</span>
-      <span class="section-title">Getting Around</span>
+      <span class="section-title">Optimized Drive-Time Route</span>
       <div class="section-line"></div>
     </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Re-sequenced for the most logical flow through the Mobile / Orange Beach area — minimizes backtracking!</p>
     <table class="fun-table">
       <thead>
-        <tr><th>Trip Leg</th><th>Route</th><th>Distance</th><th>Drive Time</th></tr>
+        <tr><th>🚩 From</th><th>📍 To</th><th>Distance</th><th>Drive Time</th></tr>
       </thead>
       <tbody>
-        <tr><td>🚗 Big Drive Out</td><td>Eunice, LA → Mobile Warehouse</td><td class="val blue">218 mi</td><td class="val">3h 15m</td></tr>
-        <tr><td>🏖️ Beach Run</td><td>Eunice, LA → Orange Beach, AL</td><td class="val blue">255 mi</td><td class="val">4h 10m</td></tr>
-        <tr><td>🌊 Beach Hop</td><td>Mobile Warehouse → Orange Beach</td><td class="val blue">58 mi</td><td class="val">1h 15m</td></tr>
-        <tr><td>⚓ Quick Trip</td><td>Warehouse → USS Alabama Park</td><td class="val blue">12 mi</td><td class="val green">18 min!</td></tr>
-        <tr><td>🔬 Quick Trip</td><td>Warehouse → Science Center</td><td class="val blue">11 mi</td><td class="val green">15 min!</td></tr>
-        <tr><td>⚓ Day Trip</td><td>Orange Beach → USS Alabama Park</td><td class="val blue">52 mi</td><td class="val">55 min</td></tr>
-        <tr><td>🔬 Day Trip</td><td>Orange Beach → Science Center</td><td class="val blue">53 mi</td><td class="val">58 min</td></tr>
-        <tr><td>🌸 Day Trip</td><td>Orange Beach → Bellingrath Gardens</td><td class="val blue">61 mi</td><td class="val">1h 05m</td></tr>
+        <tr><td>🏠 Eunice, LA</td><td>🏭 Mobile Warehouse</td><td class="val blue">218 mi</td><td class="val">3h 15m</td></tr>
+        <tr><td>🏭 Mobile Warehouse</td><td>🔬 Exploreum Science Center</td><td class="val blue">11 mi</td><td class="val green">15 min!</td></tr>
+        <tr><td>🔬 Exploreum</td><td>⚓ USS Alabama Park</td><td class="val blue">3 mi</td><td class="val green">8 min!</td></tr>
+        <tr><td>⚓ USS Alabama Park</td><td>🏖️ Orange Beach, AL</td><td class="val blue">52 mi</td><td class="val">1h 05m</td></tr>
+        <tr><td>🏖️ Orange Beach</td><td>🌸 Bellingrath Gardens</td><td class="val blue">77 mi</td><td class="val">1h 26m</td></tr>
+        <tr><td>🌸 Bellingrath Gardens</td><td>🏠 Eunice, LA</td><td class="val blue">225 mi</td><td class="val">3h 25m</td></tr>
       </tbody>
     </table>
+
+    <div class="insight-grid">
+      <div class="insight-card">
+        <div class="ic-title">📍 The "Mobile Cluster"</div>
+        <div class="ic-body">The Warehouse, Exploreum, and USS Alabama are all within a <strong>12-mile radius</strong>. Group these together Mon/Tue while you're near the Tillman's Corner hotels — super efficient!</div>
+      </div>
+      <div class="insight-card">
+        <div class="ic-title">🏖️ The Orange Beach Pivot</div>
+        <div class="ic-body">Orange Beach is your furthest point east. Treat it as the anchor for Tue/Wed fun, then swing back west to Bellingrath on the way home — <strong>no backtracking!</strong></div>
+      </div>
+      <div class="insight-card">
+        <div class="ic-title">🌸 The Smart Return Leg</div>
+        <div class="ic-body">Bellingrath Gardens is in Theodore, AL — <strong>25 miles west</strong> of downtown Mobile. Visiting Thursday puts you already on the western side of Mobile Bay, shaving ~30 min off the drive home!</div>
+      </div>
+    </div>
+
+    <div class="pro-tip">
+      <span class="pt-icon">🚛</span>
+      <div>
+        <div class="pt-label">Heads Up — Loaded Truck!</div>
+        <div class="pt-body">The 2012 Ford F-550 is a heavy vehicle. Add <strong>15–20% extra drive time</strong> on the return leg when it's under load or going through urban areas.</div>
+      </div>
+    </div>
   </section>
 
   <!-- SECTION III -->
@@ -650,6 +816,293 @@
         </div>
       </div>
     </div>
+  </section>
+
+  <div class="footer">
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🛒</span>
+      <span class="section-title">Must-Buy Shopping List</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:16px;">For the 2012 Ford F-550 (6.7L PowerStroke Diesel) — grab these <strong>before leaving Eunice!</strong></p>
+
+    <div class="checklist-block">
+      <div class="cb-title">🔩 Filters</div>
+      <ul class="check-list">
+        <li><span class="cb-icon">✅</span><span>Primary Fuel Filter, Secondary Fuel Filter, and Oil Filter <strong>(Motorcraft preferred)</strong></span></li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <div class="cb-title">💧 Fluids</div>
+      <ul class="check-list">
+        <li><span class="cb-icon">✅</span><span>2.5 gallons of high-quality <strong>DEF (Diesel Exhaust Fluid)</strong></span></li>
+        <li><span class="cb-icon">✅</span><span>2 quarts of <strong>15W-40 Diesel Oil</strong></span></li>
+        <li><span class="cb-icon">✅</span><span>1 gallon of <strong>Motorcraft Orange Antifreeze</strong></span></li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <div class="cb-title">⛽ Fuel Treatment</div>
+      <ul class="check-list">
+        <li><span class="cb-icon">✅</span><span>A bottle of <strong>Hot Shot's Secret</strong> or <strong>Diesel Kleen</strong> — stabilizes potentially old fuel in the tank</span></li>
+      </ul>
+    </div>
+
+    <div class="checklist-block">
+      <div class="cb-title">🔧 Tools</div>
+      <ul class="check-list">
+        <li><span class="cb-icon">✅</span><span><strong>32mm socket</strong> (for fuel filters)</span></li>
+        <li><span class="cb-icon">✅</span><span>Basic socket set &amp; oil filter wrench</span></li>
+        <li><span class="cb-icon">✅</span><span>Heavy-duty tire pressure gauge <strong>(capable of 100+ PSI)</strong></span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION VIII: INSPECTION CHECKLIST -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🔍</span>
+      <span class="section-title">First-Sight Inspection Checklist</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:700;color:var(--coral);margin-bottom:16px;">⚠️ Do ALL of these BEFORE signing the final release or starting the engine!</p>
+
+    <table class="fun-table">
+      <thead>
+        <tr><th>Task</th><th>What to Check</th><th>⏱ Time</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:800;">🪣 The "Glitter" Test</td>
+          <td class="dim" style="font-size:13px;">Pull the secondary fuel filter; check the bowl for metal shavings — indicates HPFP failure.</td>
+          <td class="val yellow">15 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">💧 Fluid Levels</td>
+          <td class="dim" style="font-size:13px;">Check Oil, Coolant (look for "white crust" leaks), and Brake fluid.</td>
+          <td class="val yellow">10 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🛞 Tire Condition</td>
+          <td class="dim" style="font-size:13px;">Check for dry rot in sidewalls and set pressure to <strong>85–95 PSI</strong> (standard F-550 load).</td>
+          <td class="val yellow">15 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🔩 Under-Chassis</td>
+          <td class="dim" style="font-size:13px;">Look for active drips from the transmission or differential.</td>
+          <td class="val green">5 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🔋 Battery Health</td>
+          <td class="dim" style="font-size:13px;">Check for corrosion on terminals; ensure the bus cranks "healthy" and fast.</td>
+          <td class="val green">5 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🐍 Belts / Hoses</td>
+          <td class="dim" style="font-size:13px;">Squeeze radiator hoses (shouldn't be brittle) and check serpentine belt for cracks.</td>
+          <td class="val yellow">10 min</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION IX: MAINTENANCE & PACKING -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🛠️</span>
+      <span class="section-title">On-Site Maintenance &amp; Packing Guide</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:16px;font-style:italic;">If the bus needs immediate service at the warehouse:</p>
+
+    <div class="maint-block">
+      <div class="mb-title">🔩 Fuel Filter Change (Primary &amp; Secondary)</div>
+      <div class="maint-grid">
+        <span class="mg-label">Est. Time</span><span class="mg-val">30–45 minutes</span>
+        <span class="mg-label">Note</span><span class="mg-val">The 6.7L has two filters. Primary is on the frame rail (under driver's side); secondary is on top of the engine.</span>
+        <span class="mg-label">⚠️ Crucial!</span><span class="mg-val crucial">You MUST cycle the key to "ON" (do not start) 6–8 times for 30 seconds each to prime the system. Skipping this step can damage the high-pressure fuel pump!</span>
+      </div>
+    </div>
+
+    <div class="maint-block">
+      <div class="mb-title">🛢️ Oil Change</div>
+      <div class="maint-grid">
+        <span class="mg-label">Est. Time</span><span class="mg-val">45 minutes</span>
+        <span class="mg-label">Note</span><span class="mg-val">The F-550 holds approximately <strong>13 quarts</strong> — make sure you have a large enough drain pan!</span>
+      </div>
+    </div>
+
+    <div class="maint-block">
+      <div class="mb-title">💧 DEF Refill</div>
+      <div class="maint-grid">
+        <span class="mg-label">Est. Time</span><span class="mg-val">5 minutes</span>
+        <span class="mg-label">⚠️ Warning</span><span class="mg-val warn">If the bus is under 1/4 tank of DEF, it may enter "Limp Mode" shortly after hitting the highway — limiting speed to 50 MPH or even 5 MPH!</span>
+      </div>
+    </div>
+
+    <div class="checklist-block" style="margin-top:20px;">
+      <div class="cb-title">🎒 Final Packing List for the Pacifica</div>
+      <div class="cb-sub">Load these in the Pacifica before you leave home</div>
+      <ul class="check-list">
+        <li><span class="cb-icon">🦺</span><span><strong>Safety:</strong> 20ft Heavy-Duty Jumper Cables, Road Flares / Triangles, and a High-Vis Vest</span></li>
+        <li><span class="cb-icon">🔧</span><span><strong>Recovery:</strong> Portable Air Compressor (F-550 tires are high volume), a breaker bar, and a gallon of distilled water</span></li>
+        <li><span class="cb-icon">📄</span><span><strong>Documentation:</strong> Printed insurance card, bill of sale, and your <strong>Project Mobile Master PDF</strong> for offline access to the drive-time matrix and file inventory</span></li>
+      </ul>
+    </div>
+
+    <div class="pro-tip">
+      <span class="pt-icon">💡</span>
+      <div>
+        <div class="pt-label">Pro-Tip — The Idle Test</div>
+        <div class="pt-body">Before leaving the warehouse, let the bus idle for at least <strong>15 minutes</strong> while watching the temperature gauge. If it stays stable at idle, it is far more likely to handle the 3-hour trek back to Louisiana safely!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION X: DINING MATRIX -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🍽️</span>
+      <span class="section-title">Strategic Dining Matrix</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Kid-friendly restaurants near each stop — no seafood, no subs!</p>
+    <table class="fun-table">
+      <thead>
+        <tr><th>📍 Location</th><th>🍴 Restaurant</th><th>👧 Kid-Friendly Feature</th><th>🥩 Best Non-Seafood Picks</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:800;">🏨 Mobile Base</td>
+          <td style="font-weight:800;color:var(--ocean);">Smokey Bones Bar &amp; Fire Grill</td>
+          <td class="dim" style="font-size:13px;">Fun, high-energy environment with sports &amp; games</td>
+          <td class="dim" style="font-size:13px;">Smoked BBQ Ribs, Pulled Pork, Beef Brisket, Grilled Chicken</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🔬 Downtown (Science Center)</td>
+          <td style="font-weight:800;color:var(--ocean);">The Breakfast Spot</td>
+          <td class="dim" style="font-size:13px;">Vibrant, friendly atmosphere with upbeat music</td>
+          <td class="dim" style="font-size:13px;">World-class Pancakes, Eggs, Grits, and Conecuh Sausage</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🔬 Downtown (Science Center)</td>
+          <td style="font-weight:800;color:var(--ocean);">Mama's On Dauphin</td>
+          <td class="dim" style="font-size:13px;">Family-style Southern hospitality</td>
+          <td class="dim" style="font-size:13px;">Fried Chicken, Meatloaf, and Home Style Sides</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">⚓ Battleship Park</td>
+          <td style="font-weight:800;color:var(--ocean);">The Royal Scam</td>
+          <td class="dim" style="font-size:13px;">Charming outdoor courtyard — great family room</td>
+          <td class="dim" style="font-size:13px;">Filet Mignon, Signature Burgers, and Prime cuts</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🏖️ Orange Beach</td>
+          <td style="font-weight:800;color:var(--ocean);">GTs on the Bay</td>
+          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Massive Indoor Aquarium &amp; Pirate Ship Playground!</strong></td>
+          <td class="dim" style="font-size:13px;">Stone-Hearth Pizza and Chicken Carbonara</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🏖️ Orange Beach</td>
+          <td style="font-weight:800;color:var(--ocean);">Sunliner Diner</td>
+          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Convertible car booths &amp; retro 1950s jukeboxes!</strong></td>
+          <td class="dim" style="font-size:13px;">Classic Burgers, Milkshakes, and All-Day Waffles</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🏖️ Orange Beach</td>
+          <td style="font-weight:800;color:var(--ocean);">LuLu's</td>
+          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Beach sand pits, ropes courses, and arcades!</strong></td>
+          <td class="dim" style="font-size:13px;">Cheeseburgers, Quesadillas, and extensive Allergy Menu</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;">🌸 Bellingrath Gardens</td>
+          <td style="font-weight:800;color:var(--ocean);">Little Caesars (Nearby)</td>
+          <td class="dim" style="font-size:13px;">Reliable, fast, and familiar for children</td>
+          <td class="dim" style="font-size:13px;">Custom Pizzas and Crazy Bread</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- SECTION XI: EXPANDED ACTIVITY MATRIX -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🎪</span>
+      <span class="section-title">Expanded Activity &amp; Mission Matrix</span>
+      <div class="section-line"></div>
+    </div>
+    <table class="fun-table">
+      <thead>
+        <tr><th>Category</th><th>🎯 Activity</th><th>📍 Location</th><th>💰 Price</th><th>👧 Kid-Friendly Details</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span style="background:#e0f2fe;color:var(--ocean);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🔧 Mission</span></td>
+          <td style="font-weight:800;">Vehicle Extraction</td>
+          <td class="dim">Mobile Warehouse</td>
+          <td class="val green">FREE</td>
+          <td class="dim" style="font-size:12px;">Operational Priority — initial mechanical audit and fluid check</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">⚓ Attraction</span></td>
+          <td style="font-weight:800;">USS Alabama Park</td>
+          <td class="dim">Mobile (Causeway)</td>
+          <td class="price">$48 Total</td>
+          <td class="dim" style="font-size:12px;">$18/Adult, $6/Kids (6 &amp; 9), 4yo FREE — explore a real battleship and submarine!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#f0fdf4;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🔬 Education</span></td>
+          <td style="font-weight:800;">Exploreum Science Center</td>
+          <td class="dim">Downtown Mobile</td>
+          <td class="price">$98 Total</td>
+          <td class="dim" style="font-size:12px;">$22/Adult, $18/Kids — includes the <em>My BodyWorks</em> and <em>Hands On Hall</em> exhibits</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fdf4ff;color:#7e22ce;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🎢 New Activity</span></td>
+          <td style="font-weight:800;">The Park at OWA</td>
+          <td class="dim">Foley, AL</td>
+          <td class="price">$120+</td>
+          <td class="dim" style="font-size:12px;">$30–$40/person — amusement park with kiddie rides and a Splash Pad!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fdf4ff;color:#7e22ce;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🦁 New Activity</span></td>
+          <td style="font-weight:800;">Alabama Gulf Coast Zoo</td>
+          <td class="dim">Gulf Shores, AL</td>
+          <td class="price">$78 Total</td>
+          <td class="dim" style="font-size:12px;">$22/Adult, $17/Kids — "The Little Zoo That Could," known for up-close animal encounters!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">😌 Relaxation</span></td>
+          <td style="font-weight:800;">The Wharf Ferris Wheel</td>
+          <td class="dim">Orange Beach</td>
+          <td class="price">$66 Total</td>
+          <td class="dim" style="font-size:12px;">$15/Adult, $12/Kids — one of the tallest wheels in the Southeast with stunning views!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🏎️ Adventure</span></td>
+          <td style="font-weight:800;">Wharf Go-Karts</td>
+          <td class="dim">Orange Beach</td>
+          <td class="price">$75 Est.</td>
+          <td class="dim" style="font-size:12px;">Pricing varies — tracks for younger kids AND a multi-level wooden track for older ones!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#f0fdf4;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🌸 Nature</span></td>
+          <td style="font-weight:800;">Bellingrath Gardens</td>
+          <td class="dim">Theodore, AL</td>
+          <td class="price">$56 Total</td>
+          <td class="dim" style="font-size:12px;">$18/Adult, $10/Kids — large open pathways perfect for little explorers!</td>
+        </tr>
+        <tr>
+          <td><span style="background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🍔 Dining/Fun</span></td>
+          <td style="font-weight:800;">Sunliner Diner</td>
+          <td class="dim">Orange Beach</td>
+          <td class="price">Meal Cost</td>
+          <td class="dim" style="font-size:12px;">Retro 1950s diner where you sit <em>inside a car</em> to eat — kids will love it!</td>
+        </tr>
+      </tbody>
+    </table>
   </section>
 
   <div class="footer">
