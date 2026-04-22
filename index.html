@@ -17,11 +17,11 @@
         th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
         
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
-        .image-gallery img { width: 100%; border-radius: 5px; border: 2px solid #ddd; }
-        .asset-label { font-weight: bold; color: var(--navy); text-align: center; margin-top: 5px; font-size: 0.9rem; }
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 20px; }
+        .gallery-item { text-align: center; background: #fff; padding: 8px; border: 1px solid #eee; border-radius: 5px; }
+        .gallery-item img { width: 100%; height: 120px; object-fit: cover; border-radius: 3px; background: #ddd; }
+        .filename { font-family: 'Courier New', monospace; font-size: 0.65rem; color: #666; display: block; margin-top: 5px; word-break: break-all; background: #f0f0f0; padding: 2px; }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
         .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
         .total-row { background-color: #e8f8f5; font-weight: bold; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
@@ -35,72 +35,47 @@
 </header>
 
 <div class="section">
-    <h2>I. Tactical Itinerary & Precision Weather</h2>
-    <div class="grid">
-        <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 78°F | 5% Rain<br>Eunice &rarr; Mobile</div>
-        <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 79°F | 10% Rain<br>Pickup | USS Alabama</div>
-        <div class="weather-card"><strong>Tue 4/28</strong><br>⛅ 81°F | 20% Rain<br>Beach | Exploreum</div>
-        <div class="weather-card"><strong>Wed 4/29</strong><br>🌦️ 77°F | 45% Rain<br>Flex Day / Return</div>
-        <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 76°F | 15% Rain<br>Repatriation</div>
+    <h2>I. Tactical Itinerary & Weather Forecast</h2>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
+        <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 5% Rain<br>Transit to Mobile</div>
+        <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 10% Rain<br>Extraction & Inspection</div>
+        <div class="weather-card"><strong>Tue 4/28</strong><br>⛅ 20% Rain<br>Science Center / Beach</div>
+        <div class="weather-card"><strong>Wed 4/29</strong><br>🌦️ 45% Rain<br>Indoor Activity Flex</div>
+        <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 15% Rain<br>Return Caravan</div>
     </div>
 </div>
 
 <div class="section">
-    <h2>II. Asset Profile: 2012 Ford F-550 Super Duty</h2>
+    <h2>II. Technical Asset Catalog (29 High-Priority Files)</h2>
     <div class="image-gallery">
-        <div>
-            <img src="https://images.clothes.com/image_7265e1.jpg" alt="F-550 Side View">
-            <p class="asset-label">Chassis/Body: 20-Passenger Configuration</p>
-        </div>
-        <div>
-            <img src="https://images.clothes.com/image_72661a.jpg" alt="F-550 Front View">
-            <p class="asset-label">Front Grille & Recovery Points</p>
-        </div>
-        <div>
-            <img src="https://images.clothes.com/image_726905.jpg" alt="F-550 Interior">
-            <p class="asset-label">Interior Deck & Seating Layout</p>
-        </div>
-        <div>
-            <img src="https://images.clothes.com/image_7268c1.png" alt="F-550 Badge">
-            <p class="asset-label">Technical Badging: 6.7L PowerStroke</p>
-        </div>
+        <div class="gallery-item"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg"><span class="filename">imgi_74_...cfbcb.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg"><span class="filename">imgi_76_...0ac66e.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg"><span class="filename">imgi_77_...baa520e5.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg"><span class="filename">imgi_80_...a94013.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg"><span class="filename">imgi_75_...85b3a7.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg"><span class="filename">imgi_84_...dee0.jpg</span></div>
+        <div class="gallery-item" style="background:#fef9e7;"><div style="padding:20px;">+23 Files Cataloged<br><small>(imgi_87 through imgi_102)</small></div></div>
     </div>
 </div>
 
 <div class="section">
-    <h2>III. Hotel Financial Matrix (By Combination)</h2>
+    <h2>III. Mission Activity Matrix</h2>
     <table>
         <thead>
-            <tr><th>Hotel & Location</th><th>Scenario</th><th>Base Price</th><th>Pet Fee</th><th>Grand Total</th></tr>
+            <tr><th>Activity</th><th>Adults</th><th>Kids</th><th>Est. Total</th><th>Notes</th></tr>
         </thead>
         <tbody>
-            <tr><td><strong>Home2 Suites (Hilton)</strong></td><td>Sun-Wed (3n)</td><td>$501</td><td>$75</td><td class="total-row">$576</td></tr>
-            <tr><td><strong>Holiday Inn Express</strong></td><td>Sun-Wed (3n)</td><td>$393</td><td>$50</td><td class="total-row">$443</td></tr>
-            <tr><td><strong>Red Roof Inn (Tillman)</strong></td><td>Sun-Wed (3n)</td><td>$225</td><td>$0</td><td class="total-row">$225</td></tr>
-            <tr><td><strong>Hotel Indigo (Beach)</strong></td><td>Sun-Wed (3n)</td><td>$585</td><td>$100</td><td class="total-row">$685</td></tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="section">
-    <h2>IV. Expanded Activity & Operational Costs</h2>
-    <table>
-        <thead>
-            <tr><th>Activity</th><th>Adults</th><th>Kids</th><th>Est. Total</th></tr>
-        </thead>
-        <tbody>
-            <tr><td><strong>USS Alabama Battleship</strong></td><td>$18 x 2</td><td>$6 x 2</td><td>$48–$55</td></tr>
-            <tr><td><strong>Exploreum Science Center</strong></td><td>$22 x 2</td><td>$18 x 3</td><td>$95–$110</td></tr>
-            <tr><td><strong>The Wharf Ferris Wheel</strong></td><td>$15 x 2</td><td>$12 x 3</td><td>$60–$70</td></tr>
-            <tr><td><strong>Mini Golf / Go-Karts</strong></td><td>$15 x 2</td><td>$12 x 3</td><td>$55–$80</td></tr>
-            <tr><td><strong>Bellingrath Gardens</strong></td><td>$18 x 2</td><td>$10 x 2</td><td>$55–$65</td></tr>
-            <tr class="total-row"><td><strong>Mission Fuel & DEF</strong></td><td colspan="2">RT Pacifica + OW F-550</td><td>$210</td></tr>
+            <tr><td><strong>USS Alabama Park</strong></td><td>$18 x2</td><td>$6 x2</td><td>$48–$55</td><td>Ship + Submarine access</td></tr>
+            <tr><td><strong>Exploreum Science Center</strong></td><td>$22 x2</td><td>$18 x3</td><td>$95–$110</td><td>Strong indoor option for rain</td></tr>
+            <tr><td><strong>The Wharf Ferris Wheel</strong></td><td>$15 x2</td><td>$12 x3</td><td>$60–$70</td><td>Evening activity</td></tr>
+            <tr><td><strong>Mini Golf / Go-Karts</strong></td><td>$15 x2</td><td>$12 x3</td><td>$55–$80</td><td>Optional entertainment</td></tr>
+            <tr><td><strong>Bellingrath Gardens</strong></td><td>$18 x2</td><td>$10 x2</td><td>$55–$65</td><td>Alternate day option</td></tr>
         </tbody>
     </table>
 </div>
 
 <div class="footer">
-    Operational Plan for Anoop & Misty | Mobile Warehouse: 251-460-6150
+    Operational Briefing for Anoop Raghavan Kangalath | Mission Date: April 26, 2026
 </div>
 
 </body>
