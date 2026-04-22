@@ -12,205 +12,139 @@
             --danger: #c0392b;
             --light: #f8f9f9;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1100px; margin: 0 auto; padding: 20px; background-color: var(--light); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: var(--light); }
         header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
-        .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 4px; }
         h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; }
         h3 { color: var(--green); margin-top: 20px; }
         
         table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.9rem; }
         th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
-        .total { background-color: #e8f8f5; font-weight: bold; }
+        .total-box { background-color: #e8f8f5; font-weight: bold; padding: 15px; border: 1px solid #27ae60; border-radius: 4px; display: inline-block; width: 100%; box-sizing: border-box; }
         .highlight { color: var(--danger); font-weight: bold; }
         
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .card { background: #fdfefe; padding: 15px; border-left: 5px solid var(--gold); border: 1px solid #eee; }
-        .glossary { background: #ebf5fb; padding: 15px; border-radius: 5px; margin-top: 10px; font-size: 0.85rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .scenario-card { background: #fdfefe; padding: 15px; border-top: 5px solid var(--navy); border: 1px solid #eee; border-radius: 4px; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PROJECT MOBILE: MASTER OPERATIONAL BRIEFING</h1>
-    <p>Asset Recovery (F-550) & Family Logistics | April 2026</p>
+    <h1>PROJECT MOBILE: SCENARIO ANALYTICS</h1>
+    <p>Flexible Duration Costing & Technical Recovery Plan</p>
 </header>
 
 <div class="section">
-    <h2>I. Logistics: Primary Travel & Pickup</h2>
-    
-    <div class="glossary">
-        <strong>Logistical Key:</strong><br>
-        • <strong>RT (Round Trip):</strong> The total distance/cost for going to a destination and returning home (Eunice &harr; Mobile).<br>
-        • <strong>OW (One Way):</strong> The distance/cost for a single leg of the journey (Mobile &rarr; Eunice).
-    </div>
-
+    <h2>I. Financial Matrix: Duration Scenarios</h2>
+    <p><em>Costs include Hotel (Mobile Base), Fuel (RT + OW), Food ($100/day), Pet Fees, and Activity Admissions.</em></p>
     <div class="grid">
-        <div class="card">
-            <h3>Travel from Eunice, LA</h3>
-            <p><strong>To Mobile (Tillman's Corner):</strong> 3 Hours 15 Mins (218 miles)</p>
-            <p><strong>To Orange Beach, AL:</strong> 4 Hours 10 Mins (255 miles)</p>
-            <p><em>*Note: Traveling with 3 kids and a dog usually adds 30-45 mins for stops.</em></p>
+        <div class="scenario-card">
+            <h3>"The Ironman"</h3>
+            <p><strong>Mon 4/27 – Wed 4/29</strong><br>(2 Nights)</p>
+            <ul>
+                <li><strong>Sun Stay:</strong> NO (3AM Departure)</li>
+                <li><strong>Thu Stay:</strong> NO</li>
+                <li><strong>Fatigue Level:</strong> High</li>
+            </ul>
+            <div class="total-box">Est. Total: $1,150</div>
         </div>
-        <div class="card">
-            <h3>Local Drive Times</h3>
-            <p><strong>From Tillman's Corner to Pickup:</strong> 15 Mins</p>
-            <p><strong>From Orange Beach to Pickup:</strong> 1 Hour 15 Mins</p>
-            <p><strong>Warehouse Hours:</strong> 08:00–11:30 AM & 01:00–03:30 PM</p>
+
+        <div class="scenario-card">
+            <h3>"The Strategic Start"</h3>
+            <p><strong>Sun 4/26 – Wed 4/29</strong><br>(3 Nights)</p>
+            <ul>
+                <li><strong>Sun Stay:</strong> YES (Arrive 5PM)</li>
+                <li><strong>Thu Stay:</strong> NO</li>
+                <li><strong>Fatigue Level:</strong> Low (Rested for Pickup)</li>
+            </ul>
+            <div class="total-box">Est. Total: $1,365</div>
+        </div>
+
+        <div class="scenario-card">
+            <h3>"The Vacation Finish"</h3>
+            <p><strong>Mon 4/27 – Thu 4/30</strong><br>(3 Nights)</p>
+            <ul>
+                <li><strong>Sun Stay:</strong> NO (3AM Departure)</li>
+                <li><strong>Thu Stay:</strong> YES (Return home Thu)</li>
+                <li><strong>Fatigue Level:</strong> Medium</li>
+            </ul>
+            <div class="total-box">Est. Total: $1,365</div>
+        </div>
+
+        <div class="scenario-card">
+            <h3>"The Full Expedition"</h3>
+            <p><strong>Sun 4/26 – Thu 4/30</strong><br>(4 Nights)</p>
+            <ul>
+                <li><strong>Sun Stay:</strong> YES</li>
+                <li><strong>Thu Stay:</strong> YES</li>
+                <li><strong>Fatigue Level:</strong> Zero</li>
+            </ul>
+            <div class="total-box">Est. Total: $1,580</div>
         </div>
     </div>
 </div>
 
 <div class="section">
-    <h2>II. Fuel & Mileage Analysis</h2>
+    <h2>II. Travel & Location Logistics</h2>
     <table>
         <thead>
             <tr>
-                <th>Vehicle</th>
-                <th>Route Segment</th>
-                <th>Distance</th>
-                <th>Type</th>
-                <th>Est. Fuel</th>
+                <th>Leg</th>
+                <th>Route</th>
+                <th>Time / Distance</th>
+                <th>Terminology</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Chrysler Pacifica</strong></td>
+                <td><strong>Primary Deployment</strong></td>
+                <td>Eunice &rarr; Mobile</td>
+                <td>3h 15m (218 miles)</td>
+                <td><strong>OW</strong> (One Way)</td>
+            </tr>
+            <tr>
+                <td><strong>The Mission RT</strong></td>
                 <td>Eunice &harr; Mobile</td>
-                <td>440 Miles</td>
-                <td><strong>RT</strong></td>
-                <td>$85</td>
+                <td>6h 30m (436 miles)</td>
+                <td><strong>RT</strong> (Round Trip)</td>
             </tr>
             <tr>
-                <td><strong>F-550 Shuttle Bus</strong></td>
-                <td>Mobile &rarr; Eunice</td>
-                <td>220 Miles</td>
-                <td><strong>OW</strong></td>
-                <td>$125</td>
+                <td><strong>Local Commute</strong></td>
+                <td>Mobile Base to Pickup</td>
+                <td>15 Mins</td>
+                <td>Critical for 08:00 Extraction</td>
             </tr>
-            <tr class="total">
-                <td colspan="4">Total Estimated Mission Fuel Cost</td>
-                <td>$210</td>
+            <tr>
+                <td><strong>Beach Commute</strong></td>
+                <td>Orange Beach to Pickup</td>
+                <td class="highlight">1h 15m</td>
+                <td>Not recommended for Pickup Day</td>
             </tr>
         </tbody>
     </table>
 </div>
 
 <div class="section">
-    <h2>III. Lodging Comparison: Mobile vs. Orange Beach</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Location</th>
-                <th>Check-In / Out</th>
-                <th>Nights</th>
-                <th>Est. Rate/Night</th>
-                <th>Pet Fee</th>
-                <th>Total Cost</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>Mobile (Tillman's Corner)</strong></td>
-                <td>Mon – Wed</td>
-                <td>2</td>
-                <td>$110</td>
-                <td>$75</td>
-                <td class="total">$295</td>
-            </tr>
-            <tr>
-                <td><strong>Mobile (Tillman's Corner)</strong></td>
-                <td>Sun – Wed</td>
-                <td>3</td>
-                <td>$110</td>
-                <td>$75</td>
-                <td class="total">$405</td>
-            </tr>
-            <tr>
-                <td><strong>Orange Beach</strong></td>
-                <td>Mon – Wed</td>
-                <td>2</td>
-                <td>$240</td>
-                <td>$100</td>
-                <td class="total">$580</td>
-            </tr>
-            <tr>
-                <td><strong>Orange Beach</strong></td>
-                <td>Mon – Thu</td>
-                <td>3</td>
-                <td>$240</td>
-                <td>$100</td>
-                <td class="total">$820</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="section">
-    <h2>IV. Granular Activity Costs (2 Adults / 3 Kids)</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Adult Cost</th>
-                <th>Kid Cost (4, 6, 9)</th>
-                <th>Total Est.</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>USS Alabama Park</strong></td>
-                <td>$18 x 2</td>
-                <td>$6 x 2 (4yo Free)</td>
-                <td>$48</td>
-            </tr>
-            <tr>
-                <td><strong>Exploreum Science Center</strong></td>
-                <td>$22 x 2</td>
-                <td>$18 x 3</td>
-                <td>$98</td>
-            </tr>
-            <tr>
-                <td><strong>Wharf Ferris Wheel</strong></td>
-                <td>$15 x 2</td>
-                <td>$12 x 3</td>
-                <td>$66</td>
-            </tr>
-            <tr>
-                <td><strong>Bus Recovery Kit</strong></td>
-                <td colspan="2">Filters, DEF, OBD Tool, Oil</td>
-                <td>$200</td>
-            </tr>
-            <tr>
-                <td><strong>Dining Allowance</strong></td>
-                <td colspan="2">$100 / Day (3 Days)</td>
-                <td>$300</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="section">
-    <h2>V. The Asset: 2012 Ford F-550 Technicals</h2>
+    <h2>III. Asset Profile: 2012 Ford F-550</h2>
     <div class="grid">
-        <div class="card">
-            <h3>Hardware Specs</h3>
-            • <strong>Engine:</strong> 6.7L PowerStroke V8 Diesel<br>
-            • <strong>GVWR:</strong> 19,500 Lbs (Commercial Class 5)<br>
-            • <strong>Alternators:</strong> Dual High-Output Systems
+        <div class="scenario-card">
+            <strong>Engine:</strong> 6.7L PowerStroke V8 Diesel<br>
+            <strong>Transmission:</strong> 6-Speed TorqShift Auto<br>
+            <strong>GVWR:</strong> 19,500 Lbs (Commercial Class)
         </div>
-        <div class="card">
-            <h3>Pre-Flight Checklist</h3>
-            • Inspect primary fuel filter for "glitter" (Pump health)<br>
-            • Check Tire DOT codes (2020 or newer required)<br>
-            • Verify DEF level (Crucial for highway speed)
+        <div class="scenario-card">
+            <strong>Essential Recovery Kit:</strong><br>
+            • Primary Fuel Filter (Check for metal "glitter")<br>
+            • Diesel Exhaust Fluid (DEF) - Full Tank<br>
+            • Tire DOT Code Check (2020 or newer)
         </div>
     </div>
 </div>
 
 <div class="footer">
-    <p>Operational Briefing for Anoop Raghavan Kangalath | Warehouse: 251-460-6150</p>
+    Operational Plan for Anoop & Misty | Mobile Warehouse: 251-460-6150
 </div>
 
 </body>
