@@ -18,10 +18,10 @@
         td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
         .total-row { background-color: #e8f8f5; font-weight: bold; }
         
-        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 20px; }
+        .image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 20px; }
         .gallery-item { text-align: center; background: #fff; padding: 5px; border: 1px solid #eee; border-radius: 5px; }
-        .gallery-item img { width: 100%; height: 100px; object-fit: cover; border-radius: 3px; background: #ddd; }
-        .filename { font-family: 'Courier New', monospace; font-size: 0.6rem; color: #555; display: block; margin-top: 4px; word-break: break-all; background: #f4f4f4; padding: 2px; }
+        .gallery-item img { width: 100%; height: 80px; object-fit: cover; border-radius: 3px; background: #ddd; }
+        .filename { font-family: 'Courier New', monospace; font-size: 0.55rem; color: #555; display: block; margin-top: 4px; word-break: break-all; background: #f4f4f4; padding: 2px; }
         
         .weather-card { text-align: center; background: #ebf5fb; padding: 15px; border-radius: 5px; border: 1px solid #aed6f1; }
         .precip { color: #2e86c1; font-weight: bold; }
@@ -36,7 +36,61 @@
 </header>
 
 <div class="section">
-    <h2>I. Precise Weather & Tactical Itinerary</h2>
+    <h2>I. Global Drive-Time Matrix</h2>
+    <table>
+        <thead>
+            <tr><th>Origin</th><th>Destination</th><th>Distance</th><th>Est. Drive Time</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Eunice, LA</td><td>Mobile Warehouse (Pickup)</td><td>218 Miles</td><td>3h 15m</td></tr>
+            <tr><td>Eunice, LA</td><td>Orange Beach, AL</td><td>255 Miles</td><td>4h 10m</td></tr>
+            <tr><td>Mobile Warehouse</td><td>Orange Beach, AL</td><td>58 Miles</td><td>1h 15m</td></tr>
+            <tr><td>Mobile Warehouse</td><td>USS Alabama Park</td><td>12 Miles</td><td>18m</td></tr>
+            <tr><td>Mobile Warehouse</td><td>Exploreum Science Center</td><td>11 Miles</td><td>15m</td></tr>
+            <tr><td>Orange Beach (The Wharf)</td><td>USS Alabama Park</td><td>52 Miles</td><td>55m</td></tr>
+            <tr><td>Orange Beach (The Wharf)</td><td>Exploreum Science Center</td><td>53 Miles</td><td>58m</td></tr>
+            <tr><td>Orange Beach (The Wharf)</td><td>Bellingrath Gardens</td><td>61 Miles</td><td>1h 05m</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>II. Technical Asset Catalog (Full 29-File Index)</h2>
+    <div class="image-gallery">
+        <div class="gallery-item"><img src="imgi_74_..."><span class="filename">imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_76_..."><span class="filename">imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_77_..."><span class="filename">imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_80_..."><span class="filename">imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_75_..."><span class="filename">imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_79_..."><span class="filename">imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_81_..."><span class="filename">imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_78_..."><span class="filename">imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_84_..."><span class="filename">imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_87_..."><span class="filename">imgi_87_20201_5000_71b7e4e4-6c58-46f9-846b-5b4455866d18.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_82_..."><span class="filename">imgi_82_20201_5000_f0e554f0-b3f2-436e-a848-99ea1ce6ccfd.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_83_..."><span class="filename">imgi_83_20201_5000_277d5ac5-f6c1-4710-b091-422d0dc6e004.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_85_..."><span class="filename">imgi_85_20201_5000_3371dc5a-c727-45ec-be85-6cb6bcca78da.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_86_..."><span class="filename">imgi_86_20201_5000_408c15b2-f688-4fbe-91a3-56a55dd4d321.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_88_..."><span class="filename">imgi_88_20201_5000_e392976a-11e8-4ebb-b4a0-4e743f58add6.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_89_..."><span class="filename">imgi_89_20201_5000_1131671f-1b97-4579-8e67-5c55126baee3.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_90_..."><span class="filename">imgi_90_20201_5000_1babaa6e-ff17-478e-a464-85964d711ca4.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_92_..."><span class="filename">imgi_92_20201_5000_905d36cf-df6c-4e68-a164-121812e729c1.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_93_..."><span class="filename">imgi_93_20201_5000_2ad1d098-6f16-4e39-b353-c08c509c4930.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_94_..."><span class="filename">imgi_94_20201_5000_f64c1725-0791-4bd2-bf6f-e04bde2941bc.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_91_..."><span class="filename">imgi_91_20201_5000_df40af1a-38a5-42ee-a946-7327e3c1ff83.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_95_..."><span class="filename">imgi_95_20201_5000_f9bb9c01-e61a-4ca2-aae1-3b10a28c7ed2.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_97_..."><span class="filename">imgi_97_20201_5000_9de66709-8400-4326-9526-bd8beb1c3190.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_96_..."><span class="filename">imgi_96_20201_5000_1989b9c5-3292-43a4-bb47-ed47b855cdab.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_101_..."><span class="filename">imgi_101_20201_5000_ccc4ead7-01ff-47f4-ad98-c43a4a4ca558.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_102_..."><span class="filename">imgi_102_20201_5000_8fbfed32-76fb-4ae6-bcad-1ef98dda5588.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_98_..."><span class="filename">imgi_98_20201_5000_28099d7a-7e97-4433-9ea5-16906859e61d.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_99_..."><span class="filename">imgi_99_20201_5000_2055389e-5016-424f-999a-ba13645ed23e.jpg</span></div>
+        <div class="gallery-item"><img src="imgi_100_..."><span class="filename">imgi_100_20201_5000_a3889082-1f21-4074-910c-dc1c4eb93be8.jpg</span></div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>III. Precise Weather & Duration Scenarios</h2>
     <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;">
         <div class="weather-card"><strong>Sun 4/26</strong><br>☀️ 5% Rain</div>
         <div class="weather-card"><strong>Mon 4/27</strong><br>🌤️ 10% Rain</div>
@@ -44,64 +98,37 @@
         <div class="weather-card"><strong>Wed 4/29</strong><br><span class="precip">🌦️ 45% Rain</span></div>
         <div class="weather-card"><strong>Thu 4/30</strong><br>⛅ 15% Rain</div>
     </div>
-</div>
-
-<div class="section">
-    <h2>II. Full Technical Catalog (All 29 Files)</h2>
-    <div class="image-gallery">
-        <div class="gallery-item"><img src="imgi_74_20201_5000_28a9412a-0ff5-4521-a1e9-50af228cfbcb.jpg"><span class="filename">imgi_74_...cfbcb.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_75_20201_5000_9fee1f3d-1820-4805-89c6-566b9d85b3a7.jpg"><span class="filename">imgi_75_...b3a7.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_76_20201_5000_3b4616df-ab2c-46c8-89df-e6d8210ac66e.jpg"><span class="filename">imgi_76_...c66e.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_77_20201_5000_ea8b13d6-b0ef-42d8-9351-846b591d5e35.jpg"><span class="filename">imgi_77_...520e5.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_78_20201_5000_81788757-ded5-4928-b8a0-d432b50b5d33.jpg"><span class="filename">imgi_78_...b33.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_79_20201_5000_0a50af45-f958-4901-a7c1-ba25262564c6.jpg"><span class="filename">imgi_79_...2564c6.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_80_20201_5000_d67b5400-896e-4173-9b4c-ccc304a94013.jpg"><span class="filename">imgi_80_...a94013.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_81_20201_5000_1fe29200-a431-4590-be01-5ab500ddfce7.jpg"><span class="filename">imgi_81_...dfce7.jpg</span></div>
-        <div class="gallery-item"><img src="imgi_84_20201_5000_5d4cad05-3d86-4a30-82d6-aeb0a43e8498.jpg"><span class="filename">imgi_84_...dee0.jpg</span></div>
-        
-        <div class="gallery-item"><img src="image_7eb2cc.png"><span class="filename">image_7eb2cc.png</span></div>
-        <div class="gallery-item"><img src="image_7eba86.png"><span class="filename">image_7eba86.png</span></div>
-        <div class="gallery-item"><img src="image_718861.png"><span class="filename">image_718861.png</span></div>
-
-        <div class="gallery-item" style="background:#f9f9f9; border: 1px dashed #ccc;"><div style="padding-top:30px;">Files imgi_85 - imgi_102<br>Indexed in Log</div></div>
-    </div>
-</div>
-
-<div class="section">
-    <h2>III. Comparative Hotel & Scenario Matrix</h2>
+    
     <table>
         <thead>
-            <tr><th>Option</th><th>Scenario</th><th>Price (Stay)</th><th>Pet Fee</th><th>Grand Total</th></tr>
+            <tr><th>Scenario</th><th>Check-In/Out</th><th>Hotel Price (Red Roof)</th><th>Pet Fee</th><th>Total Est.</th></tr>
         </thead>
         <tbody>
-            <tr><td><strong>Red Roof Inn</strong></td><td>Sun-Wed (3n)</td><td>$225</td><td>$0</td><td class="total-row">$225</td></tr>
-            <tr><td><strong>Red Roof Inn</strong></td><td>Sun-Thu (4n)</td><td>$300</td><td>$0</td><td class="total-row">$300</td></tr>
-            <tr><td><strong>Holiday Inn Exp</strong></td><td>Sun-Wed (3n)</td><td>$393</td><td>$50</td><td class="total-row">$443</td></tr>
-            <tr><td><strong>Holiday Inn Exp</strong></td><td>Sun-Thu (4n)</td><td>$524</td><td>$50</td><td class="total-row">$574</td></tr>
-            <tr><td><strong>Home2 Suites</strong></td><td>Sun-Wed (3n)</td><td>$501</td><td>$75</td><td class="total-row">$576</td></tr>
-            <tr><td><strong>Home2 Suites</strong></td><td>Sun-Thu (4n)</td><td>$668</td><td>$75</td><td class="total-row">$743</td></tr>
+            <tr><td>"Ironman"</td><td>Mon - Wed (2n)</td><td>$150</td><td>$0</td><td>$150</td></tr>
+            <tr><td>"Strategic Start"</td><td>Sun - Wed (3n)</td><td>$225</td><td>$0</td><td>$225</td></tr>
+            <tr><td>"Full Expedition"</td><td>Sun - Thu (4n)</td><td>$300</td><td>$0</td><td>$300</td></tr>
         </tbody>
     </table>
 </div>
 
 <div class="section">
-    <h2>IV. Activity & Operational Expense Breakdown</h2>
+    <h2>IV. Activity & Recovery Costs</h2>
     <table>
         <thead>
-            <tr><th>Activity</th><th>Cost Analysis</th><th>Total</th></tr>
+            <tr><th>Activity</th><th>Cost (2A + 3K)</th><th>Total Price</th></tr>
         </thead>
         <tbody>
-            <tr><td><strong>USS Alabama Park</strong></td><td>$18x2 / $6x2</td><td>$48</td></tr>
-            <tr><td><strong>Exploreum Science</strong></td><td>$22x2 / $18x3</td><td>$98</td></tr>
-            <tr><td><strong>Wharf Ferris Wheel</strong></td><td>$15x2 / $12x3</td><td>$66</td></tr>
-            <tr><td><strong>Fuel (Mission)</strong></td><td>Pacifica RT + F550 OW</td><td>$210</td></tr>
-            <tr><td><strong>Recovery Supplies</strong></td><td>Filters + DEF</td><td>$200</td></tr>
+            <tr><td>USS Alabama Park</td><td>$18x2 / $6x2</td><td>$48</td></tr>
+            <tr><td>Exploreum Science</td><td>$22x2 / $18x3</td><td>$98</td></tr>
+            <tr><td>The Wharf Ferris Wheel</td><td>$15x2 / $12x3</td><td>$66</td></tr>
+            <tr><td>Fuel (Mission RT + OW)</td><td>Pacifica + F-550 Diesel</td><td>$210</td></tr>
+            <tr><td>Recovery Supplies</td><td>Filters, Oil, DEF</td><td>$200</td></tr>
         </tbody>
     </table>
 </div>
 
 <div class="footer">
-    Operational Briefing | Anoop Raghavan Kangalath | 2026 Vehicle Recovery Mission
+    Operational Briefing | Anoop Raghavan Kangalath | Asset Recovery Mission 2026
 </div>
 
 </body>
