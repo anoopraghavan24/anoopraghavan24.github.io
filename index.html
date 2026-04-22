@@ -3,217 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Mobile: Master Operational Briefing</title>
+    <title>Project Mobile: Master Mission Briefing</title>
     <style>
         :root {
-            --bus-blue: #1b2631;
-            --trip-green: #1e8449;
-            --accent-gold: #f1c40f;
-            --warning-red: #c0392b;
-            --bg-light: #f4f6f7;
+            --navy: #1b2631;
+            --forest: #1e8449;
+            --gold: #f1c40f;
+            --danger: #c0392b;
+            --light: #f8f9f9;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: var(--bg-light);
-        }
-        header {
-            background-color: var(--bus-blue);
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 8px solid var(--accent-gold);
-            margin-bottom: 30px;
-        }
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-top: 40px;
-            padding: 10px;
-            color: white;
-            border-radius: 5px 5px 0 0;
-        }
-        .bus-bg { background-color: var(--bus-blue); }
-        .trip-bg { background-color: var(--trip-green); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: var(--light); }
+        header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
+        .tab { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 0 0 8px 8px; }
+        h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; }
+        h3 { color: var(--forest); margin-top: 20px; }
         
-        .content-box {
-            background: white;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-top: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .card {
-            background: #f9f9f9;
-            padding: 15px;
-            border-left: 5px solid var(--accent-gold);
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th { background-color: #eee; text-align: left; padding: 12px; border: 1px solid #ddd; }
-        td { padding: 12px; border: 1px solid #ddd; }
+        .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .card { background: #fdfefe; padding: 15px; border-left: 5px solid var(--gold); border-radius: 4px; border: 1px solid #eee; }
         
-        .critical {
-            background-color: #fdedec;
-            border: 2px solid var(--warning-red);
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .spec-label { font-weight: bold; color: var(--bus-blue); text-transform: uppercase; font-size: 0.85rem; }
-        .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 50px; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; }
+        th { background-color: #f2f4f4; text-align: left; padding: 12px; border: 1px solid #dee2e6; color: var(--navy); }
+        td { padding: 12px; border: 1px solid #dee2e6; }
+        .total { background-color: #e8f8f5; font-weight: bold; }
+        
+        .warning-box { background: #fdedec; border: 2px solid var(--danger); padding: 15px; border-radius: 8px; color: #7b241c; }
+        .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PROJECT MOBILE: FINAL DIRECTIVE</h1>
-    <p>Asset Acquisition (F-550) & Family Expedition Logistics</p>
-    <p>Target Date: April 26 – 30, 2026</p>
+    <h1>PROJECT MOBILE: MASTER MISSION BRIEFING</h1>
+    <p>Asset Recovery & Family Expedition | April 2026</p>
 </header>
 
-<div class="section-header bus-bg">
-    <h2>PART I: THE ASSET (2012 FORD F-550)</h2>
-</div>
-<div class="content-box">
-    <h3>Mechanical Architecture</h3>
-    <p>The 2012 F-550 is a Class 5 Medium-Duty chassis. This is a professional-grade platform designed for 250,000+ mile service lives in high-stress environments.</p>
-    
-    <div class="grid">
+<div class="tab">
+    <h2>I. Logistics: Pickup & Geography</h2>
+    <div class="geo-grid">
         <div class="card">
-            <span class="spec-label">Engine: 6.7L PowerStroke V8</span>
-            <p>300 HP / 660 Lb-Ft Torque. Features a "Reverse-Flow" cooling system and a CGI (Compacted Graphite Iron) block for extreme durability.</p>
+            <h3>Pickup Location & Times</h3>
+            <p><strong>Address:</strong> 6580 John Counts Dr, Mobile, AL 36608</p>
+            <p><strong>Pickup Window:</strong><br>
+               • Morning: 08:00 AM – 11:30 AM<br>
+               • Afternoon: 01:00 PM – 03:30 PM<br>
+               <em>*Must arrive by 08:00 AM for the "Ironman" scenario.</em></p>
         </div>
         <div class="card">
-            <span class="spec-label">Chassis: 19,500 Lb GVWR</span>
-            <p>The frame is a straight-rail design, 50k PSI steel. This allows for massive payload capacity for a full camper conversion.</p>
-        </div>
-        <div class="card">
-            <span class="spec-label">Charging: Dual Alternators</span>
-            <p>Standard on most shuttle builds. Provides ~300+ Amps of current, perfect for charging large "house" battery banks while driving.</p>
-        </div>
-        <div class="card">
-            <span class="spec-label">Transmission: 6R140 TorqShift</span>
-            <p>Heavy-duty 6-speed with a double-overdrive and "Tow/Haul" mode for effective engine braking on descents.</p>
+            <h3>Drive Time Analysis</h3>
+            <p><strong>Pickup to Mobile (Tillman's Corner):</strong> 12–15 Minutes<br>
+               <strong>Pickup to Orange Beach:</strong> 1 Hour 15 Minutes<br>
+               <strong>Orange Beach to Mobile Attractions:</strong> 55–65 Minutes</p>
+            <p><em>Recommendation: Stay in Mobile to avoid the 2.5hr round-trip commute on pickup day.</em></p>
         </div>
     </div>
-
-    <h3>Mandatory Pre-Flight Checklist</h3>
-    <ul class="checklist">
-        <li><strong>The "Glitter Test":</strong> Open the primary fuel filter housing. Inspect for metallic debris (indicates CP4 pump wear).</li>
-        <li><strong>Tire Date Codes:</strong> Verify the 4-digit DOT code. If the tires are older than 2020, they are considered "at-risk" for a 5-hour highway haul.</li>
-        <li><strong>DEF Status:</strong> Ensure the Diesel Exhaust Fluid tank is at least 50% full. Low DEF will trigger a 50 MPH speed governor.</li>
-        <li><strong>Coolant Inspection:</strong> Verify the color is Gold/Yellow. Inspect the degas bottle for "oil film," which would indicate a failing oil cooler.</li>
-    </ul>
 </div>
 
-<div class="section-header trip-bg">
-    <h2>PART II: THE OPERATION (THE EXPEDITION)</h2>
-</div>
-<div class="content-box">
-    <h3>Family Logistics & Activity Schedule</h3>
+<div class="tab">
+    <h2>II. Fuel & Mileage Analysis</h2>
     <table>
         <thead>
             <tr>
-                <th>Phase</th>
-                <th>Activity</th>
-                <th>Kid Focus (4, 6, 9)</th>
+                <th>Vehicle</th>
+                <th>Route Segment</th>
+                <th>Distance</th>
+                <th>MPG</th>
+                <th>Est. Fuel Cost</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td><strong>Mon PM</strong></td>
-                <td>USS Alabama Battleship Park</td>
-                <td>Exploring the "Steel Maze," climbing gun turrets, and the A-12 Blackbird plane.</td>
+                <td><strong>Chrysler Pacifica</strong></td>
+                <td>Eunice, LA &harr; Mobile, AL</td>
+                <td>440 Miles (RT)</td>
+                <td>22 MPG</td>
+                <td>~$85</td>
             </tr>
             <tr>
-                <td><strong>Tue AM</strong></td>
-                <td>Lake Shelby "Dog Pond"</td>
-                <td>Coco's vacation. Only legal off-leash swimming. Beach play for kids.</td>
+                <td><strong>F-550 Shuttle Bus</strong></td>
+                <td>Mobile, AL &rarr; Eunice, LA</td>
+                <td>220 Miles (OW)</td>
+                <td>10 MPG</td>
+                <td>~$125</td>
             </tr>
-            <tr>
-                <td><strong>Tue PM</strong></td>
-                <td>Exploreum Science Center</td>
-                <td>100% Indoor A/C. "Animation Academy" (Pixar/Shrek) and "Wharf of Wonder" for the 4yo.</td>
-            </tr>
-            <tr>
-                <td><strong>Wed AM</strong></td>
-                <td>The Wharf Ferris Wheel</td>
-                <td>One of the tallest in the SE. A final "high-point" before the drive home.</td>
+            <tr class="total">
+                <td colspan="4">Total Estimated Mission Fuel Cost</td>
+                <td>$210.00</td>
             </tr>
         </tbody>
     </table>
+    <p><small>*Based on $4.02/gal Unleaded and $5.49/gal Diesel (April 2026 Avg).</small></p>
+</div>
 
-    <h3>Comparative Financial Modeling</h3>
+<div class="tab">
+    <h2>III. Granular Expense Breakdown (2 Adults / 3 Kids)</h2>
     <table>
         <thead>
             <tr>
-                <th>Category</th>
-                <th>"Ironman" (Mon-Wed)</th>
-                <th>"Strategic" (Sun-Wed)</th>
+                <th>Activity / Item</th>
+                <th>Unit Cost Details</th>
+                <th>Est. Total</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>Hotel (Tillman's Corner)</td>
-                <td>$285 (2 Nights)</td>
-                <td>$390 (3 Nights)</td>
+                <td><strong>USS Alabama Park</strong></td>
+                <td>$18 (Adult) / $6 (Kids 6-11) / Free (Under 6)</td>
+                <td>~$50</td>
             </tr>
             <tr>
-                <td>Fuel (Pacifica + Bus)</td>
-                <td>$210</td>
-                <td>$210</td>
+                <td><strong>Exploreum Science Center</strong></td>
+                <td>$22 (Adult) / $18 (Kids 3-12)</td>
+                <td>~$100</td>
             </tr>
             <tr>
-                <td>Dining & Provisions</td>
-                <td>$300</td>
-                <td>$400</td>
+                <td><strong>The Wharf Ferris Wheel</strong></td>
+                <td>$15 (Adult) / $12 (Kids)</td>
+                <td>~$65</td>
             </tr>
             <tr>
-                <td>Admissions & Parking</td>
-                <td>$178</td>
-                <td>$178</td>
-            </tr>
-            <tr>
-                <td>Mechanical Go-Bag</td>
-                <td>$200</td>
+                <td><strong>Bus Mechanical Kit</strong></td>
+                <td>Filters, DEF, Oil, OBD Tool</td>
                 <td>$200</td>
             </tr>
-            <tr style="font-weight: bold; background-color: #e8f8f5;">
-                <td>TOTAL ESTIMATED COST</td>
-                <td>$1,173</td>
-                <td>$1,378</td>
+            <tr>
+                <td><strong>Dining (Provisions)</strong></td>
+                <td>$100 / Day Average</td>
+                <td>$300 - $400</td>
+            </tr>
+            <tr>
+                <td><strong>Lodging (Mobile Base)</strong></td>
+                <td>Avg $110/night + $75 Pet Fee</td>
+                <td>$300 - $400</td>
+            </tr>
+            <tr class="total">
+                <td colspan="2">Strategic Mission Estimate (Sun-Wed)</td>
+                <td>$1,425.00</td>
             </tr>
         </tbody>
     </table>
+</div>
 
-    <div class="critical">
-        <h3>CRITICAL SAFETY & OPERATIONAL NOTES</h3>
-        <ul>
-            <li><strong>3:00 AM Departure:</strong> Required for the Ironman scenario to hit the 8:00 AM warehouse window.</li>
-            <li><strong>The "Coco" Rule:</strong> Pets are banned from the Science Center and Battleship. One adult must stay in the Pacifica with the A/C running if the hotel room is not yet ready.</li>
-            <li><strong>Alligator Awareness:</strong> Lake Shelby is a natural habitat. Do not let kids or Coco wander outside the fenced "Dog Pond" area.</li>
-            <li><strong>Caravan Communication:</strong> Use Walkie-Talkies. The Pacifica stays 1/4 mile ahead of the bus to scout traffic and signal lane changes.</li>
-        </ul>
+<div class="tab">
+    <h2>IV. The Asset: 2012 Ford F-550 Technicals</h2>
+    <div class="geo-grid">
+        <div class="card">
+            <h3>Engine & Drive</h3>
+            • <strong>Power:</strong> 6.7L PowerStroke V8 Turbo Diesel<br>
+            • <strong>Braking:</strong> 4-Wheel Power Disc (Heavy Duty ABS)<br>
+            • <strong>Charging:</strong> Dual High-Output Alternators
+        </div>
+        <div class="card">
+            <h3>Recovery Checklist</h3>
+            • Inspect Fuel Bowl for "Glitter" (HPFP Check)<br>
+            • Verify DEF Tank Level (Crucial for Speed Governor)<br>
+            • Check Tire DOT Codes (Blowout Prevention)
+        </div>
     </div>
+</div>
+
+<div class="warning-box">
+    <strong>OPERATIONAL ALERT:</strong> If staying in Orange Beach, the 08:00 AM pickup requires leaving the hotel by 06:30 AM. This will be difficult with 3 kids and Coco. Tillman's Corner (Mobile) is the tactical choice for Monday.
 </div>
 
 <div class="footer">
-    <p>Operational Document for Anoop Raghavan Kangalath | Warehouse: 251-460-6150</p>
+    Operational Plan for Raghavan Kangalath Family | Warehouse: 251-460-6150
 </div>
 
 </body>
