@@ -3,62 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Mobile: Master Mission Briefing</title>
+    <title>Master Operational Briefing: Project Mobile</title>
     <style>
         :root {
             --navy: #1b2631;
-            --forest: #1e8449;
+            --green: #1e8449;
             --gold: #f1c40f;
             --danger: #c0392b;
             --light: #f8f9f9;
         }
-        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 1200px; margin: 0 auto; padding: 20px; background-color: var(--light); }
+        body { font-family: 'Segoe UI', Arial, sans-serif; line-height: 1.5; color: #333; max-width: 1100px; margin: 0 auto; padding: 20px; background-color: var(--light); }
         header { background: var(--navy); color: white; padding: 30px; text-align: center; border-bottom: 8px solid var(--gold); border-radius: 8px 8px 0 0; }
-        .tab { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; border-radius: 0 0 8px 8px; }
+        .section { background: white; padding: 25px; border: 1px solid #ddd; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 25px; }
         h2 { color: var(--navy); border-bottom: 3px solid var(--gold); padding-bottom: 10px; text-transform: uppercase; }
-        h3 { color: var(--forest); margin-top: 20px; }
+        h3 { color: var(--green); margin-top: 20px; }
         
-        .geo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
-        .card { background: #fdfefe; padding: 15px; border-left: 5px solid var(--gold); border-radius: 4px; border: 1px solid #eee; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; }
-        th { background-color: #f2f4f4; text-align: left; padding: 12px; border: 1px solid #dee2e6; color: var(--navy); }
-        td { padding: 12px; border: 1px solid #dee2e6; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; font-size: 0.9rem; }
+        th { background-color: #f2f4f4; text-align: left; padding: 10px; border: 1px solid #dee2e6; color: var(--navy); }
+        td { padding: 10px; border: 1px solid #dee2e6; vertical-align: top; }
         .total { background-color: #e8f8f5; font-weight: bold; }
+        .highlight { color: var(--danger); font-weight: bold; }
         
-        .warning-box { background: #fdedec; border: 2px solid var(--danger); padding: 15px; border-radius: 8px; color: #7b241c; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background: #fdfefe; padding: 15px; border-left: 5px solid var(--gold); border: 1px solid #eee; }
+        .glossary { background: #ebf5fb; padding: 15px; border-radius: 5px; margin-top: 10px; font-size: 0.85rem; }
         .footer { text-align: center; font-size: 0.8rem; color: #7f8c8d; margin-top: 30px; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PROJECT MOBILE: MASTER MISSION BRIEFING</h1>
-    <p>Asset Recovery & Family Expedition | April 2026</p>
+    <h1>PROJECT MOBILE: MASTER OPERATIONAL BRIEFING</h1>
+    <p>Asset Recovery (F-550) & Family Logistics | April 2026</p>
 </header>
 
-<div class="tab">
-    <h2>I. Logistics: Pickup & Geography</h2>
-    <div class="geo-grid">
+<div class="section">
+    <h2>I. Logistics: Primary Travel & Pickup</h2>
+    
+    <div class="glossary">
+        <strong>Logistical Key:</strong><br>
+        • <strong>RT (Round Trip):</strong> The total distance/cost for going to a destination and returning home (Eunice &harr; Mobile).<br>
+        • <strong>OW (One Way):</strong> The distance/cost for a single leg of the journey (Mobile &rarr; Eunice).
+    </div>
+
+    <div class="grid">
         <div class="card">
-            <h3>Pickup Location & Times</h3>
-            <p><strong>Address:</strong> 6580 John Counts Dr, Mobile, AL 36608</p>
-            <p><strong>Pickup Window:</strong><br>
-               • Morning: 08:00 AM – 11:30 AM<br>
-               • Afternoon: 01:00 PM – 03:30 PM<br>
-               <em>*Must arrive by 08:00 AM for the "Ironman" scenario.</em></p>
+            <h3>Travel from Eunice, LA</h3>
+            <p><strong>To Mobile (Tillman's Corner):</strong> 3 Hours 15 Mins (218 miles)</p>
+            <p><strong>To Orange Beach, AL:</strong> 4 Hours 10 Mins (255 miles)</p>
+            <p><em>*Note: Traveling with 3 kids and a dog usually adds 30-45 mins for stops.</em></p>
         </div>
         <div class="card">
-            <h3>Drive Time Analysis</h3>
-            <p><strong>Pickup to Mobile (Tillman's Corner):</strong> 12–15 Minutes<br>
-               <strong>Pickup to Orange Beach:</strong> 1 Hour 15 Minutes<br>
-               <strong>Orange Beach to Mobile Attractions:</strong> 55–65 Minutes</p>
-            <p><em>Recommendation: Stay in Mobile to avoid the 2.5hr round-trip commute on pickup day.</em></p>
+            <h3>Local Drive Times</h3>
+            <p><strong>From Tillman's Corner to Pickup:</strong> 15 Mins</p>
+            <p><strong>From Orange Beach to Pickup:</strong> 1 Hour 15 Mins</p>
+            <p><strong>Warehouse Hours:</strong> 08:00–11:30 AM & 01:00–03:30 PM</p>
         </div>
     </div>
 </div>
 
-<div class="tab">
+<div class="section">
     <h2>II. Fuel & Mileage Analysis</h2>
     <table>
         <thead>
@@ -66,107 +70,147 @@
                 <th>Vehicle</th>
                 <th>Route Segment</th>
                 <th>Distance</th>
-                <th>MPG</th>
-                <th>Est. Fuel Cost</th>
+                <th>Type</th>
+                <th>Est. Fuel</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>Chrysler Pacifica</strong></td>
-                <td>Eunice, LA &harr; Mobile, AL</td>
-                <td>440 Miles (RT)</td>
-                <td>22 MPG</td>
-                <td>~$85</td>
+                <td>Eunice &harr; Mobile</td>
+                <td>440 Miles</td>
+                <td><strong>RT</strong></td>
+                <td>$85</td>
             </tr>
             <tr>
                 <td><strong>F-550 Shuttle Bus</strong></td>
-                <td>Mobile, AL &rarr; Eunice, LA</td>
-                <td>220 Miles (OW)</td>
-                <td>10 MPG</td>
-                <td>~$125</td>
+                <td>Mobile &rarr; Eunice</td>
+                <td>220 Miles</td>
+                <td><strong>OW</strong></td>
+                <td>$125</td>
             </tr>
             <tr class="total">
                 <td colspan="4">Total Estimated Mission Fuel Cost</td>
-                <td>$210.00</td>
+                <td>$210</td>
             </tr>
         </tbody>
     </table>
-    <p><small>*Based on $4.02/gal Unleaded and $5.49/gal Diesel (April 2026 Avg).</small></p>
 </div>
 
-<div class="tab">
-    <h2>III. Granular Expense Breakdown (2 Adults / 3 Kids)</h2>
+<div class="section">
+    <h2>III. Lodging Comparison: Mobile vs. Orange Beach</h2>
     <table>
         <thead>
             <tr>
-                <th>Activity / Item</th>
-                <th>Unit Cost Details</th>
-                <th>Est. Total</th>
+                <th>Location</th>
+                <th>Check-In / Out</th>
+                <th>Nights</th>
+                <th>Est. Rate/Night</th>
+                <th>Pet Fee</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Mobile (Tillman's Corner)</strong></td>
+                <td>Mon – Wed</td>
+                <td>2</td>
+                <td>$110</td>
+                <td>$75</td>
+                <td class="total">$295</td>
+            </tr>
+            <tr>
+                <td><strong>Mobile (Tillman's Corner)</strong></td>
+                <td>Sun – Wed</td>
+                <td>3</td>
+                <td>$110</td>
+                <td>$75</td>
+                <td class="total">$405</td>
+            </tr>
+            <tr>
+                <td><strong>Orange Beach</strong></td>
+                <td>Mon – Wed</td>
+                <td>2</td>
+                <td>$240</td>
+                <td>$100</td>
+                <td class="total">$580</td>
+            </tr>
+            <tr>
+                <td><strong>Orange Beach</strong></td>
+                <td>Mon – Thu</td>
+                <td>3</td>
+                <td>$240</td>
+                <td>$100</td>
+                <td class="total">$820</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="section">
+    <h2>IV. Granular Activity Costs (2 Adults / 3 Kids)</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Adult Cost</th>
+                <th>Kid Cost (4, 6, 9)</th>
+                <th>Total Est.</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td><strong>USS Alabama Park</strong></td>
-                <td>$18 (Adult) / $6 (Kids 6-11) / Free (Under 6)</td>
-                <td>~$50</td>
+                <td>$18 x 2</td>
+                <td>$6 x 2 (4yo Free)</td>
+                <td>$48</td>
             </tr>
             <tr>
                 <td><strong>Exploreum Science Center</strong></td>
-                <td>$22 (Adult) / $18 (Kids 3-12)</td>
-                <td>~$100</td>
+                <td>$22 x 2</td>
+                <td>$18 x 3</td>
+                <td>$98</td>
             </tr>
             <tr>
-                <td><strong>The Wharf Ferris Wheel</strong></td>
-                <td>$15 (Adult) / $12 (Kids)</td>
-                <td>~$65</td>
+                <td><strong>Wharf Ferris Wheel</strong></td>
+                <td>$15 x 2</td>
+                <td>$12 x 3</td>
+                <td>$66</td>
             </tr>
             <tr>
-                <td><strong>Bus Mechanical Kit</strong></td>
-                <td>Filters, DEF, Oil, OBD Tool</td>
+                <td><strong>Bus Recovery Kit</strong></td>
+                <td colspan="2">Filters, DEF, OBD Tool, Oil</td>
                 <td>$200</td>
             </tr>
             <tr>
-                <td><strong>Dining (Provisions)</strong></td>
-                <td>$100 / Day Average</td>
-                <td>$300 - $400</td>
-            </tr>
-            <tr>
-                <td><strong>Lodging (Mobile Base)</strong></td>
-                <td>Avg $110/night + $75 Pet Fee</td>
-                <td>$300 - $400</td>
-            </tr>
-            <tr class="total">
-                <td colspan="2">Strategic Mission Estimate (Sun-Wed)</td>
-                <td>$1,425.00</td>
+                <td><strong>Dining Allowance</strong></td>
+                <td colspan="2">$100 / Day (3 Days)</td>
+                <td>$300</td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<div class="tab">
-    <h2>IV. The Asset: 2012 Ford F-550 Technicals</h2>
-    <div class="geo-grid">
+<div class="section">
+    <h2>V. The Asset: 2012 Ford F-550 Technicals</h2>
+    <div class="grid">
         <div class="card">
-            <h3>Engine & Drive</h3>
-            • <strong>Power:</strong> 6.7L PowerStroke V8 Turbo Diesel<br>
-            • <strong>Braking:</strong> 4-Wheel Power Disc (Heavy Duty ABS)<br>
-            • <strong>Charging:</strong> Dual High-Output Alternators
+            <h3>Hardware Specs</h3>
+            • <strong>Engine:</strong> 6.7L PowerStroke V8 Diesel<br>
+            • <strong>GVWR:</strong> 19,500 Lbs (Commercial Class 5)<br>
+            • <strong>Alternators:</strong> Dual High-Output Systems
         </div>
         <div class="card">
-            <h3>Recovery Checklist</h3>
-            • Inspect Fuel Bowl for "Glitter" (HPFP Check)<br>
-            • Verify DEF Tank Level (Crucial for Speed Governor)<br>
-            • Check Tire DOT Codes (Blowout Prevention)
+            <h3>Pre-Flight Checklist</h3>
+            • Inspect primary fuel filter for "glitter" (Pump health)<br>
+            • Check Tire DOT codes (2020 or newer required)<br>
+            • Verify DEF level (Crucial for highway speed)
         </div>
     </div>
 </div>
 
-<div class="warning-box">
-    <strong>OPERATIONAL ALERT:</strong> If staying in Orange Beach, the 08:00 AM pickup requires leaving the hotel by 06:30 AM. This will be difficult with 3 kids and Coco. Tillman's Corner (Mobile) is the tactical choice for Monday.
-</div>
-
 <div class="footer">
-    Operational Plan for Raghavan Kangalath Family | Warehouse: 251-460-6150
+    <p>Operational Briefing for Anoop Raghavan Kangalath | Warehouse: 251-460-6150</p>
 </div>
 
 </body>
