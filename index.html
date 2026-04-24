@@ -273,7 +273,7 @@
   td.red { color: var(--coral); }
   td.blue { color: var(--sky); }
   td.price { color: var(--ocean); font-family: 'Fredoka One', cursive; font-size: 15px; }
-  td.dim { color: var(--text-light); font-size: 12px; }
+  td.dim { color: var(--dark); font-size: 12px; }
 
   /* === GALLERY === */
   .gallery-grid {
@@ -595,57 +595,88 @@
       </div>
     </div>
 
-    <div class="itinerary">
-      <div class="itin-day" data-emoji="🚗">
-        <div class="itin-label">
-          <span class="iday">Departure Day</span>
-          <span class="idate">Sun Apr 26</span>
-        </div>
-        <div class="itin-content">
-          <strong>1:00 PM</strong> Leave Eunice, LA — Adventure begins! 🎉<br>
-          <strong>4:30 PM</strong> Arrive Mobile — Check into hotel &amp; grab supplies!
-        </div>
-      </div>
-      <div class="itin-day" data-emoji="⚓">
-        <div class="itin-label">
-          <span class="iday">Battleship Day</span>
-          <span class="idate">Mon Apr 27</span>
-        </div>
-        <div class="itin-content">
-          <strong>8:00 AM</strong> Vehicle pickup from warehouse + quick checkup 🔧<br>
-          <strong>Afternoon:</strong> USS Alabama Battleship Park — so cool for the kids! ⚓🛳️
-        </div>
-      </div>
-      <div class="itin-day" data-emoji="🐕">
-        <div class="itin-label">
-          <span class="iday">Beach &amp; Science</span>
-          <span class="idate">Tue Apr 28</span>
-        </div>
-        <div class="itin-content">
-          <strong>Morning:</strong> Gulf State Park / Lake Shelby — dog swim time! 🐾🌊<br>
-          <strong>Afternoon:</strong> Exploreum Science Center — hands-on fun! 🔬🚀<br>
-          <strong>Evening:</strong> The Wharf &amp; Ferris Wheel — lights &amp; rides! 🎡✨
-        </div>
-      </div>
-      <div class="itin-day risk" data-emoji="🌧️">
-        <div class="itin-label">
-          <span class="iday">Flex Day</span>
-          <span class="idate">Wed Apr 29</span>
-        </div>
-        <div class="itin-content">
-          <span class="risk-badge">⚠️ 45% Rain — Have a backup plan!</span><br>
-          <strong>Rainy option:</strong> Museum of Mobile &amp; indoor fun 🏛️<br>
-          <strong>Sunny option:</strong> Bellingrath Gardens or beach time 🌸
-        </div>
-      </div>
-      <div class="itin-day" data-emoji="🏠">
-        <div class="itin-label">
-          <span class="iday">Homeward Bound</span>
-          <span class="idate">Thu Apr 30</span>
-        </div>
-        <div class="itin-content">
-          Final vehicle fluid check ✅<br>
-          <strong>10:00 AM</strong> Hit the road back to Eunice — memories made! 🎊
+    <!-- HOUR BY HOUR SCHEDULE TABLE -->
+    <div style="overflow-x:auto;margin-top:8px;">
+    <table class="fun-table" style="min-width:700px;">
+      <thead>
+        <tr>
+          <th>⏰ Time</th>
+          <th>☀️ Sun 4/26<br><span style="font-size:11px;opacity:0.85;">Departure</span></th>
+          <th>🔧 Mon 4/27<br><span style="font-size:11px;opacity:0.85;">Extraction Day</span></th>
+          <th>🏖️ Tue 4/28<br><span style="font-size:11px;opacity:0.85;">Beach Day</span></th>
+          <th>🌧️ Wed 4/29<br><span style="font-size:11px;opacity:0.85;">Science/Zoo</span></th>
+          <th>🏠 Thu 4/30<br><span style="font-size:11px;opacity:0.85;">Homeward</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">AM</td>
+          <td style="color:var(--dark);font-weight:600;">Drive to AL 🚗</td>
+          <td style="color:var(--dark);font-weight:600;"><strong style="color:var(--ocean);">8:30</strong> Drive to Mobile</td>
+          <td style="color:var(--dark);font-weight:600;"><strong style="color:var(--ocean);">9:30</strong> Drive to Gulf Shores</td>
+          <td style="color:var(--dark);font-weight:600;"><strong style="color:var(--ocean);">9:30</strong> Alabama Gulf Coast Zoo 🦁</td>
+          <td style="color:var(--dark);font-weight:600;"><strong style="color:var(--ocean);">9:00</strong> Check out 🏨</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">10:00</td>
+          <td style="color:var(--text-light);">—</td>
+          <td style="color:var(--dark);font-weight:600;">Extraction &amp; Audit 🔧</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf State Park Beach 🌊</td>
+          <td style="color:var(--dark);font-weight:600;">Animal Encounters 🐾</td>
+          <td style="color:var(--dark);font-weight:600;">Bellingrath Gardens 🌸</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">12:00</td>
+          <td style="color:var(--text-light);">—</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Lunch: Mama's On Dauphin</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Lunch: Sunliner Diner</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Lunch: Gulf Shores</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Lunch: Theodore, AL</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">1:30</td>
+          <td style="color:var(--text-light);">—</td>
+          <td style="color:var(--dark);font-weight:600;">Drive F-550 to Hotel 🚛</td>
+          <td style="color:var(--dark);font-weight:600;">Beach / Lake Shelby 🐕</td>
+          <td style="color:var(--dark);font-weight:600;">Exploreum Science Center 🔬</td>
+          <td style="color:var(--dark);font-weight:600;">Drive to Eunice, LA 🚗</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">3:00</td>
+          <td style="color:var(--dark);font-weight:600;">Check-in Hotel 🏨</td>
+          <td style="color:var(--dark);font-weight:600;">Park &amp; Ground Bus</td>
+          <td style="color:var(--dark);font-weight:600;font-style:italic;">(Dog play at Lake Shelby 🐾)</td>
+          <td style="color:var(--dark);font-weight:600;">Interactive Science Exhibits</td>
+          <td style="color:var(--text-light);font-style:italic;">(In Transit)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">5:30</td>
+          <td style="color:var(--dark);font-weight:600;">Fairhope Pier 🎣</td>
+          <td style="color:var(--dark);font-weight:600;">⚓ USS Alabama Park <em>(Pacifica)</em></td>
+          <td style="color:var(--dark);font-weight:600;">🎡 The Wharf / Ferris Wheel</td>
+          <td style="color:var(--dark);font-weight:600;">Free Time in Fairhope</td>
+          <td style="color:var(--text-light);font-style:italic;">(In Transit)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--ocean);">7:00</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Dinner: Fairhope</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Dinner: Warehouse Bakery</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Dinner: GT's on the Bay</td>
+          <td style="color:var(--dark);font-weight:600;">🍽️ Dinner: Local Pizza</td>
+          <td style="color:var(--dark);font-weight:600;">🏠 Home Arrival!</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <!-- RISK DAY NOTE -->
+    <div style="background:#fff7ed;border:3px solid var(--coral);border-radius:14px;padding:14px 18px;margin-top:14px;display:flex;gap:10px;align-items:flex-start;">
+      <span style="font-size:22px;">⚠️</span>
+      <div>
+        <div style="font-family:'Fredoka One',cursive;font-size:15px;color:var(--coral);margin-bottom:3px;">Wednesday 4/29 — 45% Rain Risk!</div>
+        <div style="font-size:13px;font-weight:600;color:var(--dark);">
+          <strong>Rainy backup:</strong> OWA Tropic Falls Indoor Waterpark (Foley) or Museum of Mobile 🏛️<br>
+          <strong>Sunny plan:</strong> Alabama Gulf Coast Zoo → Exploreum → Free Time in Fairhope 🌸
         </div>
       </div>
     </div>
@@ -658,42 +689,150 @@
       <span class="section-title">Optimized Drive-Time Route</span>
       <div class="section-line"></div>
     </div>
-    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Re-sequenced for the most logical flow through the Mobile / Orange Beach area — minimizes backtracking!</p>
-    <table class="fun-table">
-      <thead>
-        <tr><th>🚩 From</th><th>📍 To</th><th>Distance</th><th>Drive Time</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>🏠 Eunice, LA</td><td>🏭 Mobile Warehouse</td><td class="val blue">218 mi</td><td class="val">3h 15m</td></tr>
-        <tr><td>🏭 Mobile Warehouse</td><td>🔬 Exploreum Science Center</td><td class="val blue">11 mi</td><td class="val green">15 min!</td></tr>
-        <tr><td>🔬 Exploreum</td><td>⚓ USS Alabama Park</td><td class="val blue">3 mi</td><td class="val green">8 min!</td></tr>
-        <tr><td>⚓ USS Alabama Park</td><td>🏖️ Orange Beach, AL</td><td class="val blue">52 mi</td><td class="val">1h 05m</td></tr>
-        <tr><td>🏖️ Orange Beach</td><td>🌸 Bellingrath Gardens</td><td class="val blue">77 mi</td><td class="val">1h 26m</td></tr>
-        <tr><td>🌸 Bellingrath Gardens</td><td>🏠 Eunice, LA</td><td class="val blue">225 mi</td><td class="val">3h 25m</td></tr>
-      </tbody>
-    </table>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:20px;">Day-by-day transit plan optimized for the F-550 through the Mobile/Fairhope corridor.</p>
 
-    <div class="insight-grid">
-      <div class="insight-card">
-        <div class="ic-title">📍 The "Mobile Cluster"</div>
-        <div class="ic-body">The Warehouse, Exploreum, and USS Alabama are all within a <strong>12-mile radius</strong>. Group these together Mon/Tue while you're near the Tillman's Corner hotels — super efficient!</div>
+    <!-- MONDAY -->
+    <div style="margin-bottom:28px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="font-size:22px;">🔧</span>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--ocean);">Monday, April 27: Extraction &amp; Initial Transit</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-light);font-style:italic;">Operating the F-550 through the Mobile/Fairhope corridor.</div>
+        </div>
       </div>
-      <div class="insight-card">
-        <div class="ic-title">🏖️ The Orange Beach Pivot</div>
-        <div class="ic-body">Orange Beach is your furthest point east. Treat it as the anchor for Tue/Wed fun, then swing back west to Bellingrath on the way home — <strong>no backtracking!</strong></div>
-      </div>
-      <div class="insight-card">
-        <div class="ic-title">🌸 The Smart Return Leg</div>
-        <div class="ic-body">Bellingrath Gardens is in Theodore, AL — <strong>25 miles west</strong> of downtown Mobile. Visiting Thursday puts you already on the western side of Mobile Bay, shaving ~30 min off the drive home!</div>
-      </div>
+      <table class="fun-table">
+        <thead>
+          <tr><th>⏰ Time</th><th>🚗 Route Leg</th><th>⏱ Est. Drive</th><th>📋 Logistics Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">8:30 AM</td>
+            <td style="color:var(--dark);font-weight:700;">Fairhope → Mobile Warehouse</td>
+            <td class="val green">35 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Use I-10 via the Bayview Bridge for the widest lanes.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">1:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Mobile → Holiday Inn Express Fairhope</td>
+            <td class="val yellow">45 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">EXTRACTION:</strong> Added buffer for initial vehicle testing.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">5:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Hotel → USS Alabama Battleship Park</td>
+            <td class="val green">25 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Pacifica recommended for quicker bridge transit.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="pro-tip">
-      <span class="pt-icon">🚛</span>
-      <div>
-        <div class="pt-label">Heads Up — Loaded Truck!</div>
-        <div class="pt-body">The 2012 Ford F-550 is a heavy vehicle. Add <strong>15–20% extra drive time</strong> on the return leg when it's under load or going through urban areas.</div>
+    <!-- TUESDAY -->
+    <div style="margin-bottom:28px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="font-size:22px;">🏖️</span>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--ocean);">Tuesday, April 28: Beach &amp; Coastal Circuit</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-light);font-style:italic;">Using the Pacifica for coastal maneuvering while the bus is parked.</div>
+        </div>
       </div>
+      <table class="fun-table">
+        <thead>
+          <tr><th>⏰ Time</th><th>🚗 Route Leg</th><th>⏱ Est. Drive</th><th>📋 Logistics Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">9:30 AM</td>
+            <td style="color:var(--dark);font-weight:700;">Fairhope → Gulf State Park Pavillion</td>
+            <td class="val yellow">50 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Morning beach traffic on Hwy 59 can be dense.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">12:00 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Beach → Sunliner Diner – Gulf Shores</td>
+            <td class="val green">10 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Short coastal zip; easy parking for the Pacifica.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">1:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Diner → Lake Shelby</td>
+            <td class="val green">12 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Within the park boundaries; low speed limits.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">5:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Lake Shelby → The Wharf</td>
+            <td class="val green">15 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Straight shot via Canal Rd.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- WEDNESDAY -->
+    <div style="margin-bottom:28px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="font-size:22px;">🌧️</span>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--ocean);">Wednesday, April 29: Science &amp; Wildlife Loop</div>
+          <div style="font-size:12px;font-weight:700;color:var(--coral);font-style:italic;">⚠️ Optimized for a rainy-day indoor schedule.</div>
+        </div>
+      </div>
+      <table class="fun-table">
+        <thead>
+          <tr><th>⏰ Time</th><th>🚗 Route Leg</th><th>⏱ Est. Drive</th><th>📋 Logistics Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">9:30 AM</td>
+            <td style="color:var(--dark);font-weight:700;">Fairhope → Alabama Gulf Coast Zoo</td>
+            <td class="val yellow">45 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Direct run south on AL-181 to avoid traffic.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">1:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Zoo → Exploreum Science Center</td>
+            <td class="val yellow">55 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Crossing from the beach back into downtown Mobile.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">5:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Exploreum → Fairhope</td>
+            <td class="val green">30 mins</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;">Evening commute over the Bayway.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- THURSDAY -->
+    <div style="margin-bottom:8px;">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <span style="font-size:22px;">🏠</span>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:18px;color:var(--ocean);">Thursday, April 30: The Final Repatriation</div>
+          <div style="font-size:12px;font-weight:700;color:var(--text-light);font-style:italic;">Operating the F-550 for the long-haul return to Louisiana.</div>
+        </div>
+      </div>
+      <table class="fun-table">
+        <thead>
+          <tr><th>⏰ Time</th><th>🚗 Route Leg</th><th>⏱ Est. Drive</th><th>📋 Logistics Note</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">10:00 AM</td>
+            <td style="color:var(--dark);font-weight:700;">Fairhope → Bellingrath Gardens &amp; Home</td>
+            <td class="val yellow">1h 05m</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">BUS TRANSIT:</strong> Slower pace across the bay.</td>
+          </tr>
+          <tr>
+            <td style="font-weight:800;color:var(--ocean);white-space:nowrap;">1:30 PM</td>
+            <td style="color:var(--dark);font-weight:700;">Bellingrath Gardens → Eunice, LA</td>
+            <td class="val red">4h 10m</td>
+            <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">HEAVY HAUL:</strong> Includes I-10 grade and fuel buffers.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -704,47 +843,293 @@
       <span class="section-title">Where We're Staying</span>
       <div class="section-line"></div>
     </div>
-    <table class="fun-table">
-      <thead>
-        <tr><th>Hotel</th><th>Nights</th><th>Room Cost</th><th>Pet Fee</th><th>💰 Total</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>🏩 Red Roof Inn <span class="dim">(Tillman's Corner)</span></td><td>Sun–Wed (3 nights)</td><td>$225</td><td class="green">FREE 🐾</td><td class="price">$225</td></tr>
-        <tr><td>🏩 Red Roof Inn <span class="dim">(Tillman's Corner)</span></td><td>Sun–Thu (4 nights)</td><td>$300</td><td class="green">FREE 🐾</td><td class="price">$300</td></tr>
-        <tr><td>🏨 Holiday Inn Express <span class="dim">(University)</span></td><td>Sun–Wed (3 nights)</td><td>$393</td><td class="yellow">$50</td><td class="price">$443</td></tr>
-        <tr><td>🏨 Holiday Inn Express <span class="dim">(University)</span></td><td>Sun–Thu (4 nights)</td><td>$524</td><td class="yellow">$50</td><td class="price">$574</td></tr>
-        <tr><td>🛎️ Home2 Suites <span class="dim">(Tillman's Corner)</span></td><td>Sun–Wed (3 nights)</td><td>$501</td><td class="yellow">$75</td><td class="price">$576</td></tr>
-        <tr><td>🛎️ Home2 Suites <span class="dim">(Tillman's Corner)</span></td><td>Sun–Thu (4 nights)</td><td>$668</td><td class="yellow">$75</td><td class="price">$743</td></tr>
-        <tr><td>🌴 Hotel Indigo <span class="dim">(Beach)</span></td><td>Sun–Wed (3 nights)</td><td>$585</td><td class="red">$100</td><td class="price">$685</td></tr>
-        <tr><td>🌴 Hotel Indigo <span class="dim">(Beach)</span></td><td>Sun–Thu (4 nights)</td><td>$780</td><td class="red">$100</td><td class="price">$880</td></tr>
-      </tbody>
-    </table>
-    <div class="budget-highlight">
-      <span class="bh-icon">💡</span>
-      <span class="bh-text">Best Deal: Red Roof Inn is pet-friendly with NO pet fee — saves $50–$100 vs other options!</span>
+
+    <!-- CONFIRMED BOOKING CARD -->
+    <div style="background:linear-gradient(135deg,#e0f7ff,#f0fdf4);border:3px solid var(--grass);border-radius:20px;padding:24px 28px;box-shadow:0 4px 16px rgba(34,197,94,0.15);">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <span style="font-size:28px;">✅</span>
+        <div>
+          <div style="font-family:'Fredoka One',cursive;font-size:22px;color:var(--ocean);">Holiday Inn Express Fairhope–Point Clear</div>
+          <div style="font-size:13px;font-weight:700;color:var(--grass);">CONFIRMED RESERVATION 🎉</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;">
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">📍 Address</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">19751 Greeno Road<br>Fairhope, AL 36532</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">📅 Dates</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">Apr 26 – Apr 30, 2026<br><span style="color:var(--ocean);">4 Nights</span></div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">🕒 Check-In / Out</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">In: <span style="color:var(--ocean);">3:00 PM</span><br>Out: <span style="color:var(--coral);">11:00 AM</span></div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">👨‍👩‍👧‍👦 Reservation</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">1 Room · 2 Adults · 3 Kids<br><span style="color:var(--ocean);">Anoop Kangalath (Primary)</span></div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">🛏️ Room</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">2 Queen Beds<br>1 Bedroom Suite + Sofa Bed</div>
+        </div>
+        <div style="background:#fff;border-radius:12px;padding:14px 16px;border:2px solid var(--border);">
+          <div style="font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">📞 Front Desk</div>
+          <div style="font-size:13px;font-weight:700;color:var(--dark);">1-251-928-9191<br><span style="font-size:11px;color:var(--text-light);">frontdeskfahal@gmail.com</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- SECTION IV -->
   <section class="section">
     <div class="section-header">
-      <span class="section-icon">🎡</span>
-      <span class="section-title">Activities &amp; Trip Budget</span>
+      <span class="section-icon">🎪</span>
+      <span class="section-title">Top 10 Kid Activities &amp; Costs</span>
       <div class="section-line"></div>
     </div>
     <table class="fun-table">
       <thead>
-        <tr><th>Activity / Expense</th><th>Details</th><th>💰 Est. Cost</th></tr>
+        <tr><th>#</th><th>🎯 Activity</th><th>📍 Location</th><th>🏷️ Category</th><th>👧 Why Kids Love It</th><th>💰 Total Price</th></tr>
       </thead>
       <tbody>
-        <tr><td>⚓ USS Alabama Battleship Park</td><td class="dim">$18×2 Adults / $6×2 Kids / 4-year-old FREE!</td><td class="price">$48</td></tr>
-        <tr><td>🔬 Exploreum Science Center</td><td class="dim">$22×2 Adults / $18×3 Kids</td><td class="price">$98</td></tr>
-        <tr><td>🎡 Wharf Ferris Wheel</td><td class="dim">$15×2 Adults / $12×3 Kids</td><td class="price">$66</td></tr>
-        <tr><td>🏎️ Wharf Go-Karts &amp; Mini-Golf</td><td class="dim">Family fun estimate</td><td class="price">$75</td></tr>
-        <tr><td>🌸 Bellingrath Gardens</td><td class="dim">$18×2 Adults / $10×2 Kids</td><td class="price">$56</td></tr>
-        <tr><td>⛽ Gas for the Trip</td><td class="dim">Round-trip Pacifica + one-way F-550 Diesel</td><td class="price">$210</td></tr>
-        <tr><td>🔧 Vehicle Supplies</td><td class="dim">DEF fluid, oil, primary &amp; secondary filters</td><td class="price">$200</td></tr>
-        <tr><td>🍔 Food &amp; Dining</td><td class="dim">Family of 5 — ~$100/day budget</td><td class="price">$300–$400</td></tr>
+        <tr>
+          <td class="val blue">1</td>
+          <td style="font-weight:800;color:var(--dark);">Exploreum Science Center</td>
+          <td style="color:var(--dark);font-weight:600;">Mobile</td>
+          <td><span style="background:#f0fdf4;color:#166534;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🔬 Science</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">My BodyWorks hands-on medical exhibits &amp; Hands On Hall</td>
+          <td class="price">$98</td>
+        </tr>
+        <tr>
+          <td class="val blue">2</td>
+          <td style="font-weight:800;color:var(--dark);">USS Alabama Park</td>
+          <td style="color:var(--dark);font-weight:600;">Mobile</td>
+          <td><span style="background:#fef9c3;color:#92400e;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">⚓ History</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Explore a real WWII Battleship and Submarine!</td>
+          <td class="price">$48</td>
+        </tr>
+        <tr>
+          <td class="val blue">3</td>
+          <td style="font-weight:800;color:var(--dark);">Fairhope Pier</td>
+          <td style="color:var(--dark);font-weight:600;">Fairhope</td>
+          <td><span style="background:#ecfdf5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🌿 Nature</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Duck pond, playground, and space for Coco the dog 🐾</td>
+          <td class="val green">FREE</td>
+        </tr>
+        <tr>
+          <td class="val blue">4</td>
+          <td style="font-weight:800;color:var(--dark);">Alligator Alley</td>
+          <td style="color:var(--dark);font-weight:600;">Summerdale</td>
+          <td><span style="background:#fdf4ff;color:#7e22ce;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🐊 Wildlife</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Feed alligators and see babies from a boardwalk!</td>
+          <td class="price">$75</td>
+        </tr>
+        <tr>
+          <td class="val blue">5</td>
+          <td style="font-weight:800;color:var(--dark);">The Track</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td><span style="background:#fff7ed;color:#c2410c;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🏎️ Amusement</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Go-Karts, bumper boats, and kid rides</td>
+          <td class="price">$100+ <span style="font-size:10px;">(Credits)</span></td>
+        </tr>
+        <tr>
+          <td class="val blue">6</td>
+          <td style="font-weight:800;color:var(--dark);">GSP Nature Center</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td><span style="background:#ecfdf5;color:#065f46;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">📚 Education</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Living museum with snakes, turtles, and owls</td>
+          <td class="val green">FREE</td>
+        </tr>
+        <tr>
+          <td class="val blue">7</td>
+          <td style="font-weight:800;color:var(--dark);">OWA Tropic Falls</td>
+          <td style="color:var(--dark);font-weight:600;">Foley</td>
+          <td><span style="background:#e0f2fe;color:var(--ocean);padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🌊 Water Park</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">⛈️ Perfect rainy day!</strong> Huge Indoor Waterpark</td>
+          <td class="price">$180–$240</td>
+        </tr>
+        <tr>
+          <td class="val blue">8</td>
+          <td style="font-weight:800;color:var(--dark);">AL Gulf Coast Zoo</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td><span style="background:#fdf4ff;color:#7e22ce;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🦁 Wildlife</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Compact, stroller-friendly &amp; lemur encounters!</td>
+          <td class="price">$78</td>
+        </tr>
+        <tr>
+          <td class="val blue">9</td>
+          <td style="font-weight:800;color:var(--dark);">The Wharf Ferris Wheel</td>
+          <td style="color:var(--dark);font-weight:600;">Orange Beach</td>
+          <td><span style="background:#fef9c3;color:#92400e;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🎡 Attraction</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Spectacular views from one of the tallest wheels in the SE!</td>
+          <td class="price">$66</td>
+        </tr>
+        <tr>
+          <td class="val blue">10</td>
+          <td style="font-weight:800;color:var(--dark);">Fat Daddy's Arcade</td>
+          <td style="color:var(--dark);font-weight:600;">Orange Beach</td>
+          <td><span style="background:#fff0f6;color:#be185d;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:800;">🕹️ Games</span></td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Classic arcade fun after dinner!</td>
+          <td class="price">$50+ <span style="font-size:10px;">(Credits)</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Trip expenses summary -->
+    <div style="margin-top:14px;">
+    <table class="fun-table">
+      <thead>
+        <tr><th colspan="3">🚗 Additional Trip Expenses</th></tr>
+        <tr><th>Expense</th><th>Details</th><th>💰 Cost</th></tr>
+      </thead>
+      <tbody>
+        <tr><td style="color:var(--dark);font-weight:700;">⛽ Gas</td><td style="color:var(--dark);">Round-trip Pacifica + one-way F-550 Diesel</td><td class="price">$210</td></tr>
+        <tr><td style="color:var(--dark);font-weight:700;">🔧 Vehicle Supplies</td><td style="color:var(--dark);">DEF fluid, oil, primary &amp; secondary filters</td><td class="price">$200</td></tr>
+        <tr><td style="color:var(--dark);font-weight:700;">🍔 Food &amp; Dining</td><td style="color:var(--dark);">Family of 5 — ~$100/day</td><td class="price">$300–$400</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- SECTION X: TOP 10 RESTAURANTS -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🍽️</span>
+      <span class="section-title">Top 10 Kid-Friendly Restaurants</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Family of 5 — estimated prices include drinks &amp; tip. No seafood, no subs!</p>
+    <div style="overflow-x:auto;">
+    <table class="fun-table" style="min-width:650px;">
+      <thead>
+        <tr><th>#</th><th>🍴 Restaurant</th><th>📍 Location</th><th>🎨 Style</th><th>👧 Kid-Friendly Feature</th><th>💰 Family of 5</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="val blue">1</td>
+          <td style="font-weight:800;color:var(--ocean);">GTs on the Bay</td>
+          <td style="color:var(--dark);font-weight:600;">Orange Beach</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">American</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Giant Indoor Aquarium &amp; outdoor playground!</strong></td>
+          <td class="price">$140–$180</td>
+        </tr>
+        <tr>
+          <td class="val blue">2</td>
+          <td style="font-weight:800;color:var(--ocean);">Sunliner Diner</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">1950s Retro</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Sit in Vintage Car Booths; jukeboxes!</strong></td>
+          <td class="price">$110–$140</td>
+        </tr>
+        <tr>
+          <td class="val blue">3</td>
+          <td style="font-weight:800;color:var(--ocean);">LuLu's</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Casual</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Massive Sand Pit &amp; high-ropes course!</strong></td>
+          <td class="price">$130–$170</td>
+        </tr>
+        <tr>
+          <td class="val blue">4</td>
+          <td style="font-weight:800;color:var(--ocean);">Warehouse Bakery</td>
+          <td style="color:var(--dark);font-weight:600;">Fairhope</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Café / Donuts</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Large open indoor space; huge donut selection 🍩</td>
+          <td class="price">$70–$100</td>
+        </tr>
+        <tr>
+          <td class="val blue">5</td>
+          <td style="font-weight:800;color:var(--ocean);">Mama's On Dauphin</td>
+          <td style="color:var(--dark);font-weight:600;">Mobile</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Southern</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Classic "Meat &amp; Three" comfort food — kids love it</td>
+          <td class="price">$90–$120</td>
+        </tr>
+        <tr>
+          <td class="val blue">6</td>
+          <td style="font-weight:800;color:var(--ocean);">Dragonfly Food Bar</td>
+          <td style="color:var(--dark);font-weight:600;">Fairhope</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Tacos / Bowls</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">High-energy; creative kid-friendly tacos 🌮</td>
+          <td class="price">$100–$130</td>
+        </tr>
+        <tr>
+          <td class="val blue">7</td>
+          <td style="font-weight:800;color:var(--ocean);">Groovy Goat</td>
+          <td style="color:var(--dark);font-weight:600;">Foley (OWA)</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Sports Bar</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Huge Arcade attached to the dining room!</strong></td>
+          <td class="price">$120–$160</td>
+        </tr>
+        <tr>
+          <td class="val blue">8</td>
+          <td style="font-weight:800;color:var(--ocean);">Woodside Rest.</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf State Park</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Southern</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Outdoor games (cornhole) and live music 🎶</td>
+          <td class="price">$100–$140</td>
+        </tr>
+        <tr>
+          <td class="val blue">9</td>
+          <td style="font-weight:800;color:var(--ocean);">Lambert's Cafe</td>
+          <td style="color:var(--dark);font-weight:600;">Foley</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">Southern</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Famous for "Throwed Rolls" — kids absolutely love this!</strong></td>
+          <td class="price">$130–$160</td>
+        </tr>
+        <tr>
+          <td class="val blue">10</td>
+          <td style="font-weight:800;color:var(--ocean);">The Hangout</td>
+          <td style="color:var(--dark);font-weight:600;">Gulf Shores</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;">American</td>
+          <td style="color:var(--dark);font-size:12px;font-weight:600;"><strong style="color:var(--coral);">Hourly Foam Parties, sand pits, and live music!</strong></td>
+          <td class="price">$150–$200</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <!-- SECTION XI: COCO DOG-FRIENDLY GUIDE -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-icon">🐾</span>
+      <span class="section-title">Coco's Dog-Friendly Location Guide</span>
+      <div class="section-line"></div>
+    </div>
+    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Best spots for Coco on the whole trip! 🐕</p>
+    <table class="fun-table">
+      <thead>
+        <tr><th>📍 Location</th><th>🐶 Dog-Friendly Feature</th><th>🦴 Note for Coco</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:800;color:var(--dark);">🌳 Fairhope Dog Park</td>
+          <td style="color:var(--dark);font-weight:600;">2-acre off-leash park</td>
+          <td style="color:var(--dark);font-size:13px;font-weight:600;">Has a dedicated <strong style="color:var(--ocean);">Small Dog section</strong> — perfect for him!</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--dark);">🌊 Lake Shelby (Gulf State Park)</td>
+          <td style="color:var(--dark);font-weight:600;">Fresh-water dog pond</td>
+          <td style="color:var(--dark);font-size:13px;font-weight:600;">Safe spot for him to touch water near the beach 🐾</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--dark);">🌸 Bellingrath Gardens</td>
+          <td style="color:var(--dark);font-weight:600;">On-site Pet Motel</td>
+          <td style="color:var(--dark);font-size:13px;font-weight:600;">You can tour the gardens while he rests in the shade 😴</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--dark);">🏘️ Downtown Fairhope</td>
+          <td style="color:var(--dark);font-weight:600;">High "Walkability"</td>
+          <td style="color:var(--dark);font-size:13px;font-weight:600;">Most shops have water bowls outside their doors 💧</td>
+        </tr>
+        <tr>
+          <td style="font-weight:800;color:var(--dark);">🏰 Fort Morgan</td>
+          <td style="color:var(--dark);font-weight:600;">Historic Site</td>
+          <td style="color:var(--dark);font-size:13px;font-weight:600;">Dogs are allowed on the grounds — on leash 🦮</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -959,150 +1344,6 @@
         <div class="pt-body">Before leaving the warehouse, let the bus idle for at least <strong>15 minutes</strong> while watching the temperature gauge. If it stays stable at idle, it is far more likely to handle the 3-hour trek back to Louisiana safely!</div>
       </div>
     </div>
-  </section>
-
-  <!-- SECTION X: DINING MATRIX -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">🍽️</span>
-      <span class="section-title">Strategic Dining Matrix</span>
-      <div class="section-line"></div>
-    </div>
-    <p style="font-size:13px;font-weight:600;color:var(--text-light);margin-bottom:14px;">Kid-friendly restaurants near each stop — no seafood, no subs!</p>
-    <table class="fun-table">
-      <thead>
-        <tr><th>📍 Location</th><th>🍴 Restaurant</th><th>👧 Kid-Friendly Feature</th><th>🥩 Best Non-Seafood Picks</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="font-weight:800;">🏨 Mobile Base</td>
-          <td style="font-weight:800;color:var(--ocean);">Smokey Bones Bar &amp; Fire Grill</td>
-          <td class="dim" style="font-size:13px;">Fun, high-energy environment with sports &amp; games</td>
-          <td class="dim" style="font-size:13px;">Smoked BBQ Ribs, Pulled Pork, Beef Brisket, Grilled Chicken</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🔬 Downtown (Science Center)</td>
-          <td style="font-weight:800;color:var(--ocean);">The Breakfast Spot</td>
-          <td class="dim" style="font-size:13px;">Vibrant, friendly atmosphere with upbeat music</td>
-          <td class="dim" style="font-size:13px;">World-class Pancakes, Eggs, Grits, and Conecuh Sausage</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🔬 Downtown (Science Center)</td>
-          <td style="font-weight:800;color:var(--ocean);">Mama's On Dauphin</td>
-          <td class="dim" style="font-size:13px;">Family-style Southern hospitality</td>
-          <td class="dim" style="font-size:13px;">Fried Chicken, Meatloaf, and Home Style Sides</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">⚓ Battleship Park</td>
-          <td style="font-weight:800;color:var(--ocean);">The Royal Scam</td>
-          <td class="dim" style="font-size:13px;">Charming outdoor courtyard — great family room</td>
-          <td class="dim" style="font-size:13px;">Filet Mignon, Signature Burgers, and Prime cuts</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🏖️ Orange Beach</td>
-          <td style="font-weight:800;color:var(--ocean);">GTs on the Bay</td>
-          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Massive Indoor Aquarium &amp; Pirate Ship Playground!</strong></td>
-          <td class="dim" style="font-size:13px;">Stone-Hearth Pizza and Chicken Carbonara</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🏖️ Orange Beach</td>
-          <td style="font-weight:800;color:var(--ocean);">Sunliner Diner</td>
-          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Convertible car booths &amp; retro 1950s jukeboxes!</strong></td>
-          <td class="dim" style="font-size:13px;">Classic Burgers, Milkshakes, and All-Day Waffles</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🏖️ Orange Beach</td>
-          <td style="font-weight:800;color:var(--ocean);">LuLu's</td>
-          <td class="dim" style="font-size:13px;"><strong style="color:var(--coral);">Beach sand pits, ropes courses, and arcades!</strong></td>
-          <td class="dim" style="font-size:13px;">Cheeseburgers, Quesadillas, and extensive Allergy Menu</td>
-        </tr>
-        <tr>
-          <td style="font-weight:800;">🌸 Bellingrath Gardens</td>
-          <td style="font-weight:800;color:var(--ocean);">Little Caesars (Nearby)</td>
-          <td class="dim" style="font-size:13px;">Reliable, fast, and familiar for children</td>
-          <td class="dim" style="font-size:13px;">Custom Pizzas and Crazy Bread</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <!-- SECTION XI: EXPANDED ACTIVITY MATRIX -->
-  <section class="section">
-    <div class="section-header">
-      <span class="section-icon">🎪</span>
-      <span class="section-title">Expanded Activity &amp; Mission Matrix</span>
-      <div class="section-line"></div>
-    </div>
-    <table class="fun-table">
-      <thead>
-        <tr><th>Category</th><th>🎯 Activity</th><th>📍 Location</th><th>💰 Price</th><th>👧 Kid-Friendly Details</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><span style="background:#e0f2fe;color:var(--ocean);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🔧 Mission</span></td>
-          <td style="font-weight:800;">Vehicle Extraction</td>
-          <td class="dim">Mobile Warehouse</td>
-          <td class="val green">FREE</td>
-          <td class="dim" style="font-size:12px;">Operational Priority — initial mechanical audit and fluid check</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">⚓ Attraction</span></td>
-          <td style="font-weight:800;">USS Alabama Park</td>
-          <td class="dim">Mobile (Causeway)</td>
-          <td class="price">$48 Total</td>
-          <td class="dim" style="font-size:12px;">$18/Adult, $6/Kids (6 &amp; 9), 4yo FREE — explore a real battleship and submarine!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#f0fdf4;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🔬 Education</span></td>
-          <td style="font-weight:800;">Exploreum Science Center</td>
-          <td class="dim">Downtown Mobile</td>
-          <td class="price">$98 Total</td>
-          <td class="dim" style="font-size:12px;">$22/Adult, $18/Kids — includes the <em>My BodyWorks</em> and <em>Hands On Hall</em> exhibits</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fdf4ff;color:#7e22ce;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🎢 New Activity</span></td>
-          <td style="font-weight:800;">The Park at OWA</td>
-          <td class="dim">Foley, AL</td>
-          <td class="price">$120+</td>
-          <td class="dim" style="font-size:12px;">$30–$40/person — amusement park with kiddie rides and a Splash Pad!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fdf4ff;color:#7e22ce;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🦁 New Activity</span></td>
-          <td style="font-weight:800;">Alabama Gulf Coast Zoo</td>
-          <td class="dim">Gulf Shores, AL</td>
-          <td class="price">$78 Total</td>
-          <td class="dim" style="font-size:12px;">$22/Adult, $17/Kids — "The Little Zoo That Could," known for up-close animal encounters!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fff7ed;color:#c2410c;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">😌 Relaxation</span></td>
-          <td style="font-weight:800;">The Wharf Ferris Wheel</td>
-          <td class="dim">Orange Beach</td>
-          <td class="price">$66 Total</td>
-          <td class="dim" style="font-size:12px;">$15/Adult, $12/Kids — one of the tallest wheels in the Southeast with stunning views!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fff7ed;color:#c2410c;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🏎️ Adventure</span></td>
-          <td style="font-weight:800;">Wharf Go-Karts</td>
-          <td class="dim">Orange Beach</td>
-          <td class="price">$75 Est.</td>
-          <td class="dim" style="font-size:12px;">Pricing varies — tracks for younger kids AND a multi-level wooden track for older ones!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#f0fdf4;color:#166534;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🌸 Nature</span></td>
-          <td style="font-weight:800;">Bellingrath Gardens</td>
-          <td class="dim">Theodore, AL</td>
-          <td class="price">$56 Total</td>
-          <td class="dim" style="font-size:12px;">$18/Adult, $10/Kids — large open pathways perfect for little explorers!</td>
-        </tr>
-        <tr>
-          <td><span style="background:#fef9c3;color:#92400e;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;">🍔 Dining/Fun</span></td>
-          <td style="font-weight:800;">Sunliner Diner</td>
-          <td class="dim">Orange Beach</td>
-          <td class="price">Meal Cost</td>
-          <td class="dim" style="font-size:12px;">Retro 1950s diner where you sit <em>inside a car</em> to eat — kids will love it!</td>
-        </tr>
-      </tbody>
-    </table>
   </section>
 
   <div class="footer">
