@@ -3,552 +3,532 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>US Financial, Climate & Homeschool Regulations Dashboard</title>
+<title>Relocation Finance Dashboard</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #080f1a;
-    --surface: #0e1a2d;
-    --surface2: #14243d;
-    --border: #1e3352;
-    --accent: #00d4ff;
-    --accent2: #ff6b35;
-    --low: #10b981;
-    --medium: #f59e0b;
-    --high: #ef4444;
-    --text: #e2eeff;
-    --muted: #5a7499;
-    --mono: 'DM Mono', monospace;
-    --sans: 'Syne', sans-serif;
-  }
+:root{--bg:#07090f;--s1:#0d1220;--s2:#111827;--s3:#1a2540;--border:#1f2e4a;--gold:#f5c518;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;--text:#dde8ff;--muted:#4a6090;--mono:'DM Mono',monospace;--sans:'Barlow',sans-serif;--display:'Bebas Neue',sans-serif;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:15px;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(31,46,74,0.22) 39px,rgba(31,46,74,0.22) 40px);pointer-events:none;z-index:0;}
+.app{position:relative;z-index:1;max-width:1400px;margin:0 auto;padding:20px 18px;}
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* TOP BAR */
+.top-bar{display:grid;grid-template-columns:1fr auto;align-items:start;gap:20px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--border);}
+.brand h1{font-family:var(--display);font-size:2.4rem;letter-spacing:1px;line-height:1;}
+.brand h1 span{color:var(--gold);}
+.brand p{font-family:var(--mono);font-size:0.68rem;color:var(--muted);margin-top:5px;letter-spacing:0.06em;}
+.snapshot{display:flex;gap:14px;flex-wrap:wrap;}
+.snap-card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:13px 17px;min-width:155px;}
+.snap-card.gold-top{border-top:2px solid var(--gold);}
+.snap-card.red-top{border-top:2px solid var(--red);}
+.snap-card.green-top{border-top:2px solid var(--green);}
+.snap-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.snap-val{font-family:var(--display);font-size:1.75rem;letter-spacing:0.5px;line-height:1;}
+.snap-sub{font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-top:3px;}
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
+/* MAIN GRID */
+.main-grid{display:grid;grid-template-columns:1fr 460px;gap:18px;align-items:start;}
+@media(max-width:1060px){.main-grid{grid-template-columns:1fr;}}
 
-  /* Grid noise texture overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.015) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* MAP */
+.map-wrap{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.map-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.map-lbl{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.map-legend{display:flex;gap:8px;align-items:center;font-family:var(--mono);font-size:0.6rem;color:var(--muted);}
+.ml-grad{width:80px;height:7px;border-radius:3px;background:linear-gradient(90deg,#7f1d1d,#1f2e4a,#14532d);}
+.ml-labs{display:flex;justify-content:space-between;width:80px;font-size:0.58rem;}
+#map-svg{width:100%;height:auto;display:block;}
+.sp{stroke:#07090f;stroke-width:0.6;cursor:pointer;transition:filter .1s;}
+.sp:hover{filter:brightness(1.45);stroke:var(--gold);stroke-width:1.2;}
+.sp.active{stroke:var(--gold);stroke-width:2;filter:brightness(1.55);}
 
-  .layout {
-    position: relative;
-    z-index: 1;
-    max-width: 1300px;
-    margin: 0 auto;
-    padding: 24px 20px;
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    gap: 20px;
-    min-height: 100vh;
-  }
+/* TOOLTIP */
+#tt{position:fixed;background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:0.7rem;pointer-events:none;opacity:0;transition:opacity .08s;z-index:999;white-space:nowrap;}
+#tt.show{opacity:1;}
+#tt .ttn{font-family:var(--sans);font-weight:700;font-size:0.88rem;margin-bottom:2px;}
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 16px;
-  }
+/* DETAIL PANEL */
+.detail{background:var(--s1);border:1px solid var(--border);border-radius:10px;overflow:hidden;max-height:calc(100vh - 160px);display:flex;flex-direction:column;}
+.detail-ph{padding:40px 24px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:0.75rem;line-height:1.8;flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.detail-ph .arr{font-size:2rem;opacity:.25;margin-bottom:12px;}
+.detail-body{display:none;flex-direction:column;overflow:hidden;flex:1;}
+.detail-body.show{display:flex;}
+.detail-scroll{overflow-y:auto;flex:1;}
+.detail-scroll::-webkit-scrollbar{width:4px;}
+.detail-scroll::-webkit-scrollbar-track{background:transparent;}
+.detail-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
-  .header-left h1 {
-    font-size: 1.6rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    line-height: 1.2;
-    color: var(--text);
-  }
-  .header-left h1 span { color: var(--accent); }
+/* State header */
+.dh{background:var(--s3);padding:14px 18px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.dh-name{font-family:var(--display);font-size:1.9rem;letter-spacing:1px;line-height:1;}
+.dh-sub{font-family:var(--mono);font-size:0.62rem;color:var(--muted);margin-top:4px;}
 
-  .header-left p {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 4px;
-    letter-spacing: 0.02em;
-  }
+/* Comparison pay grid */
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);}
+.cmp-col{padding:13px 15px;}
+.la-col{border-right:1px solid var(--border);background:rgba(0,0,0,.15);}
+.new-col{background:rgba(245,197,24,.03);}
+.cmp-col-title{font-family:var(--mono);font-size:0.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.cm{margin-bottom:9px;}
+.cm-lbl{font-family:var(--mono);font-size:0.6rem;color:var(--muted);margin-bottom:1px;}
+.cm-val{font-family:var(--display);font-size:1.45rem;letter-spacing:.5px;}
+.cm-val.pos{color:var(--green);}
+.cm-val.neg{color:var(--red);}
+.cm-val.neu{color:var(--text);}
+.delta{display:inline-block;font-family:var(--mono);font-size:0.62rem;padding:1px 6px;border-radius:3px;margin-top:2px;}
+.dp{background:rgba(34,197,94,.14);color:var(--green);}
+.dn{background:rgba(239,68,68,.14);color:var(--red);}
 
-  .legend {
-    display: flex;
-    gap: 16px;
-    font-family: var(--mono);
-    font-size: 0.7rem;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--muted);
-  }
-  .legend-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-  .dot-low { background: var(--low); }
-  .dot-med { background: var(--medium); }
-  .dot-high { background: var(--high); }
-  .dot-none { background: var(--surface2); border: 1px solid var(--border); }
+/* Surplus bars */
+.sur-sec{padding:12px 15px;border-bottom:1px solid var(--border);}
+.sec-title{font-family:var(--mono);font-size:0.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px;}
+.sur-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sur-lbl{font-family:var(--mono);font-size:0.6rem;width:30px;flex-shrink:0;}
+.sur-bw{flex:1;height:18px;background:var(--s3);border-radius:3px;overflow:hidden;}
+.sur-b{height:100%;border-radius:3px;transition:width .4s ease;}
+.la-b{background:linear-gradient(90deg,#3b82f6,#1d4ed8);}
+.new-b{background:linear-gradient(90deg,#22c55e,#16a34a);}
+.new-b.red{background:linear-gradient(90deg,#ef4444,#b91c1c);}
+.sur-bval{font-family:var(--mono);font-size:0.63rem;white-space:nowrap;width:70px;text-align:right;flex-shrink:0;}
 
-  /* ── Map ── */
-  .map-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    position: relative;
-    overflow: hidden;
-  }
+/* Expense table */
+.exp-sec{padding:12px 15px;border-bottom:1px solid var(--border);}
+.exp-row{display:grid;grid-template-columns:1fr 72px 72px 48px;gap:3px;align-items:center;margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid rgba(31,46,74,.35);}
+.exp-row:last-child{border-bottom:none;font-weight:700;}
+.exp-cat{font-family:var(--sans);font-size:0.73rem;}
+.exp-cat.hd{font-family:var(--mono);font-size:0.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.exp-num{font-family:var(--mono);font-size:0.7rem;text-align:right;}
+.exp-num.hd{font-family:var(--mono);font-size:0.58rem;color:var(--muted);text-transform:uppercase;}
+.exp-chg{font-family:var(--mono);font-size:0.62rem;text-align:right;padding:1px 4px;border-radius:3px;}
+.ec-up{color:var(--red);background:rgba(239,68,68,.1);}
+.ec-dn{color:var(--green);background:rgba(34,197,94,.1);}
+.ec-eq{color:var(--muted);}
 
-  .map-label {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
+/* Section cards (tax, climate, homeschool) */
+.info-section{padding:12px 15px;border-bottom:1px solid var(--border);}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;}
+.info-item{}
+.info-label{font-family:var(--mono);font-size:0.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.info-val{font-family:var(--sans);font-size:0.78rem;font-weight:600;line-height:1.3;}
+.info-val.full{grid-column:1/-1;}
 
-  #map-svg {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+/* Climate badges */
+.cbadge{display:inline-block;padding:1px 7px;border-radius:3px;font-family:var(--mono);font-size:0.6rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;}
+.cb-low,.cb-healthy,.cb-stable{background:rgba(34,197,94,.14);color:#4ade80;border:1px solid rgba(34,197,94,.22);}
+.cb-moderate,.cb-mod{background:rgba(245,158,11,.14);color:#fbbf24;border:1px solid rgba(245,158,11,.22);}
+.cb-high,.cb-unhealthy,.cb-volatile{background:rgba(239,68,68,.14);color:#f87171;border:1px solid rgba(239,68,68,.22);}
 
-  .state-path {
-    stroke: #0a1525;
-    stroke-width: 0.5;
-    cursor: pointer;
-    transition: opacity 0.12s, filter 0.12s;
-  }
-  .state-path:hover {
-    opacity: 0.85;
-    filter: brightness(1.3);
-    stroke: var(--accent);
-    stroke-width: 1.5;
-  }
-  .state-path.selected {
-    stroke: var(--accent);
-    stroke-width: 2;
-    filter: brightness(1.4);
-  }
+/* Homeschool detail box */
+.home-detail{background:rgba(168,85,247,.06);border:1px solid rgba(168,85,247,.18);border-radius:5px;padding:9px 11px;font-family:var(--mono);font-size:0.68rem;line-height:1.55;color:#d8b4fe;margin-top:8px;}
+.home-detail strong{display:block;font-size:0.58rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(168,85,247,.7);margin-bottom:4px;}
 
-  /* Tooltip */
-  #tooltip {
-    position: fixed;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 8px 12px;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--text);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.1s;
-    z-index: 999;
-    white-space: nowrap;
-  }
-  #tooltip.visible { opacity: 1; }
-  #tooltip .tt-name { font-family: var(--sans); font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
-
-  /* ── Detail panel ── */
-  .detail-section {
-    display: none;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-  }
-  .detail-section.visible { display: grid; }
-
-  @media (max-width: 900px) {
-    .detail-section.visible { grid-template-columns: 1fr; }
-    header { flex-direction: column; align-items: flex-start; gap: 12px; }
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px;
-    position: relative;
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-  }
-  .card.tax::before { background: linear-gradient(90deg, var(--accent), transparent); }
-  .card.home::before { background: linear-gradient(90deg, #a855f7, transparent); }
-  .card.climate::before { background: linear-gradient(90deg, var(--accent2), transparent); }
-
-  .card-title {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px;
-  }
-
-  .data-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 7px 0;
-    border-bottom: 1px solid rgba(30,51,82,0.5);
-    font-size: 0.83rem;
-    gap: 8px;
-  }
-  .data-row:last-of-type { border-bottom: none; }
-
-  .d-label {
-    color: var(--muted);
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    flex-shrink: 0;
-  }
-  .d-value {
-    font-weight: 600;
-    text-align: right;
-    font-size: 0.83rem;
-  }
-
-  .badge {
-    display: inline-block;
-    padding: 2px 9px;
-    border-radius: 4px;
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .badge-low    { background: rgba(16,185,129,0.18); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
-  .badge-medium { background: rgba(245,158,11,0.18); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
-  .badge-high   { background: rgba(239,68,68,0.18);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
-
-  .detail-box {
-    margin-top: 12px;
-    padding: 10px 12px;
-    border-radius: 6px;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    line-height: 1.55;
-    color: #c4d4ea;
-  }
-  .detail-box.home-box { background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.2); }
-  .detail-box.path-box { background: rgba(0,212,255,0.05); border: 1px solid rgba(0,212,255,0.15); }
-  .detail-box strong { display: block; margin-bottom: 4px; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-
-  /* Prompt bar */
-  .prompt-bar {
-    text-align: center;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    color: var(--muted);
-    padding: 10px;
-    letter-spacing: 0.04em;
-  }
-  .prompt-bar span { color: var(--accent); }
-
-  /* State name header */
-  .state-header {
-    display: none;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 4px;
-  }
-  .state-header.visible { display: flex; }
-  .state-name { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; }
-  .state-code { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); }
+/* Pathogen box */
+.path-box{background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.13);border-radius:5px;padding:8px 11px;font-family:var(--mono);font-size:0.68rem;line-height:1.5;color:#bae6fd;margin-top:6px;}
+.path-box strong{display:block;font-size:0.58rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(0,212,255,.5);margin-bottom:3px;}
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="layout">
-  <header>
-    <div class="header-left">
-      <h1>US State <span>Intelligence</span> Dashboard</h1>
-      <p>FINANCIAL · CLIMATE · HOMESCHOOL REGULATION — click any state to explore</p>
+<div class="top-bar">
+  <div class="brand">
+    <h1>RELOCATION <span>FINANCE</span> EXPLORER</h1>
+    <p>CLICK ANY STATE — BI-WEEKLY NET PAY · MONTHLY EXPENSES · TAX PROFILE · CLIMATE · HOMESCHOOL REGULATION</p>
+  </div>
+  <div class="snapshot">
+    <div class="snap-card gold-top">
+      <div class="snap-label">Bi-Weekly Net Pay</div>
+      <div class="snap-val" style="color:var(--gold)">$5,428</div>
+      <div class="snap-sub">Louisiana · After all taxes</div>
     </div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot dot-low"></div>LOW regulation</div>
-      <div class="legend-item"><div class="legend-dot dot-med"></div>MEDIUM regulation</div>
-      <div class="legend-item"><div class="legend-dot dot-high"></div>HIGH regulation</div>
+    <div class="snap-card red-top">
+      <div class="snap-label">Monthly Expenses</div>
+      <div class="snap-val" style="color:var(--red)">$6,407</div>
+      <div class="snap-sub">5 categories · After-tax basis</div>
     </div>
-  </header>
+    <div class="snap-card green-top">
+      <div class="snap-label">Monthly Surplus</div>
+      <div class="snap-val" style="color:var(--green)">$4,450</div>
+      <div class="snap-sub">($5,428.79 × 2) − $6,407.58</div>
+    </div>
+  </div>
+</div>
 
-  <div class="map-section">
-    <div class="map-label">// HOMESCHOOL REGULATION CHOROPLETH — 2026</div>
+<div class="main-grid">
+  <div class="map-wrap">
+    <div class="map-hdr">
+      <span class="map-lbl">// Monthly surplus change vs Louisiana baseline</span>
+      <div class="map-legend">
+        <span style="color:var(--red);font-size:.65rem">worse</span>
+        <div><div class="ml-grad"></div><div class="ml-labs"><span>−$500</span><span>+$500</span></div></div>
+        <span style="color:var(--green);font-size:.65rem">better</span>
+      </div>
+    </div>
     <svg id="map-svg" viewBox="0 0 960 600"></svg>
   </div>
 
-  <div>
-    <div class="state-header" id="stateHeader">
-      <div class="state-name" id="stateName"></div>
-      <div class="state-code" id="stateCode"></div>
+  <div class="detail" id="detail">
+    <div class="detail-ph" id="ph">
+      <div class="arr">←</div>
+      Click any state on the map<br>
+      <strong style="color:var(--text)">Full relocation breakdown</strong><br><br>
+      Pay comparison · Expense adjustment<br>
+      Tax profile · Climate data · Homeschool rules
     </div>
-
-    <div class="detail-section" id="detailSection">
-      <!-- Tax card -->
-      <div class="card tax">
-        <div class="card-title">// Fiscal &amp; Tax Profile</div>
-        <div class="data-row"><span class="d-label">Income Tax?</span><span class="d-value" id="v-it"></span></div>
-        <div class="data-row"><span class="d-label">Rate</span><span class="d-value" id="v-ir"></span></div>
-        <div class="data-row"><span class="d-label">Sales Tax (Combined)</span><span class="d-value" id="v-st"></span></div>
-        <div class="data-row"><span class="d-label">Property Tax (Eff.)</span><span class="d-value" id="v-pt"></span></div>
-        <div class="data-row"><span class="d-label">Vehicle Property Tax</span><span class="d-value" id="v-vt"></span></div>
+    <div class="detail-body" id="dbody">
+      <div class="dh">
+        <div class="dh-name" id="d-name"></div>
+        <div class="dh-sub" id="d-sub"></div>
       </div>
+      <div class="detail-scroll">
 
-      <!-- Homeschool card -->
-      <div class="card home">
-        <div class="card-title">// Homeschool Regulations · 2026</div>
-        <div class="data-row"><span class="d-label">Regulation Tier</span><span class="d-value" id="v-ht"></span></div>
-        <div class="detail-box home-box">
-          <strong>Basis for Classification</strong>
-          <span id="v-hd"></span>
+        <!-- Pay comparison -->
+        <div class="cmp-grid">
+          <div class="cmp-col la-col">
+            <div class="cmp-col-title">Louisiana (current)</div>
+            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val neu">$5,428.79</div></div>
+            <div class="cm"><div class="cm-lbl">Monthly income</div><div class="cm-val neu">$10,857.58</div></div>
+            <div class="cm"><div class="cm-lbl">Monthly expenses</div><div class="cm-val neu">$6,407.58</div></div>
+            <div class="cm"><div class="cm-lbl">Monthly surplus</div><div class="cm-val pos">$4,450.00</div></div>
+          </div>
+          <div class="cmp-col new-col">
+            <div class="cmp-col-title" id="d-col2"></div>
+            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val" id="d-bw"></div><div class="delta" id="d-bwd"></div></div>
+            <div class="cm"><div class="cm-lbl">Monthly income</div><div class="cm-val neu" id="d-mi"></div></div>
+            <div class="cm"><div class="cm-lbl">Monthly expenses</div><div class="cm-val" id="d-ex"></div><div class="delta" id="d-exd"></div></div>
+            <div class="cm"><div class="cm-lbl">Monthly surplus</div><div class="cm-val" id="d-sur"></div><div class="delta" id="d-surd"></div></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Climate card -->
-      <div class="card climate">
-        <div class="card-title">// Climate &amp; Environmental Health</div>
-        <div class="data-row"><span class="d-label">Barometric Health</span><span class="d-value" id="v-baro"></span></div>
-        <div class="data-row"><span class="d-label">Temp Volatility</span><span class="d-value" id="v-tv"></span></div>
-        <div class="data-row"><span class="d-label">Pollen Burden</span><span class="d-value" id="v-pol"></span></div>
-        <div class="data-row"><span class="d-label">AQI</span><span class="d-value" id="v-aqi"></span></div>
-        <div class="data-row"><span class="d-label">Avg. Humidity</span><span class="d-value" id="v-hum"></span></div>
-        <div class="data-row"><span class="d-label">Temp Range (H/L)</span><span class="d-value" id="v-tr"></span></div>
-        <div class="detail-box path-box">
-          <strong>Dominant Pathogen Risk</strong>
-          <span id="v-path"></span>
+        <!-- Surplus bars -->
+        <div class="sur-sec">
+          <div class="sec-title">// Monthly surplus comparison</div>
+          <div class="sur-row">
+            <div class="sur-lbl" style="color:#93c5fd">LA</div>
+            <div class="sur-bw"><div class="sur-b la-b" id="b-la"></div></div>
+            <div class="sur-bval" style="color:#93c5fd">$4,450</div>
+          </div>
+          <div class="sur-row">
+            <div class="sur-lbl" id="b-newlbl"></div>
+            <div class="sur-bw"><div class="sur-b new-b" id="b-new"></div></div>
+            <div class="sur-bval" id="b-newval"></div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="prompt-bar" id="promptBar">← click any state to load its <span>full data profile</span></div>
-  </div>
+        <!-- Expense breakdown -->
+        <div class="exp-sec">
+          <div class="sec-title">// Monthly expense breakdown (cost-of-living adjusted)</div>
+          <div class="exp-row">
+            <div class="exp-cat hd">Category</div>
+            <div class="exp-num hd">LA</div>
+            <div class="exp-num hd">New State</div>
+            <div class="exp-chg ec-eq">Δ</div>
+          </div>
+          <div id="exp-rows"></div>
+        </div>
+
+        <!-- Tax Profile -->
+        <div class="info-section">
+          <div class="sec-title">// Tax Profile</div>
+          <div class="info-grid">
+            <div class="info-item"><div class="info-label">Income Tax?</div><div class="info-val" id="t-it"></div></div>
+            <div class="info-item"><div class="info-label">Income Tax Rate</div><div class="info-val" id="t-ir"></div></div>
+            <div class="info-item"><div class="info-label">Avg. Sales Tax</div><div class="info-val" id="t-st"></div></div>
+            <div class="info-item"><div class="info-label">Property Tax (Eff.)</div><div class="info-val" id="t-pt"></div></div>
+            <div class="info-item" style="grid-column:1/-1"><div class="info-label">Annual Vehicle Property Tax</div><div class="info-val" id="t-vt"></div></div>
+          </div>
+        </div>
+
+        <!-- Climate & Health -->
+        <div class="info-section">
+          <div class="sec-title">// Climate &amp; Environmental Health</div>
+          <div class="info-grid">
+            <div class="info-item"><div class="info-label">Barometric Health</div><div class="info-val" id="c-baro"></div></div>
+            <div class="info-item"><div class="info-label">Temp Volatility</div><div class="info-val" id="c-tv"></div></div>
+            <div class="info-item"><div class="info-label">Pollen Burden</div><div class="info-val" id="c-pol"></div></div>
+            <div class="info-item"><div class="info-label">Air Quality (AQI)</div><div class="info-val" id="c-aqi"></div></div>
+            <div class="info-item"><div class="info-label">Avg. Humidity</div><div class="info-val" id="c-hum"></div></div>
+            <div class="info-item"><div class="info-label">Temp Range (H / L)</div><div class="info-val" id="c-tr"></div></div>
+          </div>
+          <div class="path-box"><strong>Dominant Pathogen Risk</strong><span id="c-path"></span></div>
+        </div>
+
+        <!-- Homeschool -->
+        <div class="info-section">
+          <div class="sec-title">// Homeschool Regulation (2026)</div>
+          <div class="info-item"><div class="info-label">Regulation Tier</div><div class="info-val" id="h-tier" style="margin-top:3px"></div></div>
+          <div class="home-detail"><strong>Basis for Classification</strong><span id="h-basis"></span></div>
+        </div>
+
+      </div><!-- /detail-scroll -->
+    </div><!-- /detail-body -->
+  </div><!-- /detail -->
 </div>
 
-<div id="tooltip">
-  <div class="tt-name" id="tt-name"></div>
-  <div id="tt-tier"></div>
-</div>
+</div><!-- /app -->
+<div id="tt"><div class="ttn" id="tt-n"></div><div id="tt-d"></div></div>
 
 <script>
-const dataset = {
-  "AL":{"incomeTax":"Yes","incomeRate":"2.0% – 5.0%","salesTax":"9.29%","propTax":"0.36%","vehicleTax":"Yes (~1.50%)","homeTier":"LOW","homeDetails":"Notification only (operate as/enroll in a church school, or use a private tutor); no testing submitted.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"15°F","high":"99°F","pathogen":"Rocky Mountain Spotted Fever (~100–300 cases)"},
-  "AK":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"1.82%","propTax":"1.04%","vehicleTax":"No","homeTier":"LOW","homeDetails":"No notice — no requirement to notify, no testing, no recordkeeping mandate.","baro":"High","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"77%","low":"-45°F","high":"85°F","pathogen":"Alaskapox Virus (Emerging small mammal vector)"},
-  "AZ":{"incomeTax":"Yes","incomeRate":"2.5% (Flat)","salesTax":"8.37%","propTax":"0.44%","vehicleTax":"Yes (~2.80% VLT)","homeTier":"LOW","homeDetails":"Notification (affidavit of intent) only; no testing.","baro":"Low","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"39%","low":"22°F","high":"115°F","pathogen":"Southwest Valley Fever (Hyper-endemic; 10,000+ cases)"},
-  "AR":{"incomeTax":"Yes","incomeRate":"2.0% – 3.9%","salesTax":"9.44%","propTax":"0.54%","vehicleTax":"Yes (~1.00%)","homeTier":"LOW","homeDetails":"Notification only (notice of intent); no testing, subject, or teacher-qualification mandate.","baro":"Moderate","tempVol":"Moderate","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"12°F","high":"101°F","pathogen":"Tularemia & Tick-Borne Ehrlichiosis (~150–300 cases)"},
-  "CA":{"incomeTax":"Yes","incomeRate":"1.0% – 13.3%","salesTax":"8.85%","propTax":"0.70%","vehicleTax":"Yes (~0.65% VLF)","homeTier":"LOW","homeDetails":"File a private school affidavit (notification); no testing submitted.","baro":"Low","tempVol":"Stable / Mod","pollen":"Moderate","aqi":"Moderate","humidity":"61%","low":"25°F","high":"105°F","pathogen":"Central Valley Fever (Arid Soil Fungus; 7,000+ cases)"},
-  "CO":{"incomeTax":"Yes","incomeRate":"4.4% (Flat)","salesTax":"7.81%","propTax":"0.50%","vehicleTax":"Yes (~1.50% SFT)","homeTier":"MEDIUM","homeDetails":"Notification + standardized test or qualified evaluation in grades 3, 5, 7, 9, 11 (results filed with the district).","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"54%","low":"-15°F","high":"98°F","pathogen":"Colorado Tick Fever & West Nile Virus (~50–150 cases)"},
-  "CT":{"incomeTax":"Yes","incomeRate":"2.0% – 6.99%","salesTax":"6.35%","propTax":"1.96%","vehicleTax":"Yes (~2.50%)","homeTier":"LOW","homeDetails":"No notice — notification not legally required (a notice of intent is recommended but optional).","baro":"High","tempVol":"Moderate","pollen":"Moderate","aqi":"Healthy","humidity":"67%","low":"2°F","high":"94°F","pathogen":"Lyme Disease (Hyper-Endemic; 2,000–4,000+ cases)"},
-  "DE":{"incomeTax":"Yes","incomeRate":"2.2% – 6.6%","salesTax":"0.00%","propTax":"0.43%","vehicleTax":"No","homeTier":"LOW","homeDetails":"Enrollment registration/reporting only; no testing.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"69%","low":"10°F","high":"95°F","pathogen":"Lyme Disease (Highly Endemic; ~400–700 cases)"},
-  "FL":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"7.02%","propTax":"0.80%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Notice of intent + annual evaluation (certified-teacher portfolio review or standardized test). Multi-option law.","baro":"Low","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"74%","low":"28°F","high":"97°F","pathogen":"West Nile & Dengue Virus (Elevated mosquito risk)"},
-  "GA":{"incomeTax":"Yes","incomeRate":"5.19% (Flat)","salesTax":"7.39%","propTax":"0.81%","vehicleTax":"No (Flat fee only)","homeTier":"LOW","homeDetails":"Notification + monthly attendance; standardized testing every 3 years but results NOT submitted.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"18°F","high":"98°F","pathogen":"Rocky Mountain Spotted Fever / Ehrlichiosis (~200+ cases)"},
-  "HI":{"incomeTax":"Yes","incomeRate":"1.4% – 11.0%","salesTax":"4.50%","propTax":"0.32%","vehicleTax":"No (Weight-based)","homeTier":"MEDIUM","homeDetails":"Notification + standardized testing in grades 3, 5, 8, 10.","baro":"Low","tempVol":"Stable","pollen":"Healthy","aqi":"Healthy","humidity":"72%","low":"58°F","high":"91°F","pathogen":"Leptospirosis (Tropical bacterial runoff; ~50–100 cases)"},
-  "ID":{"incomeTax":"Yes","incomeRate":"5.3% (Flat)","salesTax":"6.02%","propTax":"0.49%","vehicleTax":"No","homeTier":"LOW","homeDetails":"No notice — no notification, testing, or recordkeeping mandate.","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"63%","low":"-10°F","high":"100°F","pathogen":"West Nile Virus (Volatile seasonal spikes; ~10–50 cases)"},
-  "IL":{"incomeTax":"Yes","incomeRate":"4.95% (Flat)","salesTax":"8.86%","propTax":"2.08%","vehicleTax":"No","homeTier":"LOW","homeDetails":"No notice. HB2827 (2025 \"Homeschool Act\") failed to advance; Illinois remains no-notice.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"69%","low":"-10°F","high":"97°F","pathogen":"Histoplasmosis & Lyme Disease (~500+ combined cases)"},
-  "IN":{"incomeTax":"Yes","incomeRate":"3.0% (Flat)","salesTax":"7.00%","propTax":"0.75%","vehicleTax":"Yes (~0.40% Excise)","homeTier":"LOW","homeDetails":"No notice — no notification required.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"70%","low":"-5°F","high":"96°F","pathogen":"Histoplasmosis & Lyme (~300–500 cases reported)"},
-  "IA":{"incomeTax":"Yes","incomeRate":"3.8% (Flat)","salesTax":"6.94%","propTax":"1.43%","vehicleTax":"Yes (~1.00% Value)","homeTier":"LOW","homeDetails":"No notice for independent private instruction; 2024 rule changes and 2026 legislation further loosened rules.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"70%","low":"-12°F","high":"96°F","pathogen":"Lyme Disease (Expanding woodland tick corridor; ~300+)"},
-  "KS":{"incomeTax":"Yes","incomeRate":"5.2% – 5.58%","salesTax":"8.75%","propTax":"1.34%","vehicleTax":"Yes (~1.50% Excise)","homeTier":"LOW","homeDetails":"Register as a non-accredited private school (notification only); no testing.","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"66%","low":"0°F","high":"102°F","pathogen":"Ehrlichiosis & Bourbon/Heartland Viruses (Tick focus)"},
-  "KY":{"incomeTax":"Yes","incomeRate":"4.0% (Flat)","salesTax":"6.00%","propTax":"0.80%","vehicleTax":"Yes (~1.50%)","homeTier":"LOW","homeDetails":"Notification only; no testing submitted.","baro":"Moderate","tempVol":"Moderate","pollen":"Unhealthy","aqi":"Healthy","humidity":"72%","low":"5°F","high":"96°F","pathogen":"Histoplasmosis & Spotted Fever (~200–400 cases)"},
-  "LA":{"incomeTax":"Yes","incomeRate":"3.0% (Flat)","salesTax":"10.11%","propTax":"0.56%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Notification + BESE approval/renewal with evidence of a satisfactory program (home-study option).","baro":"Low to Mod","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"74%","low":"22°F","high":"98°F","pathogen":"West Nile Virus (High-severity neuroinvasive spikes)"},
-  "ME":{"incomeTax":"Yes","incomeRate":"5.8% – 7.15%","salesTax":"5.50%","propTax":"1.20%","vehicleTax":"Yes (~2.40% Excise)","homeTier":"MEDIUM","homeDetails":"Notification + annual assessment (standardized test or approved evaluation).","baro":"High","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"73%","low":"-15°F","high":"90°F","pathogen":"Lyme Disease & Anaplasmosis (Hyper-Endemic; 2,000+)"},
-  "MD":{"incomeTax":"Yes","incomeRate":"2.0% – 6.5%","salesTax":"6.00%","propTax":"0.99%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Notification + periodic portfolio review by the local school system (2–3× per year) or umbrella-school supervision.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"67%","low":"12°F","high":"97°F","pathogen":"Lyme Disease (Highly Endemic; 1,500–2,000+ cases)"},
-  "MA":{"incomeTax":"Yes","incomeRate":"5.0% – 9.0%","salesTax":"6.25%","propTax":"1.12%","vehicleTax":"Yes (~2.50% Excise)","homeTier":"HIGH","homeDetails":"Local district must pre-approve the education plan; progress demonstrated via testing/evaluation.","baro":"High","tempVol":"Moderate","pollen":"Moderate","aqi":"Healthy","humidity":"68%","low":"5°F","high":"94°F","pathogen":"Lyme & Babesiosis (Tick blood parasite; 1,000+ cases)"},
-  "MI":{"incomeTax":"Yes","incomeRate":"4.25% (Flat)","salesTax":"6.00%","propTax":"1.32%","vehicleTax":"No (Value flat fee)","homeTier":"LOW","homeDetails":"No notice — no notification required under the homeschool option.","baro":"High","tempVol":"Highly Volatile","pollen":"Moderate","aqi":"Healthy","humidity":"72%","low":"-8°F","high":"94°F","pathogen":"Lyme Disease (Expanding UP corridor; ~400–800 cases)"},
-  "MN":{"incomeTax":"Yes","incomeRate":"5.35% – 9.85%","salesTax":"8.04%","propTax":"1.02%","vehicleTax":"Yes (~1.25% Base)","homeTier":"MEDIUM","homeDetails":"Notification + annual standardized testing.","baro":"High","tempVol":"Highly Volatile","pollen":"Moderate","aqi":"Healthy","humidity":"69%","low":"-20°F","high":"95°F","pathogen":"Lyme Disease & Anaplasmosis (Highly Endemic; 2,000+)"},
-  "MS":{"incomeTax":"Yes","incomeRate":"4.4% (Flat)","salesTax":"7.06%","propTax":"0.61%","vehicleTax":"Yes (~3.50% Ad Val)","homeTier":"LOW","homeDetails":"File a certificate of enrollment (notification) only; no testing.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"73%","low":"18°F","high":"99°F","pathogen":"West Nile Virus (Persistent seasonal river basin focus)"},
-  "MO":{"incomeTax":"Yes","incomeRate":"2.0% – 4.7%","salesTax":"8.39%","propTax":"0.91%","vehicleTax":"Yes (~3.00%)","homeTier":"LOW","homeDetails":"No notice; 1,000-hour recordkeeping required but no notification or submitted assessment.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"69%","low":"2°F","high":"99°F","pathogen":"Ehrlichiosis & Rocky Mountain Spotted Fever (400–700)"},
-  "MT":{"incomeTax":"Yes","incomeRate":"4.7% – 5.9%","salesTax":"0.00%","propTax":"0.74%","vehicleTax":"Yes (Age-based fee)","homeTier":"LOW","homeDetails":"Notification only; no testing submitted.","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"61%","low":"-25°F","high":"96°F","pathogen":"West Nile Virus & Colorado Tick Fever (Highly variable)"},
-  "NE":{"incomeTax":"Yes","incomeRate":"2.46% – 5.2%","salesTax":"6.97%","propTax":"1.51%","vehicleTax":"Yes (~1.50% Motor V)","homeTier":"LOW","homeDetails":"File an exemption/notification with the state; no testing.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"67%","low":"-8°F","high":"99°F","pathogen":"West Nile Virus (Consistently high per-capita rate)"},
-  "NV":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"8.24%","propTax":"0.48%","vehicleTax":"Yes (~4.00% Govt Svc)","homeTier":"LOW","homeDetails":"One-time notice of intent only; no testing.","baro":"Low","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"38%","low":"12°F","high":"106°F","pathogen":"West Nile Virus (Concentrated around water networks)"},
-  "NH":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"0.00%","propTax":"1.77%","vehicleTax":"Yes (~1.80% Local)","homeTier":"MEDIUM","homeDetails":"Notification + annual evaluation (test or portfolio review). 2026 bill HB1268 would make evaluation optional; not yet law.","baro":"High","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"70%","low":"-10°F","high":"92°F","pathogen":"Lyme Disease (Highly Endemic; ~1,000–1,500 cases)"},
-  "NJ":{"incomeTax":"Yes","incomeRate":"1.4% – 10.75%","salesTax":"6.63%","propTax":"2.23%","vehicleTax":"No","homeTier":"LOW","homeDetails":"No notice — no notification required; equivalent-education standard only.","baro":"Mod to High","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"67%","low":"10°F","high":"96°F","pathogen":"Lyme Disease (Highly Endemic woodland vector; 3,000+)"},
-  "NM":{"incomeTax":"Yes","incomeRate":"1.5% – 5.9%","salesTax":"7.62%","propTax":"0.67%","vehicleTax":"No","homeTier":"LOW","homeDetails":"Notification to the state only; no testing submitted.","baro":"Low","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"44%","low":"8°F","high":"98°F","pathogen":"Sylvatic Plague & Hantavirus (Flea/Rodent vector focus)"},
-  "NY":{"incomeTax":"Yes","incomeRate":"4.0% – 10.9%","salesTax":"8.53%","propTax":"1.40%","vehicleTax":"No","homeTier":"HIGH","homeDetails":"Individualized Home Instruction Plan (IHIP) + quarterly reports + annual assessment.","baro":"High","tempVol":"Moderate","pollen":"Moderate","aqi":"Healthy","humidity":"70%","low":"-5°F","high":"94°F","pathogen":"Lyme & Anaplasmosis (Upstate focus; 4,000+ cases)"},
-  "NC":{"incomeTax":"Yes","incomeRate":"3.99% (Flat)","salesTax":"7.00%","propTax":"0.70%","vehicleTax":"Yes (~1.20%)","homeTier":"MEDIUM","homeDetails":"Notification (school name + administrator) + annual nationally-normed standardized test.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"70%","low":"15°F","high":"97°F","pathogen":"Rocky Mountain Spotted Fever (Highest national case burden)"},
-  "ND":{"incomeTax":"Yes","incomeRate":"0.0% – 2.5%","salesTax":"6.97%","propTax":"0.92%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Notification + testing in grades 4, 6, 8, 10 + parent high-school-diploma/monitoring rule. Boundary case — closest to HIGH.","baro":"High","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"69%","low":"-22°F","high":"97°F","pathogen":"West Nile Virus (High seasonal per-capita density)"},
-  "OH":{"incomeTax":"Yes","incomeRate":"2.75% – 3.125%","salesTax":"7.24%","propTax":"1.41%","vehicleTax":"No","homeTier":"LOW","homeDetails":"After HB33 (Oct 2023) only a short notification required; assessment, hours, and instructor-qualification mandates eliminated. Formerly MEDIUM.","baro":"High","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"-2°F","high":"95°F","pathogen":"La Crosse Encephalitis & Histoplasmosis (Pediatric focus)"},
-  "OK":{"incomeTax":"Yes","incomeRate":"0.25% – 4.5%","salesTax":"8.99%","propTax":"0.74%","vehicleTax":"No (Flat scale)","homeTier":"LOW","homeDetails":"No notice — the only state with a constitutional homeschool right; no notification or testing.","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"64%","low":"8°F","high":"103°F","pathogen":"Rocky Mountain Spotted Fever (Major geographic tick zone)"},
-  "OR":{"incomeTax":"Yes","incomeRate":"4.75% – 9.9%","salesTax":"0.00%","propTax":"0.83%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Notification + standardized testing in grades 3, 5, 8, 10.","baro":"Moderate","tempVol":"Stable / Mod","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"15°F","high":"98°F","pathogen":"Cryptococcosis (Pacific NW tree-bound native fungus)"},
-  "PA":{"incomeTax":"Yes","incomeRate":"3.07% (Flat)","salesTax":"6.34%","propTax":"1.49%","vehicleTax":"No","homeTier":"HIGH","homeDetails":"Notarized affidavit + portfolio + annual review by a qualified evaluator + standardized testing in grades 3, 5, 8.","baro":"High","tempVol":"Moderate","pollen":"Unhealthy","aqi":"Healthy","humidity":"69%","low":"0°F","high":"95°F","pathogen":"Lyme Disease (Highest raw case volume nationally; 10,000+)"},
-  "RI":{"incomeTax":"Yes","incomeRate":"3.75% – 5.99%","salesTax":"7.00%","propTax":"1.30%","vehicleTax":"Yes (~2.00% Max)","homeTier":"HIGH","homeDetails":"Local school committee approval required; assessment plus other conditions.","baro":"High","tempVol":"Stable","pollen":"Moderate","aqi":"Healthy","humidity":"69%","low":"8°F","high":"93°F","pathogen":"Lyme Disease & Babesiosis (Dense coastal tick focus)"},
-  "SC":{"incomeTax":"Yes","incomeRate":"0.0% – 6.2%","salesTax":"7.44%","propTax":"0.52%","vehicleTax":"Yes (~2.50%)","homeTier":"MEDIUM","homeDetails":"Notification + testing, or membership in an approved association (e.g., SCAIHS); three options with differing burdens.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"20°F","high":"99°F","pathogen":"Rocky Mountain Spotted Fever (Coastal/Piedmont vector)"},
-  "SD":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"6.11%","propTax":"1.14%","vehicleTax":"No","homeTier":"LOW","homeDetails":"After SB177 (July 2021) one-time notification only; mandatory testing eliminated. Formerly MEDIUM.","baro":"High","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"67%","low":"-18°F","high":"98°F","pathogen":"West Nile Virus (Prairie mosquito vectors; highly volatile)"},
-  "TN":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"9.55%","propTax":"0.64%","vehicleTax":"No","homeTier":"MEDIUM","homeDetails":"Independent path: notification + attendance records + testing in grades 5, 7, 9. ~95% of families use church-umbrella schools with no state testing.","baro":"Moderate","tempVol":"Moderate","pollen":"Unhealthy","aqi":"Healthy","humidity":"70%","low":"10°F","high":"97°F","pathogen":"Ehrlichiosis & Spotted Fever (Tick corridor; ~300+ cases)"},
-  "TX":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"8.20%","propTax":"1.60%","vehicleTax":"No","homeTier":"LOW","homeDetails":"No notice — homeschools treated as private schools; no notification or testing.","baro":"Low to Mod","tempVol":"Highly Volatile","pollen":"Unhealthy","aqi":"Healthy","humidity":"63%","low":"15°F","high":"103°F","pathogen":"Murine Typhus & Chagas Disease (Flea/Kissing bug vectors)"},
-  "UT":{"incomeTax":"Yes","incomeRate":"4.55% (Flat)","salesTax":"7.19%","propTax":"0.52%","vehicleTax":"No","homeTier":"LOW","homeDetails":"One-time signed affidavit (notification) only; no testing.","baro":"Low","tempVol":"Moderate","pollen":"Healthy","aqi":"Moderate","humidity":"53%","low":"5°F","high":"100°F","pathogen":"West Nile Virus (Strictly tied to Great Salt Lake wetlands)"},
-  "VT":{"incomeTax":"Yes","incomeRate":"3.35% – 8.75%","salesTax":"6.30%","propTax":"1.73%","vehicleTax":"No","homeTier":"HIGH","homeDetails":"Enrollment notice + detailed course of study + annual assessment; Secretary can call a hearing.","baro":"High","tempVol":"Moderate","pollen":"Healthy","aqi":"Healthy","humidity":"72%","low":"-12°F","high":"91°F","pathogen":"Lyme Disease (Extremely high per-capita incidence growth)"},
-  "VA":{"incomeTax":"Yes","incomeRate":"2.0% – 5.75%","salesTax":"5.77%","propTax":"0.76%","vehicleTax":"Yes (~4.00% Highest)","homeTier":"MEDIUM","homeDetails":"Notice of intent + annual evidence of academic progress (test or evaluation) by August 1.","baro":"Moderate","tempVol":"Stable","pollen":"Unhealthy","aqi":"Healthy","humidity":"68%","low":"12°F","high":"97°F","pathogen":"Lyme Disease & Spotted Fever (1,000–1,500+ cases)"},
-  "WA":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"9.38%","propTax":"0.84%","vehicleTax":"Yes (~1.10% RTA area)","homeTier":"MEDIUM","homeDetails":"Annual declaration of intent + annual standardized testing or assessment.","baro":"Moderate","tempVol":"Stable","pollen":"Moderate","aqi":"Healthy","humidity":"73%","low":"15°F","high":"95°F","pathogen":"West Nile & Cryptococcosis (Low scale; heavily localized)"},
-  "WV":{"incomeTax":"Yes","incomeRate":"2.22% – 4.82%","salesTax":"6.57%","propTax":"0.55%","vehicleTax":"Yes (~1.00%)","homeTier":"MEDIUM","homeDetails":"Notification + annual academic assessment.","baro":"Moderate","tempVol":"Moderate","pollen":"Unhealthy","aqi":"Healthy","humidity":"71%","low":"2°F","high":"94°F","pathogen":"Lyme Disease (Rapidly expanding mountain tick vector; 1,000+)"},
-  "WI":{"incomeTax":"Yes","incomeRate":"3.54% – 7.65%","salesTax":"5.43%","propTax":"1.51%","vehicleTax":"No","homeTier":"LOW","homeDetails":"Annual statement (form PI-1206) only; no testing submitted.","baro":"High","tempVol":"Highly Volatile","pollen":"Moderate","aqi":"Healthy","humidity":"71%","low":"-15°F","high":"94°F","pathogen":"Lyme Disease & Blastomycosis (Endemic soil fungus; 3,000+)"},
-  "WY":{"incomeTax":"No","incomeRate":"0.0%","salesTax":"5.44%","propTax":"0.55%","vehicleTax":"Yes (~1.20% Factory)","homeTier":"LOW","homeDetails":"Notification + a curriculum statement showing a sequential program; no testing.","baro":"Moderate","tempVol":"Highly Volatile","pollen":"Healthy","aqi":"Healthy","humidity":"57%","low":"-20°F","high":"93°F","pathogen":"Colorado Tick Fever & Tularemia (Low density but persistent)"}
+// ── CONSTANTS ──
+const LA_BW       = 5428.79;
+const LA_MONTHLY  = LA_BW * 2;           // 10857.58
+const LA_EXPENSES = 6407.58;
+const LA_SURPLUS  = LA_MONTHLY - LA_EXPENSES; // 4450.00
+const LA_COLI     = 91;
+const NON_STATE_BASE = 5744.75; // bw if state tax = 0 (LA net + LA state tax/26)
+
+const expenses = [
+  {name:'Groceries',              la:1749.10},
+  {name:'Restaurant / Fast Food', la:1350.45},
+  {name:'Utilities',              la: 393.86},
+  {name:'Personal Care',          la: 179.50},
+  {name:'Misc',                   la:2734.67},
+];
+
+// ── FULL STATE DATASET ──
+const SD = {
+  AL:{name:'Alabama',       stateTax:10285,coli:88, incomeTax:'Yes',incomeRate:'2.0% – 5.0%',   salesTax:'9.29%', propTax:'0.36%',vehicleTax:'Yes (~1.50%)',         home:'LOW',   homeDetails:'Notification only (operate as/enroll in a church school, or use a private tutor); no testing submitted.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'15°F', high:'99°F', pathogen:'Rocky Mountain Spotted Fever (~100–300 cases)'},
+  AK:{name:'Alaska',        stateTax:0,    coli:128,incomeTax:'No', incomeRate:'0.0%',            salesTax:'1.82%', propTax:'1.04%',vehicleTax:'No',                   home:'LOW',   homeDetails:'No notice — no requirement to notify, no testing, no recordkeeping mandate. One of the least-regulated states.',baro:'High',       tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'77%',low:'-45°F',high:'85°F', pathogen:'Alaskapox Virus (Emerging small mammal vector)'},
+  AZ:{name:'Arizona',       stateTax:5175, coli:105,incomeTax:'Yes',incomeRate:'2.5% (Flat)',     salesTax:'8.37%', propTax:'0.44%',vehicleTax:'Yes (~2.80% VLT)',      home:'LOW',   homeDetails:'Notification (affidavit of intent) only; no testing.',baro:'Low',        tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'39%',low:'22°F', high:'115°F',pathogen:'Southwest Valley Fever (Hyper-endemic; 10,000+ cases)'},
+  AR:{name:'Arkansas',      stateTax:8996, coli:87, incomeTax:'Yes',incomeRate:'2.0% – 3.9%',    salesTax:'9.44%', propTax:'0.54%',vehicleTax:'Yes (~1.00%)',           home:'LOW',   homeDetails:'Notification only (notice of intent); no testing, subject, or teacher-qualification mandate.',baro:'Moderate',   tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'12°F', high:'101°F',pathogen:'Tularemia & Tick-Borne Ehrlichiosis (~150–300 cases)'},
+  CA:{name:'California',    stateTax:15903,coli:139,incomeTax:'Yes',incomeRate:'1.0% – 13.3%',   salesTax:'8.85%', propTax:'0.70%',vehicleTax:'Yes (~0.65% VLF)',       home:'LOW',   homeDetails:'File a private school affidavit (notification); no testing submitted.',baro:'Low',        tempVol:'Stable / Mod',   pollen:'Moderate', aqi:'Moderate',humidity:'61%',low:'25°F', high:'105°F',pathogen:'Central Valley Fever (Arid Soil Fungus; 7,000+ cases)'},
+  CO:{name:'Colorado',      stateTax:9108, coli:110,incomeTax:'Yes',incomeRate:'4.4% (Flat)',     salesTax:'7.81%', propTax:'0.50%',vehicleTax:'Yes (~1.50% SFT)',       home:'MEDIUM',homeDetails:'Notification + standardized test or qualified evaluation in grades 3, 5, 7, 9, 11 (results filed with the district).',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'54%',low:'-15°F',high:'98°F', pathogen:'Colorado Tick Fever & West Nile Virus (~50–150 cases)'},
+  CT:{name:'Connecticut',   stateTax:11505,coli:128,incomeTax:'Yes',incomeRate:'2.0% – 6.99%',   salesTax:'6.35%', propTax:'1.96%',vehicleTax:'Yes (~2.50%)',            home:'LOW',   homeDetails:'No notice — notification not legally required (a notice of intent is recommended but optional).',baro:'High',       tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',humidity:'67%',low:'2°F',   high:'94°F', pathogen:'Lyme Disease (Hyper-Endemic; 2,000–4,000+ cases)'},
+  DE:{name:'Delaware',      stateTax:12778,coli:106,incomeTax:'Yes',incomeRate:'2.2% – 6.6%',    salesTax:'0.00%', propTax:'0.43%',vehicleTax:'No',                    home:'LOW',   homeDetails:'Enrollment registration/reporting only; no testing.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'69%',low:'10°F', high:'95°F', pathogen:'Lyme Disease (Highly Endemic; ~400–700 cases)'},
+  FL:{name:'Florida',       stateTax:0,    coli:104,incomeTax:'No', incomeRate:'0.0%',            salesTax:'7.02%', propTax:'0.80%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Notice of intent + annual evaluation (certified-teacher portfolio review or standardized test). Multi-option law.',baro:'Low',        tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'74%',low:'28°F', high:'97°F', pathogen:'West Nile & Dengue Virus (Elevated mosquito risk)'},
+  GA:{name:'Georgia',       stateTax:10743,coli:93, incomeTax:'Yes',incomeRate:'5.19% (Flat)',    salesTax:'7.39%', propTax:'0.81%',vehicleTax:'No (Flat fee only)',     home:'LOW',   homeDetails:'Notification + monthly attendance; standardized testing every 3 years but results NOT submitted, so HSLDA rates it low.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'18°F', high:'98°F', pathogen:'Rocky Mountain Spotted Fever / Ehrlichiosis (~200+ cases)'},
+  HI:{name:'Hawaii',        stateTax:17079,coli:191,incomeTax:'Yes',incomeRate:'1.4% – 11.0%',   salesTax:'4.50%', propTax:'0.32%',vehicleTax:'No (Weight-based)',      home:'MEDIUM',homeDetails:'Notification + standardized testing in grades 3, 5, 8, 10.',baro:'Low',        tempVol:'Stable',         pollen:'Healthy',  aqi:'Healthy',humidity:'72%',low:'58°F', high:'91°F', pathogen:'Leptospirosis (Tropical bacterial runoff; ~50–100 cases)'},
+  ID:{name:'Idaho',         stateTax:10971,coli:103,incomeTax:'Yes',incomeRate:'5.3% (Flat)',     salesTax:'6.02%', propTax:'0.49%',vehicleTax:'No',                    home:'LOW',   homeDetails:'No notice — no notification, testing, or recordkeeping mandate.',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'63%',low:'-10°F',high:'100°F',pathogen:'West Nile Virus (Volatile seasonal spikes; ~10–50 cases)'},
+  IL:{name:'Illinois',      stateTax:10247,coli:104,incomeTax:'Yes',incomeRate:'4.95% (Flat)',    salesTax:'8.86%', propTax:'2.08%',vehicleTax:'No',                    home:'LOW',   homeDetails:'No notice. HB2827 (2025 "Homeschool Act") failed to advance; Illinois remains no-notice as of 2026.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'69%',low:'-10°F',high:'97°F', pathogen:'Histoplasmosis & Lyme Disease (~500+ combined cases)'},
+  IN:{name:'Indiana',       stateTax:6314, coli:92, incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'7.00%', propTax:'0.75%',vehicleTax:'Yes (~0.40% Excise)',    home:'LOW',   homeDetails:'No notice — no notification required.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'70%',low:'-5°F', high:'96°F', pathogen:'Histoplasmosis & Lyme (~300–500 cases reported)'},
+  IA:{name:'Iowa',          stateTax:7866, coli:92, incomeTax:'Yes',incomeRate:'3.8% (Flat)',     salesTax:'6.94%', propTax:'1.43%',vehicleTax:'Yes (~1.00% Value)',     home:'LOW',   homeDetails:'No notice for independent private instruction; 2024 Chapter 31 rule changes and 2026 legislation further loosened rules.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'70%',low:'-12°F',high:'96°F', pathogen:'Lyme Disease (Expanding woodland tick corridor; ~300+)'},
+  KS:{name:'Kansas',        stateTax:11437,coli:90, incomeTax:'Yes',incomeRate:'5.2% – 5.58%',   salesTax:'8.75%', propTax:'1.34%',vehicleTax:'Yes (~1.50% Excise)',    home:'LOW',   homeDetails:'Register as a non-accredited private school (notification only); no testing.',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'66%',low:'0°F',   high:'102°F',pathogen:'Ehrlichiosis & Bourbon/Heartland Viruses (Tick focus)'},
+  KY:{name:'Kentucky',      stateTax:8280, coli:91, incomeTax:'Yes',incomeRate:'4.0% (Flat)',     salesTax:'6.00%', propTax:'0.80%',vehicleTax:'Yes (~1.50%)',           home:'LOW',   homeDetails:'Notification only; no testing submitted.',baro:'Moderate',   tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',humidity:'72%',low:'5°F',   high:'96°F', pathogen:'Histoplasmosis & Spotted Fever (~200–400 cases)'},
+  LA:{name:'Louisiana',     stateTax:8217, coli:91, incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'10.11%',propTax:'0.56%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Notification + (under the home-study option) BESE approval/renewal with evidence of a satisfactory program.',baro:'Low to Mod',  tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'74%',low:'22°F', high:'98°F', pathogen:'West Nile Virus (High-severity neuroinvasive spikes)'},
+  ME:{name:'Maine',         stateTax:14336,coli:114,incomeTax:'Yes',incomeRate:'5.8% – 7.15%',   salesTax:'5.50%', propTax:'1.20%',vehicleTax:'Yes (~2.40% Excise)',    home:'MEDIUM',homeDetails:'Notification + annual assessment (standardized test or approved evaluation).',baro:'High',       tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'73%',low:'-15°F',high:'90°F', pathogen:'Lyme Disease & Anaplasmosis (Hyper-Endemic; 2,000+)'},
+  MD:{name:'Maryland',      stateTax:10395,coli:125,incomeTax:'Yes',incomeRate:'2.0% – 6.5%',    salesTax:'6.00%', propTax:'0.99%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Notification + periodic portfolio review by the local school system (2–3× per year) or umbrella-school supervision.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'67%',low:'12°F', high:'97°F', pathogen:'Lyme Disease (Highly Endemic; 1,500–2,000+ cases)'},
+  MA:{name:'Massachusetts', stateTax:10350,coli:149,incomeTax:'Yes',incomeRate:'5.0% – 9.0%',    salesTax:'6.25%', propTax:'1.12%',vehicleTax:'Yes (~2.50% Excise)',    home:'HIGH',  homeDetails:'Local district must pre-approve the education plan; progress demonstrated via testing/evaluation.',baro:'High',       tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',humidity:'68%',low:'5°F',   high:'94°F', pathogen:'Lyme & Babesiosis (Tick blood parasite; 1,000+ cases)'},
+  MI:{name:'Michigan',      stateTax:8798, coli:95, incomeTax:'Yes',incomeRate:'4.25% (Flat)',    salesTax:'6.00%', propTax:'1.32%',vehicleTax:'No (Value flat fee)',    home:'LOW',   homeDetails:'No notice — no notification required under the homeschool option.',baro:'High',       tempVol:'Highly Volatile',pollen:'Moderate', aqi:'Healthy',humidity:'72%',low:'-8°F', high:'94°F', pathogen:'Lyme Disease (Expanding UP corridor; ~400–800 cases)'},
+  MN:{name:'Minnesota',     stateTax:15250,coli:106,incomeTax:'Yes',incomeRate:'5.35% – 9.85%',  salesTax:'8.04%', propTax:'1.02%',vehicleTax:'Yes (~1.25% Base)',     home:'MEDIUM',homeDetails:'Notification + annual standardized testing.',baro:'High',       tempVol:'Highly Volatile',pollen:'Moderate', aqi:'Healthy',humidity:'69%',low:'-20°F',high:'95°F', pathogen:'Lyme Disease & Anaplasmosis (Highly Endemic; 2,000+)'},
+  MS:{name:'Mississippi',   stateTax:8668, coli:86, incomeTax:'Yes',incomeRate:'4.4% (Flat)',     salesTax:'7.06%', propTax:'0.61%',vehicleTax:'Yes (~3.50% Ad Val)',   home:'LOW',   homeDetails:'File a certificate of enrollment (notification) only; no testing.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'73%',low:'18°F', high:'99°F', pathogen:'West Nile Virus (Persistent seasonal river basin focus)'},
+  MO:{name:'Missouri',      stateTax:9543, coli:91, incomeTax:'Yes',incomeRate:'2.0% – 4.7%',    salesTax:'8.39%', propTax:'0.91%',vehicleTax:'Yes (~3.00%)',           home:'LOW',   homeDetails:'No notice; 1,000-hour recordkeeping required but no notification or submitted assessment.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'69%',low:'2°F',   high:'99°F', pathogen:'Ehrlichiosis & Rocky Mountain Spotted Fever (400–700)'},
+  MT:{name:'Montana',       stateTax:11967,coli:103,incomeTax:'Yes',incomeRate:'4.7% – 5.9%',    salesTax:'0.00%', propTax:'0.74%',vehicleTax:'Yes (Age-based fee)',    home:'LOW',   homeDetails:'Notification only; no testing submitted.',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'61%',low:'-25°F',high:'96°F', pathogen:'West Nile Virus & Colorado Tick Fever (Highly variable)'},
+  NE:{name:'Nebraska',      stateTax:11450,coli:95, incomeTax:'Yes',incomeRate:'2.46% – 5.2%',   salesTax:'6.97%', propTax:'1.51%',vehicleTax:'Yes (~1.50% Motor V)',   home:'LOW',   homeDetails:'File an exemption/notification with the state; no testing.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'67%',low:'-8°F', high:'99°F', pathogen:'West Nile Virus (Consistently high per-capita rate)'},
+  NV:{name:'Nevada',        stateTax:0,    coli:112,incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.24%', propTax:'0.48%',vehicleTax:'Yes (~4.00% Govt Svc)', home:'LOW',   homeDetails:'One-time notice of intent only; no testing.',baro:'Low',        tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'38%',low:'12°F', high:'106°F',pathogen:'West Nile Virus (Concentrated around water networks)'},
+  NH:{name:'New Hampshire', stateTax:0,    coli:120,incomeTax:'No', incomeRate:'0.0%',            salesTax:'0.00%', propTax:'1.77%',vehicleTax:'Yes (~1.80% Local)',    home:'MEDIUM',homeDetails:'Notification + annual evaluation (test or portfolio review). 2026 bill HB1268 would make evaluation optional; not yet law.',baro:'High',       tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'70%',low:'-10°F',high:'92°F', pathogen:'Lyme Disease (Highly Endemic; ~1,000–1,500 cases)'},
+  NJ:{name:'New Jersey',    stateTax:11060,coli:132,incomeTax:'Yes',incomeRate:'1.4% – 10.75%',  salesTax:'6.63%', propTax:'2.23%',vehicleTax:'No',                    home:'LOW',   homeDetails:'No notice — no notification required; equivalent-education standard only.',baro:'Mod to High', tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'67%',low:'10°F', high:'96°F', pathogen:'Lyme Disease (Highly Endemic woodland vector; 3,000+)'},
+  NM:{name:'New Mexico',    stateTax:9864, coli:91, incomeTax:'Yes',incomeRate:'1.5% – 5.9%',    salesTax:'7.62%', propTax:'0.67%',vehicleTax:'No',                    home:'LOW',   homeDetails:'Notification to the state only; no testing submitted.',baro:'Low',        tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'44%',low:'8°F',   high:'98°F', pathogen:'Sylvatic Plague & Hantavirus (Flea/Rodent vector focus)'},
+  NY:{name:'New York',      stateTax:13396,coli:139,incomeTax:'Yes',incomeRate:'4.0% – 10.9%',   salesTax:'8.53%', propTax:'1.40%',vehicleTax:'No',                    home:'HIGH',  homeDetails:'Individualized Home Instruction Plan (IHIP) + quarterly reports + annual assessment.',baro:'High',       tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',humidity:'70%',low:'-5°F', high:'94°F', pathogen:'Lyme & Anaplasmosis (Upstate focus; 4,000+ cases)'},
+  NC:{name:'North Carolina',stateTax:8259, coli:95, incomeTax:'Yes',incomeRate:'3.99% (Flat)',    salesTax:'7.00%', propTax:'0.70%',vehicleTax:'Yes (~1.20%)',           home:'MEDIUM',homeDetails:'Notification (school name + administrator) + annual nationally-normed standardized test.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'70%',low:'15°F', high:'97°F', pathogen:'Rocky Mountain Spotted Fever (Highest national case burden)'},
+  ND:{name:'North Dakota',  stateTax:3164, coli:98, incomeTax:'Yes',incomeRate:'0.0% – 2.5%',    salesTax:'6.97%', propTax:'0.92%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Notification + testing in grades 4, 6, 8, 10 + parent high-school-diploma/monitoring rule. Boundary case — closest to HIGH.',baro:'High',       tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'69%',low:'-22°F',high:'97°F', pathogen:'West Nile Virus (High seasonal per-capita density)'},
+  OH:{name:'Ohio',          stateTax:5377, coli:93, incomeTax:'Yes',incomeRate:'2.75% – 3.125%', salesTax:'7.24%', propTax:'1.41%',vehicleTax:'No',                    home:'LOW',   homeDetails:'After HB33 (Oct 2023) only a short notification required; assessment, hours, and instructor-qualification mandates eliminated. Formerly MEDIUM.',baro:'High',       tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'-2°F', high:'95°F', pathogen:'La Crosse Encephalitis & Histoplasmosis (Pediatric focus)'},
+  OK:{name:'Oklahoma',      stateTax:9644, coli:89, incomeTax:'Yes',incomeRate:'0.25% – 4.5%',   salesTax:'8.99%', propTax:'0.74%',vehicleTax:'No (Flat scale)',        home:'LOW',   homeDetails:'No notice — the only state with a constitutional homeschool right; no notification or testing.',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'64%',low:'8°F',   high:'103°F',pathogen:'Rocky Mountain Spotted Fever (Major geographic tick zone)'},
+  OR:{name:'Oregon',        stateTax:15413,coli:117,incomeTax:'Yes',incomeRate:'4.75% – 9.9%',   salesTax:'0.00%', propTax:'0.83%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Notification + standardized testing in grades 3, 5, 8, 10.',baro:'Moderate',   tempVol:'Stable / Mod',   pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'15°F', high:'98°F', pathogen:'Cryptococcosis (Pacific NW tree-bound native fungus)'},
+  PA:{name:'Pennsylvania',  stateTax:6355, coli:103,incomeTax:'Yes',incomeRate:'3.07% (Flat)',    salesTax:'6.34%', propTax:'1.49%',vehicleTax:'No',                    home:'HIGH',  homeDetails:'Notarized affidavit + portfolio + annual review by a qualified evaluator + standardized testing in grades 3, 5, 8.',baro:'High',       tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',humidity:'69%',low:'0°F',   high:'95°F', pathogen:'Lyme Disease (Highest raw case volume nationally; 10,000+)'},
+  RI:{name:'Rhode Island',  stateTax:9595, coli:120,incomeTax:'Yes',incomeRate:'3.75% – 5.99%',  salesTax:'7.00%', propTax:'1.30%',vehicleTax:'Yes (~2.00% Max)',      home:'HIGH',  homeDetails:'Local school committee approval required; assessment plus other conditions.',baro:'High',       tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',humidity:'69%',low:'8°F',   high:'93°F', pathogen:'Lyme Disease & Babesiosis (Dense coastal tick focus)'},
+  SC:{name:'South Carolina',stateTax:11222,coli:96, incomeTax:'Yes',incomeRate:'0.0% – 6.2%',    salesTax:'7.44%', propTax:'0.52%',vehicleTax:'Yes (~2.50%)',           home:'MEDIUM',homeDetails:'Notification + testing, or membership in an approved association (e.g., SCAIHS); three options with differing burdens.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'20°F', high:'99°F', pathogen:'Rocky Mountain Spotted Fever (Coastal/Piedmont vector)'},
+  SD:{name:'South Dakota',  stateTax:0,    coli:97, incomeTax:'No', incomeRate:'0.0%',            salesTax:'6.11%', propTax:'1.14%',vehicleTax:'No',                    home:'LOW',   homeDetails:'After SB177 (July 2021) one-time notification only; mandatory testing eliminated. Formerly MEDIUM.',baro:'High',       tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'67%',low:'-18°F',high:'98°F', pathogen:'West Nile Virus (Prairie mosquito vectors; highly volatile)'},
+  TN:{name:'Tennessee',     stateTax:0,    coli:95, incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.55%', propTax:'0.64%',vehicleTax:'No',                    home:'MEDIUM',homeDetails:'Independent path: notification + attendance records + testing in grades 5, 7, 9. ~95% of families use church-umbrella schools, which require no state testing.',baro:'Moderate',   tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',humidity:'70%',low:'10°F', high:'97°F', pathogen:'Ehrlichiosis & Spotted Fever (Tick corridor; ~300+ cases)'},
+  TX:{name:'Texas',         stateTax:0,    coli:97, incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.20%', propTax:'1.60%',vehicleTax:'No',                    home:'LOW',   homeDetails:'No notice — homeschools treated as private schools; no notification or testing.',baro:'Low to Mod',  tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',humidity:'63%',low:'15°F', high:'103°F',pathogen:'Murine Typhus & Chagas Disease (Flea/Kissing bug vectors)'},
+  UT:{name:'Utah',          stateTax:9419, coli:107,incomeTax:'Yes',incomeRate:'4.55% (Flat)',    salesTax:'7.19%', propTax:'0.52%',vehicleTax:'No',                    home:'LOW',   homeDetails:'One-time signed affidavit (notification) only; no testing.',baro:'Low',        tempVol:'Moderate',       pollen:'Healthy',  aqi:'Moderate',humidity:'53%',low:'5°F',   high:'100°F',pathogen:'West Nile Virus (Strictly tied to Great Salt Lake wetlands)'},
+  VT:{name:'Vermont',       stateTax:13156,coli:120,incomeTax:'Yes',incomeRate:'3.35% – 8.75%',  salesTax:'6.30%', propTax:'1.73%',vehicleTax:'No',                    home:'HIGH',  homeDetails:'Enrollment notice + detailed course of study + annual assessment; Secretary able to call a hearing.',baro:'High',       tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',humidity:'72%',low:'-12°F',high:'91°F', pathogen:'Lyme Disease (Extremely high per-capita incidence growth)'},
+  VA:{name:'Virginia',      stateTax:11645,coli:110,incomeTax:'Yes',incomeRate:'2.0% – 5.75%',   salesTax:'5.77%', propTax:'0.76%',vehicleTax:'Yes (~4.00% Highest)',   home:'MEDIUM',homeDetails:'Notice of intent + annual evidence of academic progress (test or evaluation) by August 1.',baro:'Moderate',   tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',humidity:'68%',low:'12°F', high:'97°F', pathogen:'Lyme Disease & Spotted Fever (1,000–1,500+ cases)'},
+  WA:{name:'Washington',    stateTax:0,    coli:121,incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.38%', propTax:'0.84%',vehicleTax:'Yes (~1.10% RTA area)', home:'MEDIUM',homeDetails:'Annual declaration of intent + annual standardized testing or assessment.',baro:'Moderate',   tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',humidity:'73%',low:'15°F', high:'95°F', pathogen:'West Nile & Cryptococcosis (Low scale; heavily localized)'},
+  WV:{name:'West Virginia', stateTax:9255, coli:87, incomeTax:'Yes',incomeRate:'2.22% – 4.82%',  salesTax:'6.57%', propTax:'0.55%',vehicleTax:'Yes (~1.00%)',           home:'MEDIUM',homeDetails:'Notification + annual academic assessment.',baro:'Moderate',   tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',humidity:'71%',low:'2°F',   high:'94°F', pathogen:'Lyme Disease (Rapidly expanding mountain tick vector; 1,000+)'},
+  WI:{name:'Wisconsin',     stateTax:10625,coli:99, incomeTax:'Yes',incomeRate:'3.54% – 7.65%',  salesTax:'5.43%', propTax:'1.51%',vehicleTax:'No',                    home:'LOW',   homeDetails:'Annual statement (form PI-1206) only; no testing submitted.',baro:'High',       tempVol:'Highly Volatile',pollen:'Moderate', aqi:'Healthy',humidity:'71%',low:'-15°F',high:'94°F', pathogen:'Lyme Disease & Blastomycosis (Endemic soil fungus; 3,000+)'},
+  WY:{name:'Wyoming',       stateTax:0,    coli:99, incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'Yes (~1.20% Factory)',  home:'LOW',   homeDetails:'Notification + a curriculum statement showing a sequential program; no testing.',baro:'Moderate',   tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',humidity:'57%',low:'-20°F',high:'93°F', pathogen:'Colorado Tick Fever & Tularemia (Low density but persistent)'},
 };
 
-const stateNames = {
-  "AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California",
-  "CO":"Colorado","CT":"Connecticut","DE":"Delaware","FL":"Florida","GA":"Georgia",
-  "HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa",
-  "KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland",
-  "MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri",
-  "MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey",
-  "NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio",
-  "OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina",
-  "SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont",
-  "VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"
+// ── METRICS ──
+function metrics(code){
+  const s=SD[code]; if(!s)return null;
+  const bw = code==='LA' ? LA_BW : Math.max(0, NON_STATE_BASE-(s.stateTax/26));
+  const monthly=bw*2;
+  const mult=s.coli/LA_COLI;
+  const expNew=LA_EXPENSES*mult;
+  const surplus=monthly-expNew;
+  return{bw,monthly,expNew,surplus,surplusDelta:surplus-LA_SURPLUS,mult};
+}
+
+// Surplus deltas for choropleth
+const deltas={};
+for(const c in SD){const m=metrics(c);deltas[c]=m?m.surplusDelta:0;}
+const maxD=Math.max(...Object.values(deltas).map(Math.abs),1);
+const cScale=d3.scaleLinear().domain([-maxD,0,maxD]).range(['#7f1d1d','#1f2e4a','#14532d']).clamp(true);
+
+// ── HELPERS ──
+const fmtD=(v,mn=2)=>'$'+Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:mn,maximumFractionDigits:mn});
+const fmtI=v=>'$'+Math.abs(v).toLocaleString('en-US',{maximumFractionDigits:0});
+
+function climateBadge(val){
+  if(!val)return val;
+  const v=val.toLowerCase();
+  let cls='cb-moderate';
+  if(v.includes('high')||v.includes('unhealthy')||v.includes('volatile')) cls='cb-high';
+  else if(v.includes('low')||v.includes('healthy')||v.includes('stable')) cls='cb-low';
+  return `<span class="cbadge ${cls}">${val}</span>`;
+}
+function homeBadge(tier){
+  const cls=tier==='HIGH'?'cb-high':tier==='MEDIUM'?'cb-moderate':'cb-low';
+  return `<span class="cbadge ${cls}">${tier}</span>`;
+}
+function setEl(id,html,isHTML=false){const el=document.getElementById(id);if(isHTML)el.innerHTML=html;else el.textContent=html;}
+function setDelta(id,delta,reverse=false){
+  const el=document.getElementById(id);
+  if(Math.abs(delta)<0.5){el.textContent='';return;}
+  const better=(reverse?delta<=0:delta>=0);
+  el.textContent=(delta>0?'+':'−')+'$'+Math.abs(delta).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' vs LA';
+  el.className='delta '+(better?'dp':'dn');
+}
+
+// ── MAP ──
+const svg=d3.select('#map-svg');
+const proj=d3.geoAlbersUsa().scale(1280).translate([480,300]);
+const path=d3.geoPath().projection(proj);
+const tt=document.getElementById('tt');
+
+const fips={
+  "01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT",
+  "10":"DE","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN",
+  "19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD","25":"MA",
+  "26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE","32":"NV",
+  "33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH",
+  "40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN",
+  "48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"
 };
-
-const tierColor = { LOW: '#10b981', MEDIUM: '#f59e0b', HIGH: '#ef4444' };
-const tierColorDim = { LOW: '#0a4a30', MEDIUM: '#4a3500', HIGH: '#4a1010' };
-
-function badge(val) {
-  if (!val) return '--';
-  const v = val.toLowerCase();
-  let cls = 'badge-low';
-  if (v.includes('high') || v.includes('unhealthy') || v.includes('volatile')) cls = 'badge-high';
-  else if (v.includes('medium') || v.includes('moderate') || v.includes('mod')) cls = 'badge-medium';
-  return `<span class="badge ${cls}">${val}</span>`;
-}
-
-function loadState(code) {
-  const d = dataset[code];
-  if (!d) return;
-
-  document.getElementById('stateName').textContent = stateNames[code] || code;
-  document.getElementById('stateCode').textContent = code;
-  document.getElementById('stateHeader').classList.add('visible');
-
-  document.getElementById('v-it').textContent = d.incomeTax;
-  document.getElementById('v-ir').textContent = d.incomeRate;
-  document.getElementById('v-st').textContent = d.salesTax;
-  document.getElementById('v-pt').textContent = d.propTax;
-  document.getElementById('v-vt').textContent = d.vehicleTax;
-
-  const tier = d.homeTier;
-  document.getElementById('v-ht').innerHTML = `<span class="badge badge-${tier.toLowerCase()}">${tier}</span>`;
-  document.getElementById('v-hd').textContent = d.homeDetails;
-
-  document.getElementById('v-baro').innerHTML = badge(d.baro);
-  document.getElementById('v-tv').innerHTML = badge(d.tempVol);
-  document.getElementById('v-pol').innerHTML = badge(d.pollen);
-  document.getElementById('v-aqi').innerHTML = badge(d.aqi);
-  document.getElementById('v-hum').textContent = d.humidity;
-  document.getElementById('v-tr').textContent = `${d.high} / ${d.low}`;
-  document.getElementById('v-path').textContent = d.pathogen;
-
-  document.getElementById('detailSection').classList.add('visible');
-  document.getElementById('promptBar').style.display = 'none';
-}
-
-// D3 + TopoJSON map
-const svg = d3.select('#map-svg');
-const projection = d3.geoAlbersUsa().scale(1280).translate([480, 300]);
-const path = d3.geoPath().projection(projection);
-const tooltip = document.getElementById('tooltip');
-
-let selectedCode = null;
 
 fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
-  .then(r => r.json())
-  .then(us => {
-    const fips2abbr = {
-      "01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT",
-      "10":"DE","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN",
-      "19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD","25":"MA",
-      "26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE","32":"NV",
-      "33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH",
-      "40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN",
-      "48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"
-    };
-
-    const states = topojson.feature(us, us.objects.states).features;
-
-    svg.selectAll('path.state-path')
-      .data(states)
-      .join('path')
-      .attr('class', 'state-path')
-      .attr('d', path)
-      .attr('fill', d => {
-        const code = fips2abbr[String(d.id).padStart(2,'0')];
-        const tier = dataset[code]?.homeTier;
-        return tier ? tierColorDim[tier] : '#1a2840';
+  .then(r=>r.json())
+  .then(us=>{
+    const feats=topojson.feature(us,us.objects.states).features;
+    svg.selectAll('path.sp').data(feats).join('path')
+      .attr('class','sp')
+      .attr('d',path)
+      .attr('fill',d=>cScale(deltas[fips[String(d.id).padStart(2,'0')]]??0))
+      .on('mousemove',function(event,d){
+        const code=fips[String(d.id).padStart(2,'0')];
+        const s=SD[code]; if(!s)return;
+        const m=metrics(code);
+        document.getElementById('tt-n').textContent=s.name;
+        document.getElementById('tt-d').textContent=
+          `Surplus Δ: ${m.surplusDelta>=0?'+':''}${fmtI(m.surplusDelta)}/mo  ·  BW Net: ${fmtD(m.bw)}`;
+        tt.style.left=(event.clientX+14)+'px';
+        tt.style.top=(event.clientY-10)+'px';
+        tt.classList.add('show');
       })
-      .attr('data-code', d => fips2abbr[String(d.id).padStart(2,'0')])
-      .on('mousemove', function(event, d) {
-        const code = fips2abbr[String(d.id).padStart(2,'0')];
-        const tier = dataset[code]?.homeTier || '—';
-        document.getElementById('tt-name').textContent = stateNames[code] || code;
-        document.getElementById('tt-tier').textContent = `Homeschool: ${tier}`;
-        tooltip.classList.add('visible');
-        tooltip.style.left = (event.clientX + 14) + 'px';
-        tooltip.style.top  = (event.clientY - 10) + 'px';
-      })
-      .on('mouseleave', function() {
-        tooltip.classList.remove('visible');
-      })
-      .on('click', function(event, d) {
-        const code = fips2abbr[String(d.id).padStart(2,'0')];
-        if (!code || !dataset[code]) return;
-
-        // Reset previous
-        svg.selectAll('path.state-path')
-          .attr('fill', f => {
-            const c = fips2abbr[String(f.id).padStart(2,'0')];
-            const t = dataset[c]?.homeTier;
-            return t ? tierColorDim[t] : '#1a2840';
-          })
-          .classed('selected', false);
-
-        // Highlight selected
-        d3.select(this)
-          .attr('fill', () => tierColor[dataset[code].homeTier] || '#38bdf8')
-          .classed('selected', true);
-
-        selectedCode = code;
-        loadState(code);
+      .on('mouseleave',()=>tt.classList.remove('show'))
+      .on('click',function(event,d){
+        const code=fips[String(d.id).padStart(2,'0')];
+        if(!SD[code])return;
+        svg.selectAll('path.sp').classed('active',false);
+        d3.select(this).classed('active',true);
+        render(code);
       });
-
-    // State borders
     svg.append('path')
-      .datum(topojson.mesh(us, us.objects.states, (a, b) => a !== b))
-      .attr('fill', 'none')
-      .attr('stroke', '#0a1525')
-      .attr('stroke-width', 0.8)
-      .attr('d', path);
-  })
-  .catch(err => {
-    svg.append('text')
-      .attr('x', 480).attr('y', 300)
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#5a7499')
-      .attr('font-family', 'DM Mono, monospace')
-      .attr('font-size', '14')
-      .text('Map failed to load — check network connection');
-    console.error(err);
+      .datum(topojson.mesh(us,us.objects.states,(a,b)=>a!==b))
+      .attr('fill','none').attr('stroke','#07090f').attr('stroke-width',0.7).attr('d',path);
   });
+
+// ── RENDER DETAIL ──
+function render(code){
+  const s=SD[code];
+  const m=metrics(code);
+  const{bw,monthly,expNew,surplus,surplusDelta,mult}=m;
+
+  // Header
+  setEl('d-name',s.name.toUpperCase());
+  const txStr=s.stateTax===0?'No state income tax':`~${(s.stateTax/207000*100).toFixed(1)}% eff. state rate`;
+  setEl('d-sub',`${txStr}  ·  CoL index ${s.coli} (LA = 91)`);
+  setEl('d-col2',s.name);
+
+  // Pay comparison
+  const bwD=bw-LA_BW;
+  const el_bw=document.getElementById('d-bw');
+  el_bw.textContent=fmtD(bw);
+  el_bw.className='cm-val '+(bwD>=0?'pos':bwD<-1?'neg':'neu');
+  setDelta('d-bwd',bwD);
+
+  setEl('d-mi',fmtD(monthly));
+
+  const exD=expNew-LA_EXPENSES;
+  const el_ex=document.getElementById('d-ex');
+  el_ex.textContent=fmtD(expNew);
+  el_ex.className='cm-val '+(exD>50?'neg':exD<-50?'pos':'neu');
+  setDelta('d-exd',exD,true);
+
+  const el_sur=document.getElementById('d-sur');
+  el_sur.textContent=fmtD(surplus);
+  el_sur.className='cm-val '+(surplus>=LA_SURPLUS?'pos':'neg');
+  setDelta('d-surd',surplusDelta);
+
+  // Bars
+  const maxBar=Math.max(Math.abs(LA_SURPLUS),Math.abs(surplus),1);
+  document.getElementById('b-la').style.width=(LA_SURPLUS/maxBar*100).toFixed(1)+'%';
+  document.getElementById('b-new').style.width=(Math.abs(surplus)/maxBar*100).toFixed(1)+'%';
+  const bNew=document.getElementById('b-new');
+  bNew.classList.toggle('red',surplus<0);
+  const bNewVal=document.getElementById('b-newval');
+  bNewVal.textContent=(surplus>=0?'':'-')+fmtI(Math.abs(surplus));
+  bNewVal.style.color=surplus>=LA_SURPLUS?'#4ade80':'#f87171';
+  const bNewLbl=document.getElementById('b-newlbl');
+  bNewLbl.textContent=code;
+  bNewLbl.style.color=surplus>=LA_SURPLUS?'var(--green)':'var(--red)';
+
+  // Expense rows
+  const ec=document.getElementById('exp-rows');
+  ec.innerHTML='';
+  let tLA=0,tNew=0;
+  expenses.forEach(cat=>{
+    const nw=cat.la*mult, dlt=nw-cat.la;
+    tLA+=cat.la; tNew+=nw;
+    const cls=dlt>5?'ec-up':dlt<-5?'ec-dn':'ec-eq';
+    const str=dlt>0.5?'+'+fmtI(dlt):dlt<-0.5?'−'+fmtI(Math.abs(dlt)):'—';
+    ec.insertAdjacentHTML('beforeend',`
+      <div class="exp-row">
+        <div class="exp-cat">${cat.name}</div>
+        <div class="exp-num">${fmtD(cat.la)}</div>
+        <div class="exp-num">${fmtD(nw)}</div>
+        <div class="exp-chg ${cls}">${str}</div>
+      </div>`);
+  });
+  const td=tNew-tLA;
+  const tcls=td>5?'ec-up':td<-5?'ec-dn':'ec-eq';
+  const tstr=td>0.5?'+'+fmtI(td):td<-0.5?'−'+fmtI(Math.abs(td)):'—';
+  ec.insertAdjacentHTML('beforeend',`
+    <div class="exp-row" style="font-weight:700">
+      <div class="exp-cat">Total</div>
+      <div class="exp-num">${fmtD(tLA)}</div>
+      <div class="exp-num">${fmtD(tNew)}</div>
+      <div class="exp-chg ${tcls}">${tstr}</div>
+    </div>`);
+
+  // Tax profile
+  setEl('t-it',s.incomeTax==='No'?'None':s.incomeTax);
+  setEl('t-ir',s.incomeRate);
+  setEl('t-st',s.salesTax);
+  setEl('t-pt',s.propTax);
+  setEl('t-vt',s.vehicleTax);
+
+  // Climate
+  setEl('c-baro', climateBadge(s.baro), true);
+  setEl('c-tv',   climateBadge(s.tempVol), true);
+  setEl('c-pol',  climateBadge(s.pollen), true);
+  setEl('c-aqi',  climateBadge(s.aqi), true);
+  setEl('c-hum',  s.humidity);
+  setEl('c-tr',   s.high+' / '+s.low);
+  setEl('c-path', s.pathogen);
+
+  // Homeschool
+  setEl('h-tier', homeBadge(s.home), true);
+  setEl('h-basis', s.homeDetails);
+
+  // Show panel
+  document.getElementById('ph').style.display='none';
+  document.getElementById('dbody').classList.add('show');
+}
 </script>
 </body>
 </html>
