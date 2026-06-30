@@ -233,7 +233,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div id="exp-rows"></div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Groceries include Walmart/Walmart.com, Sam’s/Costco, grocery, household, and convenience/gas-station purchases. Amazon and Goodwill are split out. Sales-tax adjustment vs LA 10.11% uses modeled taxable share: Grocery/household 50%; Restaurant, Amazon, Goodwill 100%; Retail/Home/Misc 65%; Subscriptions 50%; Utilities and Medical 0%.
+            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state’s grocery tax treatment; household/convenience uses the state’s general sales tax. Restaurant, Amazon, and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Utilities and Medical 0%.
           </div>
         </div>
 
@@ -264,6 +264,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
             <div><div class="info-label">Income Tax?</div><div class="info-val" id="t-it"></div></div>
             <div><div class="info-label">Income Tax Rate</div><div class="info-val" id="t-ir"></div></div>
             <div><div class="info-label">Avg. Sales Tax</div><div class="info-val" id="t-st"></div></div>
+            <div><div class="info-label">Food-at-home Grocery Tax</div><div class="info-val" id="t-gt"></div></div>
             <div><div class="info-label">Property Tax (Eff.)</div><div class="info-val" id="t-pt"></div></div>
             <div style="grid-column:1/-1"><div class="info-label">Annual Vehicle Property Tax (2025 Pacifica + 2008 Sienna)</div><div class="info-val" id="t-vt"></div></div>
           </div>
@@ -331,17 +332,62 @@ const LA_VTAX_ANNUAL = 0;     // LA has no vehicle property tax
 const LA_RENT_ANNUAL = 14181.72;  // current LA mortgage: $1,181.81 × 12; used as housing baseline
 
 const LA_SALES_RATE = 0.1011;
+const LA_GROCERY_TAX_RATE = 0.0566; // LA food-for-home: state-exempt, modeled avg local component of 10.11% - 4.45%
 
-// Taxable % per category
-const TAX_PCT = { GroceriesHousehold:0.50, Restaurant:1.00, Amazon:1.00, Goodwill:1.00, RetailHomeMisc:0.65, Utilities:0.00, MedicalPharmacy:0.00, Subscriptions:0.50 };
+// Grocery/household category split. No receipt-level line items are available, so food-for-home is modeled separately from household/convenience.
+const GROCERY_FOOD_HOME_SHARE = 0.60;
+const GROCERY_HOUSEHOLD_TAXABLE_SHARE = 0.40;
 
-function calcExpenses(salesTaxRate) {
-  const r = salesTaxRate / 100;
+// 2026 modeled tax on food-for-home groceries. Most values are state-level grocery tax plus estimated local component where local food taxes commonly apply.
+const GROCERY_TAX_RATES = {
+  AL:7.29, AK:0.00, AZ:0.00, AR:2.94, CA:0.00, CO:0.00, CT:0.00, DE:0.00, FL:0.00, GA:3.39,
+  HI:4.50, ID:6.02, IL:1.00, IN:0.00, IA:0.00, KS:2.25, KY:0.00, LA:5.66, ME:0.00, MD:0.00,
+  MA:0.00, MI:0.00, MN:0.00, MS:5.06, MO:5.39, MT:0.00, NE:0.00, NV:0.00, NH:0.00, NJ:0.00,
+  NM:0.00, NY:0.00, NC:2.00, ND:0.00, OH:0.00, OK:4.49, OR:0.00, PA:0.00, RI:0.00, SC:0.00,
+  SD:5.81, TN:6.55, TX:0.00, UT:3.00, VT:0.00, VA:1.00, WA:0.00, WV:0.00, WI:0.00, WY:0.00
+};
+
+const GROCERY_TAX_NOTES = {
+  AL:'2% state grocery tax + modeled avg local tax',
+  AR:'state grocery tax eliminated; modeled local tax still applies',
+  GA:'state grocery exemption; modeled local tax still applies',
+  IL:'state grocery tax eliminated; modeled 1% local grocery tax where adopted',
+  KS:'state grocery tax eliminated; modeled local tax still applies',
+  LA:'state grocery exemption; modeled avg local grocery tax',
+  MS:'reduced grocery tax modeled with local component',
+  MO:'1.225% state grocery tax + modeled avg local tax',
+  NC:'modeled local food tax only',
+  OK:'state grocery tax eliminated; modeled local tax still applies',
+  SD:'grocery taxed at state rate + modeled local component',
+  TN:'4% state grocery tax + modeled avg local tax',
+  UT:'3% statewide grocery tax',
+  VA:'state grocery tax eliminated; modeled local food tax',
+  WY:'food for domestic home consumption exempt'
+};
+
+// Taxable % per non-grocery category
+const TAX_PCT = { Restaurant:1.00, Amazon:1.00, Goodwill:1.00, RetailHomeMisc:0.65, Utilities:0.00, MedicalPharmacy:0.00, Subscriptions:0.50 };
+
+function applyTaxDelta(amount, taxablePct, newRatePct, laRateDecimal) {
+  const newRate = newRatePct / 100;
+  const newTaxable = amount * taxablePct * (1+newRate)/(1+laRateDecimal);
+  return newTaxable + amount*(1-taxablePct);
+}
+
+function calcExpenses(salesTaxRate, groceryTaxRate) {
   let total = 0; const breakdown = {};
+
+  // Grocery/household/convenience: food-for-home uses grocery tax; household/convenience uses general sales tax.
+  const gh = LA_CATS.GroceriesHousehold;
+  const ghFood = gh * GROCERY_FOOD_HOME_SHARE * (1+groceryTaxRate/100)/(1+LA_GROCERY_TAX_RATE);
+  const ghHousehold = gh * GROCERY_HOUSEHOLD_TAXABLE_SHARE * (1+salesTaxRate/100)/(1+LA_SALES_RATE);
+  breakdown.GroceriesHousehold = ghFood + ghHousehold;
+  total += breakdown.GroceriesHousehold;
+
   for (const [cat, laAmt] of Object.entries(LA_CATS)) {
+    if (cat === 'GroceriesHousehold') continue;
     const tp = TAX_PCT[cat];
-    const newTaxable = laAmt * tp * (1+r)/(1+LA_SALES_RATE);
-    breakdown[cat] = newTaxable + laAmt*(1-tp);
+    breakdown[cat] = applyTaxDelta(laAmt, tp, salesTaxRate, LA_SALES_RATE);
     total += breakdown[cat];
   }
   return {total, breakdown};
@@ -412,7 +458,8 @@ function metrics(code){
   const stateTaxPP = s.stateTax/26;
   const bw = BASE_NET - stateTaxPP;
   const annual = bw*26;
-  const {total:expM, breakdown:expBreakdown} = calcExpenses(s.salesTaxRate);
+  const groceryTaxRate = GROCERY_TAX_RATES[code] ?? 0;
+  const {total:expM, breakdown:expBreakdown} = calcExpenses(s.salesTaxRate, groceryTaxRate);
   const expA = expM*12;
   const newIns = s.ins;
   const newVtax = s.vtax;
@@ -426,7 +473,7 @@ function metrics(code){
   const annRentDelta = newRent - LA_RENT_ANNUAL;
   const annNetDelta  = annPayDelta - annExpDelta - annInsDelta - annVtaxDelta - annRentDelta;
   return {bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta:bw-LA_BW_NET,
-          newIns,newVtax,newRent,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta};
+          newIns,newVtax,newRent,groceryTaxRate,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta};
 }
 
 // Choropleth — annual net position delta
@@ -501,13 +548,13 @@ fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
 function render(code){
   const s=SD[code]; const m=metrics(code);
   const{bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta,
-        newIns,newVtax,newRent,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
+        newIns,newVtax,newRent,groceryTaxRate,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
 
   // Header
   setEl('d-name',s.name.toUpperCase());
   const stRateDelta=(s.salesTaxRate-10.11).toFixed(2);
   const stRateStr=stRateDelta>=0?`+${stRateDelta}%`:`${stRateDelta}%`;
-  setEl('d-sub',`State tax ~$${s.stateTax.toLocaleString()} ($${stateTaxPP.toFixed(2)}/period)  ·  Sales tax: ${s.salesTaxRate}% (${stRateStr} vs LA 10.11%)`);
+  setEl('d-sub',`State tax ~$${s.stateTax.toLocaleString()} ($${stateTaxPP.toFixed(2)}/period)  ·  Sales tax: ${s.salesTaxRate}% (${stRateStr} vs LA 10.11%)  ·  Grocery food tax: ${groceryTaxRate.toFixed(2)}%`);
   setEl('d-col2',s.name);
 
   // Pay
@@ -591,6 +638,8 @@ function render(code){
   setEl('t-it',s.incomeTax==='No'?'None':s.incomeTax);
   setEl('t-ir',s.incomeRate);
   setEl('t-st',s.salesTax+(s.salesTaxRate===0&&code!=='LA'?' — see note below':''));
+  const gtNote = GROCERY_TAX_NOTES[code] || (groceryTaxRate===0 ? 'food-for-home exempt' : 'modeled food-for-home rate');
+  setEl('t-gt',`${groceryTaxRate.toFixed(2)}% — ${gtNote}`);
   setEl('t-pt',s.propTax);
   const vtEl=document.getElementById('t-vt');
   if(s.vtax>0){
