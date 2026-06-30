@@ -140,6 +140,35 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .net-box{display:flex;justify-content:space-between;align-items:center;background:var(--s3);border:1px solid var(--border);border-radius:5px;padding:9px 12px;margin-top:8px;}
 .net-label{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);}
 .net-val{font-family:var(--display);font-size:1.5rem;letter-spacing:.5px;}
+
+/* County shortlist table */
+.shortlist-wrap{background:var(--s1);border:1px solid var(--border);border-radius:10px;margin:0 0 16px 0;box-shadow:0 1px 4px rgba(27,39,64,.05);overflow:hidden;}
+.shortlist-hdr{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:13px 16px;background:var(--s3);border-bottom:1px solid var(--border);}
+.shortlist-title{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+.shortlist-note{font-family:var(--mono);font-size:.58rem;color:var(--muted);line-height:1.45;max-width:640px;text-align:right;}
+.shortlist-scroll{overflow-x:auto;}
+.shortlist-table{min-width:1220px;display:block;}
+.srow{display:grid;grid-template-columns:44px 190px 124px 98px 110px 150px 120px 92px 105px 220px;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);}
+.srow:last-child{border-bottom:none;}
+.srow.hd{background:var(--s2);}
+.scell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);}
+.srow.hd .scell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.scell.strong{font-weight:700;color:var(--text);}
+.sbadge{display:inline-block;padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:.54rem;line-height:1.25;background:var(--blue-bg);color:var(--blue);border:1px solid rgba(29,78,216,.15);}
+.simpact.pos{font-weight:700;color:var(--green);}
+.simpact.neg{font-weight:700;color:var(--red);}
+.alt-list{font-family:var(--mono);font-size:.63rem;line-height:1.55;color:var(--text2);}
+.alt-pill{display:inline-block;margin:2px 3px 2px 0;padding:2px 5px;border-radius:3px;background:var(--s2);border:1px solid var(--border2);}
+
+.erow{display:grid;grid-template-columns:44px 196px 126px 92px 96px 96px 104px 110px 112px 112px;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);} 
+.erow:last-child{border-bottom:none;}
+.erow.hd{background:var(--s2);} 
+.ecell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);} 
+.erow.hd .ecell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);} 
+.ecell.strong{font-weight:700;color:var(--text);} 
+.expdelta.good{font-weight:700;color:var(--green);} 
+.expdelta.bad{font-weight:700;color:var(--red);} 
+
 </style>
 </head>
 <body>
@@ -164,7 +193,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="snap-card blue-top">
       <div class="snap-label">Monthly Tax-Adjusted Spend (LA)</div>
       <div class="snap-val" style="color:var(--blue)">$4,808.76</div>
-      <div class="snap-sub">Recurring Jan–May baseline · one-offs excluded</div>
+      <div class="snap-sub">Recurring Jan–May baseline · St. Landry baseline</div>
     </div>
     <div class="snap-card" style="border-top:3px solid var(--amber)">
       <div class="snap-label">Annual Ins. + VehicleTax (LA)</div>
@@ -174,10 +203,37 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   </div>
 </div>
 
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// County shortlist — 12 address-level candidates to verify</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Map remains state-level; this table shows the county/FMR-area candidate or alternate used for the financial screen.</div>
+    </div>
+    <div class="shortlist-note">Rent is a county/FMR-area screening benchmark, not proof of an active standalone 4BR listing. Final pass still requires exact-address broadband, active inventory, insurance quote, and local tax check.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="shortlist-table" id="county-shortlist"></div>
+  </div>
+</div>
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// 12-county monthly + annual expense recalculation</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Baseline is your current St. Landry Parish, Louisiana setup: actual mortgage + actual recurring Chase spend + Progressive policy. Destination counties use county/city sales tax, grocery tax, utilities, 4BR rent benchmark, state auto insurance, and vehicle tax.</div>
+    </div>
+    <div class="shortlist-note">Expense delta excludes paycheck tax impact; net position includes paycheck tax impact. Local tax and rent are screening assumptions until exact rental address is validated.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="shortlist-table" id="county-expense-table"></div>
+  </div>
+</div>
+
 <div class="main-grid">
   <div class="map-wrap">
     <div class="map-hdr">
-      <span class="map-lbl">// Annual net position change vs Louisiana — income tax + sales/grocery tax + utilities + insurance + vehicle tax + LA mortgage vs county 4BR rent</span>
+      <span class="map-lbl">// Annual net position change vs St. Landry, LA — income tax + county sales/grocery tax + utilities + insurance + vehicle tax + LA mortgage vs county 4BR rent</span>
       <div class="map-legend">
         <span style="color:var(--red);font-size:.62rem">worse off</span>
         <div><div class="ml-grad"></div><div class="ml-labs"><span>worst</span><span>best</span></div></div>
@@ -233,7 +289,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div id="exp-rows"></div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state’s grocery tax treatment; household/convenience uses the state’s general sales tax. Restaurant, Amazon, and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state residential kWh rate; water and internet use state-level monthly estimates. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline.
+            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state/county grocery tax treatment; household/convenience uses the destination county general sales tax. Restaurant uses destination restaurant/meals tax where applicable; Amazon and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state residential kWh rate; water and internet use state-level monthly estimates. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline.
           </div>
           <div class="path-box" style="margin-top:8px;"><strong>Utility detail</strong><span id="u-detail"></span></div>
         </div>
@@ -243,8 +299,10 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="sec-title">// County-level 4BR rent candidate used for this state</div>
           <div class="info-grid">
             <div style="grid-column:1/-1"><div class="info-label">County / FMR area considered</div><div class="info-val" id="county-name"></div></div>
+            <div><div class="info-label">Candidate type</div><div class="info-val" id="county-type"></div></div>
             <div><div class="info-label">4BR rent benchmark</div><div class="info-val" id="county-rent"></div></div>
-            <div><div class="info-label">Rent basis</div><div class="info-val" id="county-basis"></div></div>
+            <div style="grid-column:1/-1"><div class="info-label">Rent basis</div><div class="info-val" id="county-basis"></div></div>
+            <div style="grid-column:1/-1"><div class="info-label">Alternate county candidates</div><div class="info-val alt-list" id="county-alts"></div></div>
           </div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>County screen caveat</strong>
@@ -288,7 +346,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
         <!-- Climate & Health -->
         <div class="sec">
-          <div class="sec-title">// Climate &amp; Environmental Health</div>
+          <div class="sec-title">// County-specific climate &amp; environmental health</div>
           <div class="info-grid">
             <div><div class="info-label">Barometric Health</div><div class="info-val" id="c-baro"></div></div>
             <div><div class="info-label">Temp Volatility</div><div class="info-val" id="c-tv"></div></div>
@@ -358,8 +416,8 @@ const LA_INS_ANNUAL = 2916;   // actual Progressive policy: $1,458 × 2 terms (2
 const LA_VTAX_ANNUAL = 0;     // LA has no vehicle property tax
 const LA_RENT_ANNUAL = 14181.72;  // current LA mortgage: $1,181.81 × 12; used as housing baseline
 
-const LA_SALES_RATE = 0.1011;
-const LA_GROCERY_TAX_RATE = 0.0566; // LA food-for-home: state-exempt, modeled avg local component of 10.11% - 4.45%
+const LA_SALES_RATE = 0.1055; // St. Landry Parish 2026 combined sales tax baseline
+const LA_GROCERY_TAX_RATE = 0.0555; // St. Landry Parish local grocery tax component; LA state food-for-home is exempt
 
 // Grocery/household category split. No receipt-level line items are available, so food-for-home is modeled separately from household/convenience.
 const GROCERY_FOOD_HOME_SHARE = 0.60;
@@ -368,7 +426,7 @@ const GROCERY_HOUSEHOLD_TAXABLE_SHARE = 0.40;
 // 2026 modeled tax on food-for-home groceries. Most values are state-level grocery tax plus estimated local component where local food taxes commonly apply.
 const GROCERY_TAX_RATES = {
   AL:7.29, AK:0.00, AZ:0.00, AR:2.94, CA:0.00, CO:0.00, CT:0.00, DE:0.00, FL:0.00, GA:3.39,
-  HI:4.50, ID:6.02, IL:1.00, IN:0.00, IA:0.00, KS:2.25, KY:0.00, LA:5.66, ME:0.00, MD:0.00,
+  HI:4.50, ID:6.02, IL:1.00, IN:0.00, IA:0.00, KS:2.25, KY:0.00, LA:5.55, ME:0.00, MD:0.00,
   MA:0.00, MI:0.00, MN:0.00, MS:5.06, MO:5.39, MT:0.00, NE:0.00, NV:0.00, NH:0.00, NJ:0.00,
   NM:0.00, NY:0.00, NC:2.00, ND:0.00, OH:0.00, OK:4.49, OR:0.00, PA:0.00, RI:0.00, SC:0.00,
   SD:5.81, TN:6.55, TX:0.00, UT:3.00, VT:0.00, VA:1.00, WA:0.00, WV:0.00, WI:0.00, WY:0.00
@@ -425,13 +483,14 @@ function applyTaxDelta(amount, taxablePct, newRatePct, laRateDecimal) {
   return newTaxable + amount*(1-taxablePct);
 }
 
-function calcExpenses(code, salesTaxRate, groceryTaxRate) {
+function calcExpensesByRates(code, generalSalesTaxRate, groceryTaxRate, restaurantTaxRate=null) {
   let total = 0; const breakdown = {};
+  const restRate = restaurantTaxRate ?? generalSalesTaxRate;
 
-  // Grocery/household/convenience: food-for-home uses grocery tax; household/convenience uses general sales tax.
+  // Grocery/household/convenience: food-for-home uses grocery tax; household/convenience uses destination general sales tax.
   const gh = LA_CATS.GroceriesHousehold;
   const ghFood = gh * GROCERY_FOOD_HOME_SHARE * (1+groceryTaxRate/100)/(1+LA_GROCERY_TAX_RATE);
-  const ghHousehold = gh * GROCERY_HOUSEHOLD_TAXABLE_SHARE * (1+salesTaxRate/100)/(1+LA_SALES_RATE);
+  const ghHousehold = gh * GROCERY_HOUSEHOLD_TAXABLE_SHARE * (1+generalSalesTaxRate/100)/(1+LA_SALES_RATE);
   breakdown.GroceriesHousehold = ghFood + ghHousehold;
   total += breakdown.GroceriesHousehold;
 
@@ -443,10 +502,15 @@ function calcExpenses(code, salesTaxRate, groceryTaxRate) {
   for (const [cat, laAmt] of Object.entries(LA_CATS)) {
     if (cat === 'GroceriesHousehold' || cat === 'Utilities') continue;
     const tp = TAX_PCT[cat];
-    breakdown[cat] = applyTaxDelta(laAmt, tp, salesTaxRate, LA_SALES_RATE);
+    const rate = (cat === 'Restaurant') ? restRate : generalSalesTaxRate;
+    breakdown[cat] = applyTaxDelta(laAmt, tp, rate, LA_SALES_RATE);
     total += breakdown[cat];
   }
   return {total, breakdown, utilityDetail};
+}
+
+function calcExpenses(code, salesTaxRate, groceryTaxRate) {
+  return calcExpensesByRates(code, salesTaxRate, groceryTaxRate, salesTaxRate);
 }
 
 // ══════════════════════════════════════════════════
@@ -461,12 +525,12 @@ const SD = {
   CO:{name:'Colorado',      stateTax:7686, salesTaxRate:7.81, vtax:656,    ins:2383, rent4br:22200, county:"Pueblo County / Pueblo area", countyBasis:"lower-cost Front Range-adjacent market screen", incomeTax:'Yes',incomeRate:'4.4% (Flat)',     salesTax:'7.81%', propTax:'0.50%',vehicleTax:'$656/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notification + standardized test or qualified evaluation in grades 3, 5, 7, 9, 11.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'54%',low:'-15°F',high:'98°F', pathogen:'Colorado Tick Fever & West Nile Virus (~50–150 cases)',excise:null},
   CT:{name:'Connecticut',   stateTax:12210,salesTaxRate:6.35, vtax:759, ins:2137, rent4br:21360, county:"Windham County / Willimantic area", countyBasis:"lower-cost eastern Connecticut county screen", incomeTax:'Yes',incomeRate:'2.0% – 6.99%',   salesTax:'6.35%', propTax:'1.96%',vehicleTax:'$759/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'LOW',homeDetails:'No notice — notification not legally required.',baro:'High',    tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',  humidity:'67%',low:'2°F',   high:'94°F', pathogen:'Lyme Disease (Hyper-Endemic; 2,000–4,000+ cases)',excise:null},
   DE:{name:'Delaware',      stateTax:11529,salesTaxRate:0.00, vtax:0,    ins:2278, rent4br:26400, county:"Kent County / Dover area", countyBasis:"lower-cost Delaware county screen", incomeTax:'Yes',incomeRate:'2.2% – 6.6%',    salesTax:'0.00%', propTax:'0.43%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'Enrollment registration/reporting only; no testing.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'69%',low:'10°F', high:'95°F', pathogen:'Lyme Disease (Highly Endemic; ~400–700 cases)',excise:null},
-  FL:{name:'Florida',       stateTax:0,    salesTaxRate:7.02, vtax:0,    ins:3244, rent4br:14844, county:"Jackson County / Marianna area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'7.02%', propTax:'0.80%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notice of intent + annual evaluation (portfolio review or standardized test). Multi-option law.',baro:'Low',    tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'74%',low:'28°F', high:'97°F', pathogen:'West Nile & Dengue Virus (Elevated mosquito risk)',excise:null},
+  FL:{name:'Florida',       stateTax:0,    salesTaxRate:7.02, vtax:0,    ins:3244, rent4br:14844, county:"Jackson County / Marianna area", countyType:"Primary FL low-rent / no-income-tax candidate", countyBasis:"HUD/RentData county FMR screen; hurricane/insurance risk must be stress-tested", incomeTax:'No', incomeRate:'0.0%',            salesTax:'7.02%', propTax:'0.80%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notice of intent + annual evaluation (portfolio review or standardized test). Multi-option law.',baro:'Low',    tempVol:'Stable / storm-season volatile', pollen:'Unhealthy',aqi:'Healthy',  humidity:'75%',low:'28°F', high:'99°F', pathogen:'Mosquito-borne disease exposure including West Nile and arboviruses; hurricane/tropical storm season is the larger planning risk',excise:null},
   GA:{name:'Georgia',       stateTax:9066, salesTaxRate:7.39, vtax:0,    ins:2279, rent4br:15156, county:"Sumter County / Americus area", countyBasis:"low-rent Georgia county screen", incomeTax:'Yes',incomeRate:'5.19% (Flat)',    salesTax:'7.39%', propTax:'0.81%',vehicleTax:'None',     home:'LOW',   homeDetails:'Notification + monthly attendance; testing every 3 years but results NOT submitted.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'18°F', high:'98°F', pathogen:'Rocky Mountain Spotted Fever / Ehrlichiosis (~200+ cases)',excise:null},
   HI:{name:'Hawaii',        stateTax:19215,salesTaxRate:4.50, vtax:0,    ins:1355, rent4br:25200, county:"Hawaii County / Hilo area", countyBasis:"lower-cost island county screen; inventory risk high", incomeTax:'Yes',incomeRate:'1.4% – 11.0%',   salesTax:'4.50%', propTax:'0.32%',vehicleTax:'None', home:'MEDIUM',homeDetails:'Notification + standardized testing in grades 3, 5, 8, 10.',baro:'Low',    tempVol:'Stable',         pollen:'Healthy',  aqi:'Healthy',  humidity:'72%',low:'58°F', high:'91°F', pathogen:'Leptospirosis (Tropical bacterial runoff; ~50–100 cases)',excise:null},
   ID:{name:'Idaho',         stateTax:9258, salesTaxRate:6.02, vtax:0,    ins:1300, rent4br:19068, county:"Bannock County / Pocatello area", countyBasis:"lower-cost Idaho metro county screen", incomeTax:'Yes',incomeRate:'5.3% (Flat)',     salesTax:'6.02%', propTax:'0.49%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — no notification, testing, or recordkeeping mandate.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'63%',low:'-10°F',high:'100°F',pathogen:'West Nile Virus (Volatile seasonal spikes; ~10–50 cases)',excise:null},
   IL:{name:'Illinois',      stateTax:8647, salesTaxRate:8.86, vtax:0,    ins:1753, rent4br:15000, county:"Vermilion County / Danville area", countyBasis:"low-rent Illinois county screen", incomeTax:'Yes',incomeRate:'4.95% (Flat)',    salesTax:'8.86%', propTax:'2.08%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice. HB2827 (2025 "Homeschool Act") failed; Illinois remains no-notice.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'69%',low:'-10°F',high:'97°F', pathogen:'Histoplasmosis & Lyme Disease (~500+ combined cases)',excise:null},
-  IN:{name:'Indiana',       stateTax:5153, salesTaxRate:7.00, vtax:440,  ins:1498, rent4br:13956, county:"Grant County / Marion area", countyBasis:"low-rent Indiana county screen", incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'7.00%', propTax:'0.75%',vehicleTax:'$440/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',      home:'LOW',   homeDetails:'No notice — no notification required.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'70%',low:'-5°F', high:'96°F', pathogen:'Histoplasmosis & Lyme (~300–500 cases reported)',excise:null},
+  IN:{name:'Indiana',       stateTax:5153, salesTaxRate:7.00, vtax:440,  ins:1498, rent4br:13956, county:"Grant County / Marion area", countyType:"Primary IN low-rent candidate", countyBasis:"low-rent Indiana county screen; county/local income tax already needs separate check", incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'7.00%', propTax:'0.75%',vehicleTax:'$440/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',      home:'LOW',   homeDetails:'No notice — no notification required.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus expanding tick-borne disease risk',excise:null},
   IA:{name:'Iowa',          stateTax:6638, salesTaxRate:6.94, vtax:367,  ins:1503, rent4br:14304, county:"Mahaska County / Oskaloosa area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'3.8% (Flat)',     salesTax:'6.94%', propTax:'1.43%',vehicleTax:'$367/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'No notice for independent private instruction; 2024–2026 legislation further loosened rules.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'70%',low:'-12°F',high:'96°F', pathogen:'Lyme Disease (Expanding woodland tick corridor; ~300+)',excise:null},
   KS:{name:'Kansas',        stateTax:9747, salesTaxRate:8.75, vtax:708,  ins:2063, rent4br:15084, county:"Sumner County / Wellington area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'5.2% – 5.58%',   salesTax:'8.75%', propTax:'1.34%',vehicleTax:'$708/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'Register as a non-accredited private school (notification only); no testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'66%',low:'0°F',   high:'102°F',pathogen:'Ehrlichiosis & Bourbon/Heartland Viruses (Tick focus)',excise:null},
   KY:{name:'Kentucky',      stateTax:6988, salesTaxRate:6.00, vtax:528,  ins:2550, rent4br:15360, county:"Garrard County / Lancaster area", countyBasis:"HUD/HiSec8 city/ZIP FMR screen", incomeTax:'Yes',incomeRate:'4.0% (Flat)',     salesTax:'6.00%', propTax:'0.80%',vehicleTax:'$528/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'Notification only; no testing submitted.',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'5°F',   high:'96°F', pathogen:'Histoplasmosis & Spotted Fever (~200–400 cases)',excise:null},
@@ -481,29 +545,29 @@ const SD = {
   MT:{name:'Montana',       stateTax:9870,salesTaxRate:0.00, vtax:414,  ins:1960, rent4br:20880, county:"Silver Bow County / Butte area", countyBasis:"lower-cost Montana county screen", incomeTax:'Yes',incomeRate:'4.7% – 5.9%',    salesTax:'0.00%', propTax:'0.74%',vehicleTax:'$414/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'LOW',  homeDetails:'Notification only; no testing submitted.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'61%',low:'-25°F',high:'96°F', pathogen:'West Nile Virus & Colorado Tick Fever (Highly variable)',excise:null},
   NE:{name:'Nebraska',      stateTax:9084, salesTaxRate:6.97, vtax:832,    ins:1878, rent4br:18120, county:"Scotts Bluff County / Scottsbluff area", countyBasis:"lower-cost Nebraska county screen", incomeTax:'Yes',incomeRate:'3.99% – 5.2%',   salesTax:'6.97%', propTax:'1.51%',vehicleTax:'$832/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'File an exemption/notification with the state; no testing.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'67%',low:'-8°F', high:'99°F', pathogen:'West Nile Virus (Consistently high per-capita rate)',excise:null},
   NV:{name:'Nevada',        stateTax:0,    salesTaxRate:8.24, vtax:777, ins:2468, rent4br:23328, county:"Nye County / Pahrump area", countyBasis:"lower-cost Nevada county screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.24%', propTax:'0.48%',vehicleTax:'$777/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'LOW',homeDetails:'One-time notice of intent only; no testing.',baro:'Low',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'38%',low:'12°F', high:'106°F',pathogen:'West Nile Virus (Concentrated around water networks)',excise:null},
-  NH:{name:'New Hampshire', stateTax:0,    salesTaxRate:0.00, vtax:660,  ins:1275, rent4br:17976, county:"Coos County / Berlin-Gorham area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0% (wage)',     salesTax:'0.00%', propTax:'1.77%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notification + annual evaluation (test or portfolio review). 2026 bill HB1268 would make evaluation optional; not yet law.',baro:'High',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'70%',low:'-10°F',high:'92°F', pathogen:'Lyme Disease (Highly Endemic; ~1,000–1,500 cases)',
+  NH:{name:'New Hampshire', stateTax:0,    salesTaxRate:0.00, vtax:660,  ins:1275, rent4br:17976, county:"Coos County / Berlin-Gorham area", countyType:"Primary NH low-tax / low-rent candidate", countyBasis:"HUD/RentData county FMR screen; rural/cold-climate and broadband address check required", incomeTax:'No', incomeRate:'0.0% (wage)',     salesTax:'0.00%', propTax:'1.77%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notification + annual evaluation (test or portfolio review). 2026 bill HB1268 would make evaluation optional; not yet law.',baro:'High',    tempVol:'Highly Volatile',       pollen:'Moderate',aqi:'Healthy',  humidity:'72%',low:'-20°F',high:'90°F', pathogen:'Lyme disease, anaplasmosis, babesiosis, and Powassan risk in the Northeast tick belt',
     excise:`NH has no general sales tax on goods. However, targeted excise taxes apply: Meals & Rooms Tax 8.5% (restaurant meals, prepared foods, lodging under 185 days, vehicle rentals); Communications Services Tax 7.0% (telephone & radio communications); Electricity: \$0.00055/kWh (minimal). Source: NH Dept. of Revenue Administration.`},
   NJ:{name:'New Jersey',    stateTax:18778, salesTaxRate:6.63, vtax:0,    ins:2024, rent4br:27360, county:"Cumberland County / Vineland area", countyBasis:"lower-cost South Jersey county screen", incomeTax:'Yes',incomeRate:'1.4% – 10.75%',  salesTax:'6.63%', propTax:'2.23%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — no notification required; equivalent-education standard only.',baro:'Mod to High',tempVol:'Stable',      pollen:'Unhealthy',aqi:'Healthy',  humidity:'67%',low:'10°F', high:'96°F', pathogen:'Lyme Disease (Highly Endemic woodland vector; 3,000+)',excise:null},
   NM:{name:'New Mexico',    stateTax:10306, salesTaxRate:7.62, vtax:0,    ins:1778, rent4br:16200, county:"Luna County / Deming area", countyBasis:"low-rent New Mexico county screen", incomeTax:'Yes',incomeRate:'1.7% – 5.9%',    salesTax:'7.62%', propTax:'0.67%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'Notification to the state only; no testing submitted.',baro:'Low',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'44%',low:'8°F',   high:'98°F', pathogen:'Sylvatic Plague & Hantavirus (Flea/Rodent vector focus)',excise:null},
   NY:{name:'New York',      stateTax:19040,salesTaxRate:8.53, vtax:0,    ins:2195, rent4br:17760, county:"Chemung County / Elmira area", countyBasis:"lower-cost upstate New York county screen", incomeTax:'Yes',incomeRate:'4.0% – 10.9%',   salesTax:'8.53%', propTax:'1.40%',vehicleTax:'None',                                 home:'HIGH',  homeDetails:'IHIP + quarterly reports + annual assessment.',baro:'High',    tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',  humidity:'70%',low:'-5°F', high:'94°F', pathogen:'Lyme & Anaplasmosis (Upstate focus; 4,000+ cases)',excise:null},
   NC:{name:'North Carolina',stateTax:6970, salesTaxRate:7.00, vtax:403,    ins:1366, rent4br:17040, county:"Robeson County / Lumberton area", countyBasis:"low-rent North Carolina county screen", incomeTax:'Yes',incomeRate:'3.99% (Flat)',    salesTax:'7.00%', propTax:'0.70%',vehicleTax:'$403/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'MEDIUM',homeDetails:'Notification (school name + admin) + annual nationally-normed standardized test.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'70%',low:'15°F', high:'97°F', pathogen:'Rocky Mountain Spotted Fever (Highest national case burden)',excise:null},
   ND:{name:'North Dakota',  stateTax:4367, salesTaxRate:6.97, vtax:0,    ins:1880, rent4br:17304, county:"Stutsman County / Jamestown area", countyBasis:"lower-cost North Dakota county screen", incomeTax:'Yes',incomeRate:'0.0% – 2.5%',    salesTax:'6.97%', propTax:'0.92%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notification + testing in grades 4, 6, 8, 10 + parent diploma/monitoring rule. Boundary case — closest to HIGH.',baro:'High',    tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'69%',low:'-22°F',high:'97°F', pathogen:'West Nile Virus (High seasonal per-capita density)',excise:null},
-  OH:{name:'Ohio',          stateTax:4804, salesTaxRate:7.24, vtax:0,    ins:1306, rent4br:14064, county:"Williams County / Bryan area", countyBasis:"HUD/RentData county FMR screen; local wage tax must be checked", incomeTax:'Yes',incomeRate:'2.75% – 3.125%', salesTax:'7.24%', propTax:'1.41%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After HB33 (Oct 2023) only a short notification required; assessment and hour mandates eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'-2°F', high:'95°F', pathogen:'La Crosse Encephalitis & Histoplasmosis (Pediatric focus)',excise:null},
+  OH:{name:'Ohio',          stateTax:4804, salesTaxRate:7.24, vtax:0,    ins:1306, rent4br:14064, county:"Williams County / Bryan area", countyType:"Primary OH low-rent candidate; local income-tax caution", countyBasis:"HUD/RentData county FMR screen; exact township/city wage tax must be checked", incomeTax:'Yes',incomeRate:'2.75% – 3.125%', salesTax:'7.24%', propTax:'1.41%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After HB33 (Oct 2023) only a short notification required; assessment and hour mandates eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'-5°F', high:'94°F', pathogen:'La Crosse encephalitis, histoplasmosis, Lyme expansion, and seasonal pollen/mold burden',excise:null},
   OK:{name:'Oklahoma',      stateTax:8298, salesTaxRate:8.99, vtax:0,    ins:2163, rent4br:14880, county:"Pontotoc County / Ada area", countyBasis:"low-rent Oklahoma county screen", incomeTax:'Yes',incomeRate:'0.25% – 4.75%',  salesTax:'8.99%', propTax:'0.74%',vehicleTax:'None',   home:'LOW',   homeDetails:'No notice — only state with constitutional homeschool right; no notification or testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'64%',low:'8°F',   high:'103°F',pathogen:'Rocky Mountain Spotted Fever (Major geographic tick zone)',excise:null},
   OR:{name:'Oregon',        stateTax:17294,salesTaxRate:0.00, vtax:0,    ins:1696, rent4br:19800, county:"Klamath County / Klamath Falls area", countyBasis:"lower-cost Oregon county screen", incomeTax:'Yes',incomeRate:'4.75% – 9.9%',   salesTax:'0.00%', propTax:'0.83%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notification + standardized testing in grades 3, 5, 8, 10.',baro:'Moderate',tempVol:'Stable / Mod',   pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'15°F', high:'98°F', pathogen:'Cryptococcosis (Pacific NW tree-bound native fungus)',excise:null},
   PA:{name:'Pennsylvania',  stateTax:5363, salesTaxRate:6.34, vtax:0,    ins:2012, rent4br:15312, county:"Cambria County / Johnstown area", countyBasis:"HUD/RentData county FMR screen; local EIT must be checked", incomeTax:'Yes',incomeRate:'3.07% (Flat)',    salesTax:'6.34%', propTax:'1.49%',vehicleTax:'None',                                 home:'HIGH',  homeDetails:'Notarized affidavit + portfolio + annual review by qualified evaluator + standardized testing grades 3, 5, 8.',baro:'High',    tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'69%',low:'0°F',   high:'95°F', pathogen:'Lyme Disease (Highest raw case volume nationally; 10,000+)',excise:null},
   RI:{name:'Rhode Island',  stateTax:10464, salesTaxRate:7.00, vtax:0, ins:2352, rent4br:28320, county:"Providence County / outer Providence area", countyBasis:"lower-cost Rhode Island screen; still high rent", incomeTax:'Yes',incomeRate:'3.75% – 5.99%',  salesTax:'7.00%', propTax:'1.30%',vehicleTax:'None',       home:'HIGH',  homeDetails:'Local school committee approval required; assessment plus other conditions.',baro:'High',    tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',  humidity:'69%',low:'8°F',   high:'93°F', pathogen:'Lyme Disease & Babesiosis (Dense coastal tick focus)',excise:null},
   SC:{name:'South Carolina',stateTax:10830, salesTaxRate:7.44, vtax:854, ins:2046, rent4br:17100, county:"Orangeburg County / Orangeburg area", countyBasis:"low-rent South Carolina county screen", incomeTax:'Yes',incomeRate:'0.0% – 6.2%',    salesTax:'7.44%', propTax:'0.52%',vehicleTax:'$854/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',       home:'MEDIUM',homeDetails:'Notification + testing or approved association membership; three options.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'20°F', high:'99°F', pathogen:'Rocky Mountain Spotted Fever (Coastal/Piedmont vector)',excise:null},
-  SD:{name:'South Dakota',  stateTax:0,    salesTaxRate:6.11, vtax:0,    ins:1785, rent4br:16596, county:"Yankton County / Yankton area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'6.11%', propTax:'1.14%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After SB177 (July 2021) one-time notification only; testing eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'67%',low:'-18°F',high:'98°F', pathogen:'West Nile Virus (Prairie mosquito vectors; highly volatile)',excise:null},
-  TN:{name:'Tennessee',     stateTax:0,    salesTaxRate:9.55, vtax:0,    ins:1783, rent4br:14784, county:"Lawrence County / Lawrenceburg area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.55%', propTax:'0.64%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Independent path: notification + attendance + testing grades 5, 7, 9. ~95% use church-umbrella schools (no state testing).',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'70%',low:'10°F', high:'97°F', pathogen:'Ehrlichiosis & Spotted Fever (Tick corridor; ~300+ cases)',excise:null},
-  TX:{name:'Texas',         stateTax:0,    salesTaxRate:8.20, vtax:0,    ins:2213, rent4br:16332, county:"Young County / Graham area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.20%', propTax:'1.60%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — homeschools treated as private schools; no notification or testing.',baro:'Low to Mod',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'63%',low:'15°F', high:'103°F',pathogen:'Murine Typhus & Chagas Disease (Flea/Kissing bug vectors)',excise:null},
+  SD:{name:'South Dakota',  stateTax:0,    salesTaxRate:6.11, vtax:0,    ins:1785, rent4br:16596, county:"Yankton County / Yankton area", countyType:"Primary SD balanced candidate", countyBasis:"HUD/RentData county FMR screen", altCandidates:[{county:"Davison County / Mitchell area",type:"SD broadband/inventory alternate",rent4br:17568,broadband:"Mitchell-area fiber/cable screen; verify exact rental"},{county:"Brown County / Aberdeen area",type:"SD larger-town alternate",rent4br:17604,broadband:"Aberdeen-area cable/fiber screen; verify exact rental"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'6.11%', propTax:'1.14%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After SB177 (July 2021) one-time notification only; testing eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Moderate',  aqi:'Healthy',  humidity:'67%',low:'-18°F',high:'98°F', pathogen:'West Nile virus is the main seasonal vector risk; high winter/summer temperature swing',excise:null},
+  TN:{name:'Tennessee',     stateTax:0,    salesTaxRate:9.55, vtax:0,    ins:1783, rent4br:14784, county:"Lawrence County / Lawrenceburg area", countyType:"Primary TN max-savings candidate", countyBasis:"HUD/RentData county FMR screen; Spectrum/cable grid must be verified by exact address", altCandidates:[{county:"McMinn County / Athens area",type:"Balanced broadband alternate",rent4br:15048,broadband:"Xfinity/cable-heavy Athens screen; verify exact address"},{county:"Cumberland County / Crossville area",type:"TN plateau alternate",rent4br:18048,broadband:"inventory and address-level broadband check required"},{county:"Coffee County / Manchester-Tullahoma area",type:"TN inventory alternate",rent4br:18168,broadband:"closer to larger job/retail corridors; validate rent"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.55%', propTax:'0.64%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Independent path: notification + attendance + testing grades 5, 7, 9. ~95% use church-umbrella schools (no state testing).',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor; high seasonal pollen burden',excise:null},
+  TX:{name:'Texas',         stateTax:0,    salesTaxRate:8.20, vtax:0,    ins:2213, rent4br:16332, county:"Young County / Graham area", countyType:"Primary TX max-savings candidate", countyBasis:"HUD/RentData county FMR screen; lower inventory confidence than Wichita Falls", altCandidates:[{county:"Wichita County / Wichita Falls area",type:"Safer infrastructure / rental-inventory alternate",rent4br:20508,broadband:"stronger city broadband and active rental inventory screen"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.20%', propTax:'1.60%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — homeschools treated as private schools; no notification or testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Moderate',  humidity:'61%',low:'15°F', high:'105°F',pathogen:'West Nile virus and tick/flea-borne disease corridor; summer heat and storm volatility are the main environmental risks',excise:null},
   UT:{name:'Utah',          stateTax:7948, salesTaxRate:7.19, vtax:0,    ins:1956, rent4br:17400, county:"Carbon County / Price area", countyBasis:"lower-cost Utah county screen", incomeTax:'Yes',incomeRate:'4.55% (Flat)',    salesTax:'7.19%', propTax:'0.52%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'One-time signed affidavit (notification) only; no testing.',baro:'Low',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Moderate', humidity:'53%',low:'5°F',   high:'100°F',pathogen:'West Nile Virus (Strictly tied to Great Salt Lake wetlands)',excise:null},
   VT:{name:'Vermont',       stateTax:15285,salesTaxRate:6.30, vtax:0,    ins:1166, rent4br:19200, county:"Rutland County / Rutland area", countyBasis:"lower-cost Vermont county screen", incomeTax:'Yes',incomeRate:'3.35% – 8.75%',  salesTax:'6.30%', propTax:'1.73%',vehicleTax:'None',                                 home:'HIGH',  homeDetails:'Enrollment notice + detailed course of study + annual assessment; Secretary can call a hearing.',baro:'High',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'72%',low:'-12°F',high:'91°F', pathogen:'Lyme Disease (Extremely high per-capita incidence growth)',excise:null},
   VA:{name:'Virginia',      stateTax:10044,salesTaxRate:5.77, vtax:1456, ins:1652, rent4br:15480, county:"Smyth County / Marion area", countyBasis:"low-rent southwest Virginia county screen; local personal property tax applies", incomeTax:'Yes',incomeRate:'2.0% – 5.75%',   salesTax:'5.77%', propTax:'0.76%',vehicleTax:'$1,456/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notice of intent + annual evidence of academic progress (test or evaluation) by August 1.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'68%',low:'12°F', high:'97°F', pathogen:'Lyme Disease & Spotted Fever (1,000–1,500+ cases)',excise:null},
   WA:{name:'Washington',    stateTax:0,    salesTaxRate:9.38, vtax:0,  ins:1871, rent4br:24000, county:"Yakima County / Yakima area", countyBasis:"lower-cost central Washington county screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.38%', propTax:'0.84%',vehicleTax:'None',   home:'MEDIUM',homeDetails:'Annual declaration of intent + annual standardized testing or assessment.',baro:'Moderate',tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',  humidity:'73%',low:'15°F', high:'95°F', pathogen:'West Nile & Cryptococcosis (Low scale; heavily localized)',excise:null},
   WV:{name:'West Virginia', stateTax:8420, salesTaxRate:6.57, vtax:609,  ins:1889, rent4br:15648, county:"Wood County / Parkersburg area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'2.22% – 4.82%',  salesTax:'6.57%', propTax:'0.55%',vehicleTax:'$609/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'MEDIUM',homeDetails:'Notification + annual academic assessment.',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'2°F',   high:'94°F', pathogen:'Lyme Disease (Rapidly expanding mountain tick vector; 1,000+)',excise:null},
   WI:{name:'Wisconsin',     stateTax:13363, salesTaxRate:5.43, vtax:0,    ins:1528, rent4br:16200, county:"Dodge County / Beaver Dam area", countyBasis:"lower-cost Wisconsin county screen", incomeTax:'Yes',incomeRate:'3.54% – 7.65%',  salesTax:'5.43%', propTax:'1.51%',vehicleTax:'None',          home:'LOW',   homeDetails:'Annual statement (form PI-1206) only; no testing submitted.',baro:'High',    tempVol:'Highly Volatile',pollen:'Moderate', aqi:'Healthy',  humidity:'71%',low:'-15°F',high:'94°F', pathogen:'Lyme Disease & Blastomycosis (Endemic soil fungus; 3,000+)',excise:null},
-  WY:{name:'Wyoming',       stateTax:0,    salesTaxRate:5.44, vtax:660,    ins:1418, rent4br:19572, county:"Sweetwater County / Rock Springs-Green River area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'Notification + curriculum statement showing a sequential program; no testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'57%',low:'-20°F',high:'93°F', pathogen:'Colorado Tick Fever & Tularemia (Low density but persistent)',excise:null},
+  WY:{name:'Wyoming',       stateTax:0,    salesTaxRate:5.44, vtax:660,    ins:1418, rent4br:19572, county:"Sweetwater County / Rock Springs-Green River area", countyType:"Primary WY balanced candidate", countyBasis:"HUD/RentData county FMR screen; lower-cost alternative to Cheyenne/Laramie County", altCandidates:[{county:"Sheridan County / Sheridan area",type:"WY quality-of-life alternate",rent4br:20544,broadband:"better town amenities; verify rental inventory and price"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'Notification + curriculum statement showing a sequential program; no testing.',baro:'Moderate to High',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'49%',low:'-20°F',high:'95°F', pathogen:'Colorado tick fever and tularemia risk; dry air and winter volatility are bigger day-to-day issues',excise:null},
 };
 
 // ════════════════
@@ -530,6 +594,76 @@ function metrics(code){
   const annNetDelta  = annPayDelta - annExpDelta - annInsDelta - annVtaxDelta - annRentDelta;
   return {bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta:bw-LA_BW_NET,
           newIns,newVtax,newRent,groceryTaxRate,utilityDetail,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta};
+}
+
+
+function metricsForRent(code, rent4brAnnual){
+  const m = metrics(code);
+  if(!m) return null;
+  const annRentDelta = rent4brAnnual - LA_RENT_ANNUAL;
+  const annNetDelta = m.annPayDelta - m.annExpDelta - m.annInsDelta - m.annVtaxDelta - annRentDelta;
+  return {...m, newRent: rent4brAnnual, annRentDelta, annNetDelta};
+}
+
+const COUNTY_SHORTLIST = [
+  {code:'TN', county:'Lawrence County / Lawrenceburg', type:'TN max raw savings', rent4br:14784, broadband:'Spectrum/cable grid must be verified by exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor'},
+  {code:'TN', county:'McMinn County / Athens', type:'TN balanced broadband pick', rent4br:15048, broadband:'Xfinity/cable-heavy Athens screen; verify exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'12°F', high:'96°F', pathogen:'Ehrlichiosis / spotted fever plus high seasonal pollen'},
+  {code:'FL', county:'Jackson County / Marianna', type:'FL no-income-tax low-rent pick', rent4br:14844, broadband:'Xfinity/cable address check required', baro:'Low', tempVol:'Stable; storm-season volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'75%', low:'28°F', high:'99°F', pathogen:'Mosquito-borne disease plus hurricane/tropical-storm season risk'},
+  {code:'SD', county:'Yankton County / Yankton', type:'SD primary balanced pick', rent4br:16596, broadband:'Cable/fiber availability must be checked by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'TX', county:'Young County / Graham', type:'TX max savings pick', rent4br:16332, broadband:'Rural inventory and address-level broadband risk', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'61%', low:'15°F', high:'105°F', pathogen:'West Nile and tick/flea-borne disease corridor'},
+  {code:'TX', county:'Wichita County / Wichita Falls', type:'TX safer infrastructure fallback', rent4br:20508, broadband:'Stronger city rental inventory and broadband screen', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'62%', low:'15°F', high:'108°F', pathogen:'West Nile risk; heat, wind, and storm volatility are main factors'},
+  {code:'NH', county:'Coos County / Berlin-Gorham', type:'NH no sales tax / low-rent pick', rent4br:17976, broadband:'Rural cable/fiber availability must be verified by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'72%', low:'-20°F', high:'90°F', pathogen:'Lyme, anaplasmosis, babesiosis, Powassan tick belt'},
+  {code:'OH', county:'Williams County / Bryan', type:'OH low-rent candidate; local tax caution', rent4br:14064, broadband:'Exact township/city and provider must be checked', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'-5°F', high:'94°F', pathogen:'La Crosse encephalitis, histoplasmosis, Lyme expansion'},
+  {code:'IN', county:'Grant County / Marion', type:'IN low-rent candidate', rent4br:13956, broadband:'Exact address and county/local tax check required', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'71%', low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus tick-borne risk'},
+  {code:'SD', county:'Davison County / Mitchell', type:'SD broadband/inventory alternate', rent4br:17568, broadband:'Mitchell-area fiber/cable screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'SD', county:'Brown County / Aberdeen', type:'SD larger-town alternate', rent4br:17604, broadband:'Aberdeen-area cable/fiber screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'68%', low:'-25°F', high:'96°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'WY', county:'Sweetwater County / Rock Springs-Green River', type:'WY balanced candidate', rent4br:19572, broadband:'Lower-cost WY alternative to Cheyenne; verify rental inventory', baro:'Moderate to high', tempVol:'Highly volatile', pollen:'Healthy', aqi:'Healthy', humidity:'49%', low:'-20°F', high:'95°F', pathogen:'Colorado tick fever and tularemia; dry air and winter volatility'}
+];
+
+// County/city tax overrides for the 12-county expense recalc.
+// Baseline is St. Landry Parish, LA: general 10.55%; food-for-home grocery 5.55% local component; restaurant 10.55%.
+const LA_TOTAL_EXPENSE_A = LA_EXP_A + LA_RENT_ANNUAL + LA_INS_ANNUAL + LA_VTAX_ANNUAL;
+const LA_TOTAL_EXPENSE_M = LA_TOTAL_EXPENSE_A / 12;
+const COUNTY_TAX_OVERRIDES = {
+  'Lawrence County / Lawrenceburg': {general:9.75, grocery:6.75, restaurant:9.75, note:'TN: 7% general + 2.75% local; food-for-home modeled at 4% state + 2.75% local'},
+  'McMinn County / Athens': {general:9.75, grocery:6.75, restaurant:9.75, note:'TN: 7% general + 2.75% local; food-for-home modeled at 4% state + 2.75% local'},
+  'Jackson County / Marianna': {general:7.50, grocery:0.00, restaurant:7.50, note:'FL: 6% state + 1.5% Jackson surtax; food-for-home groceries exempt'},
+  'Yankton County / Yankton': {general:6.20, grocery:6.20, restaurant:7.20, note:'SD city model: 4.2% state + 2% municipal; restaurants include 1% MGRT high-side estimate'},
+  'Young County / Graham': {general:8.25, grocery:0.00, restaurant:8.25, note:'TX: 6.25% state + 2% local; food-for-home groceries exempt'},
+  'Wichita County / Wichita Falls': {general:8.25, grocery:0.00, restaurant:8.25, note:'TX: 6.25% state + 2% local; food-for-home groceries exempt'},
+  'Coos County / Berlin-Gorham': {general:0.00, grocery:0.00, restaurant:8.50, note:'NH: no general sales tax; prepared meals use 8.5% Meals & Rooms tax'},
+  'Williams County / Bryan': {general:7.25, grocery:0.00, restaurant:7.25, note:'OH: 5.75% state + 1.5% county; most food-for-home groceries exempt'},
+  'Grant County / Marion': {general:7.00, grocery:0.00, restaurant:8.00, note:'IN: 7% statewide sales tax; food-for-home groceries exempt; Marion food & beverage tax modeled at +1%'},
+  'Davison County / Mitchell': {general:6.20, grocery:6.20, restaurant:7.20, note:'SD city model: 4.2% state + 2% municipal; restaurants include 1% MGRT high-side estimate'},
+  'Brown County / Aberdeen': {general:6.20, grocery:6.20, restaurant:7.20, note:'SD city model: 4.2% state + 2% municipal; restaurants include 1% MGRT high-side estimate'},
+  'Sweetwater County / Rock Springs-Green River': {general:6.00, grocery:0.00, restaurant:6.00, note:'WY: 4% state + 2% Sweetwater local; food-for-home groceries exempt'}
+};
+
+function countyTax(row){
+  return COUNTY_TAX_OVERRIDES[row.county] || {general:SD[row.code].salesTaxRate, grocery:(GROCERY_TAX_RATES[row.code] ?? 0), restaurant:SD[row.code].salesTaxRate, note:'State-level fallback'};
+}
+
+function metricsForCounty(row){
+  const s = SD[row.code];
+  const tax = countyTax(row);
+  const stateTaxPP = s.stateTax/26;
+  const bw = BASE_NET - stateTaxPP;
+  const annual = bw*26;
+  const {total:expM, breakdown:expBreakdown, utilityDetail} = calcExpensesByRates(row.code, tax.general, tax.grocery, tax.restaurant);
+  const expA = expM*12;
+  const newIns = s.ins;
+  const newVtax = s.vtax;
+  const newRent = row.rent4br;
+  const annPayDelta  = (bw - LA_BW_NET)*26;
+  const annExpDelta  = expA - LA_EXP_A;
+  const annInsDelta  = newIns - LA_INS_ANNUAL;
+  const annVtaxDelta = newVtax - LA_VTAX_ANNUAL;
+  const annRentDelta = newRent - LA_RENT_ANNUAL;
+  const annNetDelta  = annPayDelta - annExpDelta - annInsDelta - annVtaxDelta - annRentDelta;
+  const totalExpenseA = expA + newRent + newIns + newVtax;
+  const totalExpenseM = totalExpenseA / 12;
+  const expenseDeltaA = totalExpenseA - LA_TOTAL_EXPENSE_A;
+  return {bw,annual,expM,expA,expBreakdown,utilityDetail,newIns,newVtax,newRent,tax,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta,totalExpenseA,totalExpenseM,expenseDeltaA};
 }
 
 // Choropleth — annual net position delta
@@ -564,6 +698,35 @@ function setDelta(id,delta,rev=false){
   el.textContent=(delta>0?'+':'−')+'$'+Math.abs(delta).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})+' vs LA';
   el.className='delta '+(better?'dp':'dn');
 }
+
+
+function renderCountyShortlist(){
+  const el=document.getElementById('county-shortlist'); if(!el)return;
+  el.innerHTML='<div class="srow hd"><div class="scell">Rank</div><div class="scell">County / Area</div><div class="scell">Candidate Type</div><div class="scell">4BR Rent</div><div class="scell">Net vs LA</div><div class="scell">Climate</div><div class="scell">Pollen / AQI</div><div class="scell">Humidity</div><div class="scell">Temp Range</div><div class="scell">Environmental Health / Broadband Note</div></div>';
+  const rows=COUNTY_SHORTLIST.map(x=>({ ...x, metrics:metricsForCounty(x)})).sort((a,b)=>b.metrics.annNetDelta-a.metrics.annNetDelta);
+  rows.forEach((x,i)=>{
+    const net=x.metrics.annNetDelta;
+    const netCls=net>=0?'pos':'neg';
+    const rentM=x.rent4br/12;
+    el.insertAdjacentHTML('beforeend',`<div class="srow"><div class="scell strong">${i+1}</div><div class="scell strong">${x.county}<br><span class="sbadge">${SD[x.code].name}</span></div><div class="scell">${x.type}</div><div class="scell">${fmtD(rentM)}/mo</div><div class="scell simpact ${netCls}">${net>=0?'+':''}${fmtI(net)}/yr</div><div class="scell">${x.baro}; ${x.tempVol}</div><div class="scell">${x.pollen} / ${x.aqi}</div><div class="scell">${x.humidity}</div><div class="scell">${x.high} / ${x.low}</div><div class="scell">${x.pathogen}<br><span style="color:var(--muted)">${x.broadband}</span></div></div>`);
+  });
+}
+
+function renderCountyExpenseTable(){
+  const el=document.getElementById('county-expense-table'); if(!el)return;
+  el.innerHTML='<div class="erow hd"><div class="ecell">Rank</div><div class="ecell">County / Area</div><div class="ecell">Candidate Type</div><div class="ecell">Sales / Grocery / Meals</div><div class="ecell">Living Spend / Mo</div><div class="ecell">Rent / Mo</div><div class="ecell">Ins+VehTax / Mo</div><div class="ecell">Total Expense / Mo</div><div class="ecell">Total Expense / Yr</div><div class="ecell">Net After Pay / Yr</div></div>';
+  const rows=COUNTY_SHORTLIST.map(x=>({ ...x, metrics:metricsForCounty(x)})).sort((a,b)=>b.metrics.annNetDelta-a.metrics.annNetDelta);
+  rows.forEach((x,i)=>{
+    const m=x.metrics, tax=m.tax;
+    const insVehM=(m.newIns+m.newVtax)/12;
+    const netCls=m.annNetDelta>=0?'good':'bad';
+    el.insertAdjacentHTML('beforeend',`<div class="erow"><div class="ecell strong">${i+1}</div><div class="ecell strong">${x.county}<br><span class="sbadge">${SD[x.code].name}</span></div><div class="ecell">${x.type}</div><div class="ecell">${tax.general.toFixed(2)}% / ${tax.grocery.toFixed(2)}% / ${tax.restaurant.toFixed(2)}%<br><span style="color:var(--muted)">${tax.note}</span></div><div class="ecell">${fmtD(m.expM)}</div><div class="ecell">${fmtD(m.newRent/12)}</div><div class="ecell">${fmtD(insVehM)}</div><div class="ecell strong">${fmtD(m.totalExpenseM)}</div><div class="ecell strong">${fmtI(m.totalExpenseA)}<br><span class="expdelta ${m.expenseDeltaA<=0?'good':'bad'}">${m.expenseDeltaA<=0?'−':'+'}${fmtI(Math.abs(m.expenseDeltaA))} expense Δ</span></div><div class="ecell expdelta ${netCls}">${m.annNetDelta>=0?'+':'−'}${fmtI(Math.abs(m.annNetDelta))}</div></div>`);
+  });
+  el.insertAdjacentHTML('beforeend',`<div class="erow"><div class="ecell strong">Base</div><div class="ecell strong">St. Landry Parish / current home<br><span class="sbadge">Louisiana</span></div><div class="ecell">Current baseline</div><div class="ecell">10.55% / 5.55% / 10.55%</div><div class="ecell">${fmtD(LA_EXP_M)}</div><div class="ecell">${fmtD(LA_RENT_ANNUAL/12)}</div><div class="ecell">${fmtD((LA_INS_ANNUAL+LA_VTAX_ANNUAL)/12)}</div><div class="ecell strong">${fmtD(LA_TOTAL_EXPENSE_M)}</div><div class="ecell strong">${fmtI(LA_TOTAL_EXPENSE_A)}<br><span style="color:var(--muted)">baseline</span></div><div class="ecell">—</div></div>`);
+}
+renderCountyExpenseTable();
+
+renderCountyShortlist();
 
 // ═══════
 // MAP
@@ -652,8 +815,17 @@ function render(code){
 
   // County-level rent candidate
   setEl('county-name', s.county || s.name);
+  setEl('county-type', s.countyType || 'Primary county/FMR-area candidate');
   setEl('county-rent', `${fmtD(newRent/12)} / month · ${fmtD(newRent)} / year`);
   setEl('county-basis', s.countyBasis || 'county/FMR-area screening benchmark');
+  const altEl=document.getElementById('county-alts');
+  if(altEl){
+    if(s.altCandidates && s.altCandidates.length){
+      altEl.innerHTML=s.altCandidates.map(a=>`<span class="alt-pill"><strong>${a.type}:</strong> ${a.county} · ${fmtD(a.rent4br/12)}/mo · ${a.broadband || 'verify exact address'}</span>`).join('');
+    } else {
+      altEl.textContent='No alternate county candidate selected for this state in the 12-county shortlist.';
+    }
+  }
 
   // Annual expenses table
   const ar=document.getElementById('ann-rows'); ar.innerHTML='';
