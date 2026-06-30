@@ -52,7 +52,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .sp{stroke:#ffffff;stroke-width:.65;cursor:pointer;transition:filter .1s,stroke .1s;}
 .sp:hover{filter:brightness(.88) saturate(1.3);stroke:var(--gold);stroke-width:1.5;}
 .sp.active{stroke:var(--gold);stroke-width:2.2;}
-.county-hl{stroke:var(--gold);stroke-width:1.6;pointer-events:none;}
+.county-hl{stroke:var(--gold);stroke-width:1.7;cursor:pointer;pointer-events:auto;transition:stroke-width .08s,filter .08s;}
+.county-hl:hover{stroke-width:2.5;filter:brightness(.92) saturate(1.25);}
+.county-hl.active{stroke-width:3;stroke:#7c4a03;filter:saturate(1.25);}
 .county-hl-label{font-family:var(--mono);font-size:9px;fill:var(--text);pointer-events:none;}
 
 /* TOOLTIP */
@@ -161,6 +163,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .simpact.neg{font-weight:700;color:var(--red);}
 .alt-list{font-family:var(--mono);font-size:.63rem;line-height:1.55;color:var(--text2);}
 .alt-pill{display:inline-block;margin:2px 3px 2px 0;padding:2px 5px;border-radius:3px;background:var(--s2);border:1px solid var(--border2);}
+.alt-pill.clickable{cursor:pointer;transition:background .08s,border-color .08s;}
+.alt-pill.clickable:hover{background:rgba(192,138,30,.08);border-color:rgba(192,138,30,.38);}
+.alt-pill.active{background:rgba(192,138,30,.14);border-color:var(--gold);color:#7c4a03;}
 
 .erow{display:grid;grid-template-columns:44px 196px 126px 92px 96px 96px 104px 110px 112px 112px;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);} 
 .erow:last-child{border-bottom:none;}
@@ -560,20 +565,20 @@ const SD = {
   PA:{name:'Pennsylvania',  stateTax:5363, salesTaxRate:6.34, vtax:0,    ins:2012, rent4br:15312, county:"Cambria County / Johnstown area", countyBasis:"HUD/RentData county FMR screen; local EIT must be checked", incomeTax:'Yes',incomeRate:'3.07% (Flat)',    salesTax:'6.34%', propTax:'1.49%',vehicleTax:'None',                                 home:'HIGH',  homeDetails:'Notarized affidavit + portfolio + annual review by qualified evaluator + standardized testing grades 3, 5, 8.',baro:'High',    tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'69%',low:'0°F',   high:'95°F', pathogen:'Lyme Disease (Highest raw case volume nationally; 10,000+)',excise:null},
   RI:{name:'Rhode Island',  stateTax:10464, salesTaxRate:7.00, vtax:0, ins:2352, rent4br:28320, county:"Providence County / outer Providence area", countyBasis:"lower-cost Rhode Island screen; still high rent", incomeTax:'Yes',incomeRate:'3.75% – 5.99%',  salesTax:'7.00%', propTax:'1.30%',vehicleTax:'None',       home:'HIGH',  homeDetails:'Local school committee approval required; assessment plus other conditions.',baro:'High',    tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',  humidity:'69%',low:'8°F',   high:'93°F', pathogen:'Lyme Disease & Babesiosis (Dense coastal tick focus)',excise:null},
   SC:{name:'South Carolina',stateTax:10830, salesTaxRate:7.44, vtax:854, ins:2046, rent4br:17100, county:"Orangeburg County / Orangeburg area", countyBasis:"low-rent South Carolina county screen", incomeTax:'Yes',incomeRate:'0.0% – 6.2%',    salesTax:'7.44%', propTax:'0.52%',vehicleTax:'$854/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',       home:'MEDIUM',homeDetails:'Notification + testing or approved association membership; three options.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'20°F', high:'99°F', pathogen:'Rocky Mountain Spotted Fever (Coastal/Piedmont vector)',excise:null},
-  SD:{name:'South Dakota',  stateTax:0,    salesTaxRate:6.11, vtax:0,    ins:1785, rent4br:16596, county:"Yankton County / Yankton area", countyType:"Primary SD balanced candidate", countyBasis:"HUD/RentData county FMR screen", altCandidates:[{county:"Davison County / Mitchell area",type:"SD broadband/inventory alternate",rent4br:17568,broadband:"Mitchell-area fiber/cable screen; verify exact rental"},{county:"Brown County / Aberdeen area",type:"SD larger-town alternate",rent4br:17604,broadband:"Aberdeen-area cable/fiber screen; verify exact rental"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'6.11%', propTax:'1.14%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After SB177 (July 2021) one-time notification only; testing eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Moderate',  aqi:'Healthy',  humidity:'67%',low:'-18°F',high:'98°F', pathogen:'West Nile virus is the main seasonal vector risk; high winter/summer temperature swing',excise:null},
-  TN:{name:'Tennessee',     stateTax:0,    salesTaxRate:9.55, vtax:0,    ins:1783, rent4br:14784, county:"Lawrence County / Lawrenceburg area", countyType:"Primary TN max-savings candidate", countyBasis:"HUD/RentData county FMR screen; Spectrum/cable grid must be verified by exact address", altCandidates:[{county:"McMinn County / Athens area",type:"Balanced broadband alternate",rent4br:15048,broadband:"Xfinity/cable-heavy Athens screen; verify exact address"},{county:"Cumberland County / Crossville area",type:"TN plateau alternate",rent4br:18048,broadband:"inventory and address-level broadband check required"},{county:"Coffee County / Manchester-Tullahoma area",type:"TN inventory alternate",rent4br:18168,broadband:"closer to larger job/retail corridors; validate rent"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.55%', propTax:'0.64%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Independent path: notification + attendance + testing grades 5, 7, 9. ~95% use church-umbrella schools (no state testing).',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor; high seasonal pollen burden',excise:null},
-  TX:{name:'Texas',         stateTax:0,    salesTaxRate:8.20, vtax:0,    ins:2213, rent4br:16332, county:"Young County / Graham area", countyType:"Primary TX max-savings candidate", countyBasis:"HUD/RentData county FMR screen; lower inventory confidence than Wichita Falls", altCandidates:[{county:"Wichita County / Wichita Falls area",type:"Safer infrastructure / rental-inventory alternate",rent4br:20508,broadband:"stronger city broadband and active rental inventory screen"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.20%', propTax:'1.60%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — homeschools treated as private schools; no notification or testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Moderate',  humidity:'61%',low:'15°F', high:'105°F',pathogen:'West Nile virus and tick/flea-borne disease corridor; summer heat and storm volatility are the main environmental risks',excise:null},
+  SD:{name:'South Dakota',  stateTax:0,    salesTaxRate:6.11, vtax:0,    ins:1785, rent4br:16596, county:"Yankton County / Yankton area", countyType:"Primary SD balanced candidate", countyBasis:"HUD/RentData county FMR screen", altCandidates:[{county:"Davison County / Mitchell area",fips:'46035',type:"SD broadband/inventory alternate",rent4br:17568,broadband:"Mitchell-area fiber/cable screen; verify exact rental"},{county:"Brown County / Aberdeen area",fips:'46013',type:"SD larger-town alternate",rent4br:17604,broadband:"Aberdeen-area cable/fiber screen; verify exact rental"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'6.11%', propTax:'1.14%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'After SB177 (July 2021) one-time notification only; testing eliminated.',baro:'High',    tempVol:'Highly Volatile',pollen:'Moderate',  aqi:'Healthy',  humidity:'67%',low:'-18°F',high:'98°F', pathogen:'West Nile virus is the main seasonal vector risk; high winter/summer temperature swing',excise:null},
+  TN:{name:'Tennessee',     stateTax:0,    salesTaxRate:9.55, vtax:0,    ins:1783, rent4br:14784, county:"Lawrence County / Lawrenceburg area", countyType:"Primary TN max-savings candidate", countyBasis:"HUD/RentData county FMR screen; Spectrum/cable grid must be verified by exact address", altCandidates:[{county:"McMinn County / Athens area",fips:'47107',type:"Balanced broadband alternate",rent4br:15048,broadband:"Xfinity/cable-heavy Athens screen; verify exact address"},{county:"Cumberland County / Crossville area",fips:'47035',type:"TN plateau alternate",rent4br:18048,broadband:"inventory and address-level broadband check required"},{county:"Coffee County / Manchester-Tullahoma area",fips:'47031',type:"TN inventory alternate",rent4br:18168,broadband:"closer to larger job/retail corridors; validate rent"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.55%', propTax:'0.64%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Independent path: notification + attendance + testing grades 5, 7, 9. ~95% use church-umbrella schools (no state testing).',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor; high seasonal pollen burden',excise:null},
+  TX:{name:'Texas',         stateTax:0,    salesTaxRate:8.20, vtax:0,    ins:2213, rent4br:16332, county:"Young County / Graham area", countyType:"Primary TX max-savings candidate", countyBasis:"HUD/RentData county FMR screen; lower inventory confidence than Wichita Falls", altCandidates:[{county:"Wichita County / Wichita Falls area",fips:'48485',type:"Safer infrastructure / rental-inventory alternate",rent4br:20508,broadband:"stronger city broadband and active rental inventory screen"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'8.20%', propTax:'1.60%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — homeschools treated as private schools; no notification or testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Moderate',  humidity:'61%',low:'15°F', high:'105°F',pathogen:'West Nile virus and tick/flea-borne disease corridor; summer heat and storm volatility are the main environmental risks',excise:null},
   UT:{name:'Utah',          stateTax:7948, salesTaxRate:7.19, vtax:0,    ins:1956, rent4br:17400, county:"Carbon County / Price area", countyBasis:"lower-cost Utah county screen", incomeTax:'Yes',incomeRate:'4.55% (Flat)',    salesTax:'7.19%', propTax:'0.52%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'One-time signed affidavit (notification) only; no testing.',baro:'Low',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Moderate', humidity:'53%',low:'5°F',   high:'100°F',pathogen:'West Nile Virus (Strictly tied to Great Salt Lake wetlands)',excise:null},
   VT:{name:'Vermont',       stateTax:15285,salesTaxRate:6.30, vtax:0,    ins:1166, rent4br:19200, county:"Rutland County / Rutland area", countyBasis:"lower-cost Vermont county screen", incomeTax:'Yes',incomeRate:'3.35% – 8.75%',  salesTax:'6.30%', propTax:'1.73%',vehicleTax:'None',                                 home:'HIGH',  homeDetails:'Enrollment notice + detailed course of study + annual assessment; Secretary can call a hearing.',baro:'High',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'72%',low:'-12°F',high:'91°F', pathogen:'Lyme Disease (Extremely high per-capita incidence growth)',excise:null},
   VA:{name:'Virginia',      stateTax:10044,salesTaxRate:5.77, vtax:1456, ins:1652, rent4br:15480, county:"Smyth County / Marion area", countyBasis:"low-rent southwest Virginia county screen; local personal property tax applies", incomeTax:'Yes',incomeRate:'2.0% – 5.75%',   salesTax:'5.77%', propTax:'0.76%',vehicleTax:'$1,456/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notice of intent + annual evidence of academic progress (test or evaluation) by August 1.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'68%',low:'12°F', high:'97°F', pathogen:'Lyme Disease & Spotted Fever (1,000–1,500+ cases)',excise:null},
   WA:{name:'Washington',    stateTax:0,    salesTaxRate:9.38, vtax:0,  ins:1871, rent4br:24000, county:"Yakima County / Yakima area", countyBasis:"lower-cost central Washington county screen", incomeTax:'No', incomeRate:'0.0%',            salesTax:'9.38%', propTax:'0.84%',vehicleTax:'None',   home:'MEDIUM',homeDetails:'Annual declaration of intent + annual standardized testing or assessment.',baro:'Moderate',tempVol:'Stable',         pollen:'Moderate', aqi:'Healthy',  humidity:'73%',low:'15°F', high:'95°F', pathogen:'West Nile & Cryptococcosis (Low scale; heavily localized)',excise:null},
   WV:{name:'West Virginia', stateTax:8420, salesTaxRate:6.57, vtax:609,  ins:1889, rent4br:15648, county:"Wood County / Parkersburg area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'2.22% – 4.82%',  salesTax:'6.57%', propTax:'0.55%',vehicleTax:'$609/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'MEDIUM',homeDetails:'Notification + annual academic assessment.',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'2°F',   high:'94°F', pathogen:'Lyme Disease (Rapidly expanding mountain tick vector; 1,000+)',excise:null},
   WI:{name:'Wisconsin',     stateTax:13363, salesTaxRate:5.43, vtax:0,    ins:1528, rent4br:16200, county:"Dodge County / Beaver Dam area", countyBasis:"lower-cost Wisconsin county screen", incomeTax:'Yes',incomeRate:'3.54% – 7.65%',  salesTax:'5.43%', propTax:'1.51%',vehicleTax:'None',          home:'LOW',   homeDetails:'Annual statement (form PI-1206) only; no testing submitted.',baro:'High',    tempVol:'Highly Volatile',pollen:'Moderate', aqi:'Healthy',  humidity:'71%',low:'-15°F',high:'94°F', pathogen:'Lyme Disease & Blastomycosis (Endemic soil fungus; 3,000+)',excise:null},
-  WY:{name:'Wyoming',       stateTax:0,    salesTaxRate:5.44, vtax:660,    ins:1418, rent4br:19572, county:"Sweetwater County / Rock Springs-Green River area", countyType:"Primary WY balanced candidate", countyBasis:"HUD/RentData county FMR screen; lower-cost alternative to Cheyenne/Laramie County", altCandidates:[{county:"Sheridan County / Sheridan area",type:"WY quality-of-life alternate",rent4br:20544,broadband:"better town amenities; verify rental inventory and price"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'Notification + curriculum statement showing a sequential program; no testing.',baro:'Moderate to High',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'49%',low:'-20°F',high:'95°F', pathogen:'Colorado tick fever and tularemia risk; dry air and winter volatility are bigger day-to-day issues',excise:null},
+  WY:{name:'Wyoming',       stateTax:0,    salesTaxRate:5.44, vtax:660,    ins:1418, rent4br:19572, county:"Sweetwater County / Rock Springs-Green River area", countyType:"Primary WY balanced candidate", countyBasis:"HUD/RentData county FMR screen; lower-cost alternative to Cheyenne/Laramie County", altCandidates:[{county:"Sheridan County / Sheridan area",fips:'56033',type:"WY quality-of-life alternate",rent4br:20544,broadband:"better town amenities; verify rental inventory and price"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'Notification + curriculum statement showing a sequential program; no testing.',baro:'Moderate to High',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'49%',low:'-20°F',high:'95°F', pathogen:'Colorado tick fever and tularemia risk; dry air and winter volatility are bigger day-to-day issues',excise:null},
 };
 
 // County FIPS codes for the primary candidate county in each state (Census county-level FIPS),
-// matched against the county names above so the map can spotlight the exact county, not just the state.
+// matched against actual county geometry so the map can spotlight counties, not approximations.
 const COUNTY_FIPS = {
   AL:'01093', AK:'02090', AZ:'04003', AR:'05093', CA:'06029', CO:'08101', CT:'09015', DE:'10001',
   FL:'12063', GA:'13261', HI:'15001', ID:'16005', IL:'17183', IN:'18053', IA:'19123', KS:'20191',
@@ -582,6 +587,39 @@ const COUNTY_FIPS = {
   NC:'37155', ND:'38093', OH:'39171', OK:'40123', OR:'41035', PA:'42021', RI:'44007', SC:'45075',
   SD:'46135', TN:'47099', TX:'48503', UT:'49007', VT:'50021', VA:'51173', WA:'53077', WV:'54107',
   WI:'55027', WY:'56037'
+};
+
+// FIPS codes for alternate county candidates shown in the state detail panel.
+// These are used to draw clickable alternate county shapes when a state is selected.
+const COUNTY_ALT_FIPS = {
+  SD: {
+    'Davison County / Mitchell area':'46035',
+    'Davison County / Mitchell':'46035',
+    'Brown County / Aberdeen area':'46013',
+    'Brown County / Aberdeen':'46013'
+  },
+  TN: {
+    'McMinn County / Athens area':'47107',
+    'McMinn County / Athens':'47107',
+    'Lawrence County / Lawrenceburg area':'47099',
+    'Lawrence County / Lawrenceburg':'47099',
+    'Cumberland County / Crossville area':'47035',
+    'Cumberland County / Crossville':'47035',
+    'Coffee County / Manchester-Tullahoma area':'47031',
+    'Coffee County / Manchester-Tullahoma':'47031'
+  },
+  TX: {
+    'Young County / Graham area':'48503',
+    'Young County / Graham':'48503',
+    'Wichita County / Wichita Falls area':'48485',
+    'Wichita County / Wichita Falls':'48485'
+  },
+  WY: {
+    'Sweetwater County / Rock Springs-Green River area':'56037',
+    'Sweetwater County / Rock Springs-Green River':'56037',
+    'Sheridan County / Sheridan area':'56033',
+    'Sheridan County / Sheridan':'56033'
+  }
 };
 
 // ════════════════
@@ -620,18 +658,18 @@ function metricsForRent(code, rent4brAnnual){
 }
 
 const COUNTY_SHORTLIST = [
-  {code:'TN', county:'Lawrence County / Lawrenceburg', type:'TN max raw savings', rent4br:14784, broadband:'Spectrum/cable grid must be verified by exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor'},
-  {code:'TN', county:'McMinn County / Athens', type:'TN balanced broadband pick', rent4br:15048, broadband:'Xfinity/cable-heavy Athens screen; verify exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'12°F', high:'96°F', pathogen:'Ehrlichiosis / spotted fever plus high seasonal pollen'},
-  {code:'FL', county:'Jackson County / Marianna', type:'FL no-income-tax low-rent pick', rent4br:14844, broadband:'Xfinity/cable address check required', baro:'Low', tempVol:'Stable; storm-season volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'75%', low:'28°F', high:'99°F', pathogen:'Mosquito-borne disease plus hurricane/tropical-storm season risk'},
-  {code:'SD', county:'Yankton County / Yankton', type:'SD primary balanced pick', rent4br:16596, broadband:'Cable/fiber availability must be checked by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
-  {code:'TX', county:'Young County / Graham', type:'TX max savings pick', rent4br:16332, broadband:'Rural inventory and address-level broadband risk', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'61%', low:'15°F', high:'105°F', pathogen:'West Nile and tick/flea-borne disease corridor'},
-  {code:'TX', county:'Wichita County / Wichita Falls', type:'TX safer infrastructure fallback', rent4br:20508, broadband:'Stronger city rental inventory and broadband screen', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'62%', low:'15°F', high:'108°F', pathogen:'West Nile risk; heat, wind, and storm volatility are main factors'},
-  {code:'NH', county:'Coos County / Berlin-Gorham', type:'NH no sales tax / low-rent pick', rent4br:17976, broadband:'Rural cable/fiber availability must be verified by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'72%', low:'-20°F', high:'90°F', pathogen:'Lyme, anaplasmosis, babesiosis, Powassan tick belt'},
-  {code:'OH', county:'Williams County / Bryan', type:'OH low-rent candidate; local tax caution', rent4br:14064, broadband:'Exact township/city and provider must be checked', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'-5°F', high:'94°F', pathogen:'La Crosse encephalitis, histoplasmosis, Lyme expansion'},
-  {code:'IN', county:'Grant County / Marion', type:'IN low-rent candidate', rent4br:13956, broadband:'Exact address and county/local tax check required', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'71%', low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus tick-borne risk'},
-  {code:'SD', county:'Davison County / Mitchell', type:'SD broadband/inventory alternate', rent4br:17568, broadband:'Mitchell-area fiber/cable screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
-  {code:'SD', county:'Brown County / Aberdeen', type:'SD larger-town alternate', rent4br:17604, broadband:'Aberdeen-area cable/fiber screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'68%', low:'-25°F', high:'96°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
-  {code:'WY', county:'Sweetwater County / Rock Springs-Green River', type:'WY balanced candidate', rent4br:19572, broadband:'Lower-cost WY alternative to Cheyenne; verify rental inventory', baro:'Moderate to high', tempVol:'Highly volatile', pollen:'Healthy', aqi:'Healthy', humidity:'49%', low:'-20°F', high:'95°F', pathogen:'Colorado tick fever and tularemia; dry air and winter volatility'}
+  {code:'TN', fips:'47099', county:'Lawrence County / Lawrenceburg', type:'TN max raw savings', rent4br:14784, broadband:'Spectrum/cable grid must be verified by exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'10°F', high:'97°F', pathogen:'Ehrlichiosis / spotted fever tick corridor'},
+  {code:'TN', fips:'47107', county:'McMinn County / Athens', type:'TN balanced broadband pick', rent4br:15048, broadband:'Xfinity/cable-heavy Athens screen; verify exact address', baro:'Moderate', tempVol:'Moderate', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'12°F', high:'96°F', pathogen:'Ehrlichiosis / spotted fever plus high seasonal pollen'},
+  {code:'FL', fips:'12063', county:'Jackson County / Marianna', type:'FL no-income-tax low-rent pick', rent4br:14844, broadband:'Xfinity/cable address check required', baro:'Low', tempVol:'Stable; storm-season volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'75%', low:'28°F', high:'99°F', pathogen:'Mosquito-borne disease plus hurricane/tropical-storm season risk'},
+  {code:'SD', fips:'46135', county:'Yankton County / Yankton', type:'SD primary balanced pick', rent4br:16596, broadband:'Cable/fiber availability must be checked by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'TX', fips:'48503', county:'Young County / Graham', type:'TX max savings pick', rent4br:16332, broadband:'Rural inventory and address-level broadband risk', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'61%', low:'15°F', high:'105°F', pathogen:'West Nile and tick/flea-borne disease corridor'},
+  {code:'TX', fips:'48485', county:'Wichita County / Wichita Falls', type:'TX safer infrastructure fallback', rent4br:20508, broadband:'Stronger city rental inventory and broadband screen', baro:'Moderate', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Moderate', humidity:'62%', low:'15°F', high:'108°F', pathogen:'West Nile risk; heat, wind, and storm volatility are main factors'},
+  {code:'NH', fips:'33007', county:'Coos County / Berlin-Gorham', type:'NH no sales tax / low-rent pick', rent4br:17976, broadband:'Rural cable/fiber availability must be verified by address', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'72%', low:'-20°F', high:'90°F', pathogen:'Lyme, anaplasmosis, babesiosis, Powassan tick belt'},
+  {code:'OH', fips:'39171', county:'Williams County / Bryan', type:'OH low-rent candidate; local tax caution', rent4br:14064, broadband:'Exact township/city and provider must be checked', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'72%', low:'-5°F', high:'94°F', pathogen:'La Crosse encephalitis, histoplasmosis, Lyme expansion'},
+  {code:'IN', fips:'18053', county:'Grant County / Marion', type:'IN low-rent candidate', rent4br:13956, broadband:'Exact address and county/local tax check required', baro:'High', tempVol:'Highly volatile', pollen:'Unhealthy', aqi:'Healthy', humidity:'71%', low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus tick-borne risk'},
+  {code:'SD', fips:'46035', county:'Davison County / Mitchell', type:'SD broadband/inventory alternate', rent4br:17568, broadband:'Mitchell-area fiber/cable screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'67%', low:'-18°F', high:'98°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'SD', fips:'46013', county:'Brown County / Aberdeen', type:'SD larger-town alternate', rent4br:17604, broadband:'Aberdeen-area cable/fiber screen; verify exact rental', baro:'High', tempVol:'Highly volatile', pollen:'Moderate', aqi:'Healthy', humidity:'68%', low:'-25°F', high:'96°F', pathogen:'West Nile virus seasonal prairie mosquito risk'},
+  {code:'WY', fips:'56037', county:'Sweetwater County / Rock Springs-Green River', type:'WY balanced candidate', rent4br:19572, broadband:'Lower-cost WY alternative to Cheyenne; verify rental inventory', baro:'Moderate to high', tempVol:'Highly volatile', pollen:'Healthy', aqi:'Healthy', humidity:'49%', low:'-20°F', high:'95°F', pathogen:'Colorado tick fever and tularemia; dry air and winter volatility'}
 ];
 
 // County/city tax overrides for the 12-county expense recalc.
@@ -682,7 +720,11 @@ function metricsForCounty(row){
 
 // Choropleth — annual net position delta
 const netDeltas={};
-for(const c in SD){const m=metrics(c);netDeltas[c]=m?m.annNetDelta:0;}
+for(const c in SD){
+  const cand = getDefaultCandidate(c);
+  const m = cand ? metricsForCandidate(cand) : metrics(c);
+  netDeltas[c]=m?m.annNetDelta:0;
+}
 const minD=Math.min(...Object.values(netDeltas),0);
 const maxD=Math.max(...Object.values(netDeltas),1);
 const cScale=d3.scaleLinear().domain([minD,0,maxD]).range(['#e07a4f','#e8edf4','#3f9d63']).clamp(true);
@@ -751,37 +793,133 @@ const path=d3.geoPath().projection(proj);
 const tt=document.getElementById('tt');
 const fips={"01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT","10":"DE","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN","19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD","25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE","32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH","40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN","48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"};
 
-// Layer for the spotlighted county outline, drawn above states/borders.
+// Layer for spotlighted county candidates. When a state is selected, all candidate
+// counties for that state are drawn as clickable shapes; the selected county is emphasized.
 const countyLayer = svg.append('g').attr('id','county-layer');
 let countyFeatureById = {};
 let activeCode = null;
+let activeCandidateFips = null;
 
 function stateFillFor(code){
   return code && SD[code] ? cScale(netDeltas[code]) : '#eef2f7';
 }
-
-function clearCountySpotlight(){
-  countyLayer.selectAll('*').remove();
+function clearCountySpotlight(){ countyLayer.selectAll('*').remove(); }
+function countyShortName(county){ return (county || '').split(' / ')[0].replace(/ area$/i,'').trim(); }
+function normCountyName(county){
+  return (county || '').toLowerCase().replace(/\s+area$/,'').replace(/\s+/g,' ').trim();
 }
-
-function spotlightCounty(code){
+function findShortlistCandidate(code, county){
+  const target = normCountyName(county);
+  return COUNTY_SHORTLIST.find(x => x.code === code && normCountyName(x.county) === target);
+}
+function fipsForCandidate(code, county, explicitFips=null){
+  if(explicitFips) return explicitFips;
+  const sl = findShortlistCandidate(code, county);
+  if(sl && sl.fips) return sl.fips;
+  const alt = COUNTY_ALT_FIPS[code] || {};
+  return alt[county] || alt[countyShortName(county)] || null;
+}
+function enrichCandidate(code, row, isPrimary=false){
+  const s = SD[code];
+  const sl = findShortlistCandidate(code, row.county);
+  const source = sl || {};
+  const countyName = source.county || row.county || s.county;
+  return {
+    ...source,
+    ...row,
+    code,
+    county: countyName,
+    type: row.type || source.type || (isPrimary ? (s.countyType || 'Primary county/FMR-area candidate') : 'Alternate county candidate'),
+    rent4br: row.rent4br ?? source.rent4br ?? s.rent4br,
+    fips: fipsForCandidate(code, countyName, row.fips || source.fips || (isPrimary ? COUNTY_FIPS[code] : null)),
+    basis: row.basis || row.countyBasis || source.basis || s.countyBasis || 'county/FMR-area screening benchmark',
+    broadband: row.broadband || source.broadband || 'verify exact address',
+    isPrimary
+  };
+}
+function getCountyCandidates(code){
+  const s = SD[code]; if(!s) return [];
+  const primary = enrichCandidate(code, {
+    county:s.county,
+    type:s.countyType || 'Primary county/FMR-area candidate',
+    rent4br:s.rent4br,
+    fips:COUNTY_FIPS[code],
+    basis:s.countyBasis,
+    broadband:s.broadband
+  }, true);
+  const alts = (s.altCandidates || []).map(a => enrichCandidate(code, a, false));
+  const seen = new Set();
+  return [primary, ...alts].filter(c => {
+    const key = c.fips || normCountyName(c.county);
+    if(seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+function metricsForCandidate(candidate){
+  if(!candidate) return null;
+  const s = SD[candidate.code];
+  const m = metricsForCounty(candidate);
+  return {
+    ...m,
+    stateTaxPP: s.stateTax/26,
+    bwDelta: m.bw - LA_BW_NET,
+    groceryTaxRate: m.tax.grocery,
+    generalSalesTaxRate: m.tax.general,
+    restaurantTaxRate: m.tax.restaurant
+  };
+}
+function getDefaultCandidate(code){ return getCountyCandidates(code)[0] || null; }
+function getCandidateByFips(code, fipsId){
+  return getCountyCandidates(code).find(c => c.fips === fipsId) || getDefaultCandidate(code);
+}
+function setActiveStateStyle(code){
+  svg.selectAll('path.sp')
+    .classed('active',false)
+    .attr('fill',dd=>{const c=fips[String(dd.id).padStart(2,'0')];return stateFillFor(c);});
+  svg.selectAll('path.sp').filter(dd=>fips[String(dd.id).padStart(2,'0')]===code)
+    .classed('active',true).attr('fill','#ffffff');
+}
+function selectCountyCandidate(code, fipsId=null){
+  if(!SD[code]) return;
+  const candidate = fipsId ? getCandidateByFips(code, fipsId) : getDefaultCandidate(code);
+  activeCode = code;
+  activeCandidateFips = candidate && candidate.fips;
+  setActiveStateStyle(code);
+  spotlightCountyCandidates(code, candidate);
+  render(code, candidate);
+}
+function spotlightCountyCandidates(code, selectedCandidate=null){
   clearCountySpotlight();
-  const fipsId = COUNTY_FIPS[code];
-  const feature = fipsId ? countyFeatureById[fipsId] : null;
-  if(!feature) return;
-  countyLayer.append('path')
-    .attr('class','county-hl')
-    .attr('d', path(feature))
-    .attr('fill', cScale(netDeltas[code]));
-  const centroid = path.centroid(feature);
-  if(centroid && !isNaN(centroid[0])){
-    countyLayer.append('text')
-      .attr('class','county-hl-label')
-      .attr('x', centroid[0])
-      .attr('y', centroid[1])
-      .attr('text-anchor','middle')
-      .text(SD[code].county ? SD[code].county.split(' / ')[0] : '');
-  }
+  const candidates = getCountyCandidates(code);
+  candidates.forEach(cand => {
+    const feature = cand.fips ? countyFeatureById[cand.fips] : null;
+    if(!feature) return;
+    const cm = metricsForCandidate(cand);
+    const isActive = selectedCandidate && cand.fips === selectedCandidate.fips;
+    countyLayer.append('path')
+      .datum(cand)
+      .attr('class','county-hl'+(isActive?' active':''))
+      .attr('d', path(feature))
+      .attr('fill', cScale(cm ? cm.annNetDelta : netDeltas[code]))
+      .on('mousemove',function(event,d){
+        const dm = metricsForCandidate(d);
+        document.getElementById('tt-n').textContent = `${countyShortName(d.county)}, ${SD[d.code].name}`;
+        document.getElementById('tt-d').textContent = `${d.type} · ${fmtD(d.rent4br/12)}/mo rent · ${dm.annNetDelta>=0?'+':''}${fmtI(dm.annNetDelta)}/yr vs LA`;
+        tt.style.left=(event.clientX+14)+'px'; tt.style.top=(event.clientY-10)+'px'; tt.classList.add('show');
+      })
+      .on('mouseleave',()=>tt.classList.remove('show'))
+      .on('click',function(event,d){ event.stopPropagation(); selectCountyCandidate(d.code, d.fips); });
+    const centroid = path.centroid(feature);
+    if(centroid && !isNaN(centroid[0])){
+      countyLayer.append('text')
+        .attr('class','county-hl-label')
+        .attr('x', centroid[0])
+        .attr('y', centroid[1])
+        .attr('text-anchor','middle')
+        .text(countyShortName(cand.county));
+    }
+  });
 }
 
 Promise.all([
@@ -790,30 +928,27 @@ Promise.all([
 ]).then(([us, usCounties])=>{
     const feats=topojson.feature(us,us.objects.states).features;
     const countyFeats=topojson.feature(usCounties,usCounties.objects.counties).features;
-    countyFeats.forEach(f=>{ countyFeatureById[f.id]=f; });
+    countyFeats.forEach(f=>{
+      const id = String(f.id).padStart(5,'0');
+      countyFeatureById[id]=f;
+      countyFeatureById[String(f.id)]=f;
+    });
 
     svg.selectAll('path.sp').data(feats).join('path')
       .attr('class','sp').attr('d',path)
       .attr('fill',d=>{const c=fips[String(d.id).padStart(2,'0')];return stateFillFor(c);})
       .on('mousemove',function(event,d){
         const code=fips[String(d.id).padStart(2,'0')];const s=SD[code];if(!s)return;
-        const m=metrics(code);
+        const cands=getCountyCandidates(code);
+        const defaultM=metricsForCandidate(cands[0]);
         document.getElementById('tt-n').textContent=s.name;
-        document.getElementById('tt-d').textContent=`County: ${s.county || 'Statewide'} · Net annual Δ: ${m.annNetDelta>=0?'+':''}${fmtI(m.annNetDelta)} vs LA`;
+        document.getElementById('tt-d').textContent=`${cands.length} county candidate${cands.length===1?'':'s'} · Primary: ${countyShortName(cands[0].county)} · ${defaultM.annNetDelta>=0?'+':''}${fmtI(defaultM.annNetDelta)}/yr vs LA`;
         tt.style.left=(event.clientX+14)+'px'; tt.style.top=(event.clientY-10)+'px'; tt.classList.add('show');
       })
       .on('mouseleave',()=>tt.classList.remove('show'))
       .on('click',function(event,d){
         const code=fips[String(d.id).padStart(2,'0')];if(!SD[code])return;
-        // Restore the previously active state to its normal choropleth fill, then
-        // turn the newly selected state white and spotlight just its candidate county.
-        svg.selectAll('path.sp')
-          .classed('active',false)
-          .attr('fill',dd=>{const c=fips[String(dd.id).padStart(2,'0')];return stateFillFor(c);});
-        d3.select(this).classed('active',true).attr('fill','#ffffff');
-        activeCode=code;
-        spotlightCounty(code);
-        render(code);
+        selectCountyCandidate(code);
       });
     svg.append('path').datum(topojson.mesh(us,us.objects.states,(a,b)=>a!==b))
       .attr('fill','none').attr('stroke','#fff').attr('stroke-width',.7).attr('d',path);
@@ -825,16 +960,22 @@ Promise.all([
 // ════════════
 // RENDER
 // ════════════
-function render(code){
-  const s=SD[code]; const m=metrics(code);
+function render(code, candidate=null){
+  const s=SD[code];
+  const selectedCandidate = candidate || getDefaultCandidate(code) || {code, county:s.county, type:s.countyType, rent4br:s.rent4br, fips:COUNTY_FIPS[code], basis:s.countyBasis};
+  const m=metricsForCandidate(selectedCandidate) || metrics(code);
   const{bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta,
-        newIns,newVtax,newRent,groceryTaxRate,utilityDetail,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
+        newIns,newVtax,newRent,utilityDetail,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
+  const groceryTaxRate = m.groceryTaxRate ?? (GROCERY_TAX_RATES[code] ?? 0);
+  const generalSalesTaxRate = m.generalSalesTaxRate ?? s.salesTaxRate;
+  const selectedCountyName = selectedCandidate.county || s.county || s.name;
+  const selectedCountyType = selectedCandidate.type || s.countyType || 'Primary county/FMR-area candidate';
 
   // Header
   setEl('d-name',s.name.toUpperCase());
-  const stRateDelta=(s.salesTaxRate-10.11).toFixed(2);
+  const stRateDelta=(generalSalesTaxRate-10.55).toFixed(2);
   const stRateStr=stRateDelta>=0?`+${stRateDelta}%`:`${stRateDelta}%`;
-  setEl('d-sub',`County candidate: ${s.county || 'Statewide'}  ·  State tax ~$${s.stateTax.toLocaleString()} ($${stateTaxPP.toFixed(2)}/period)  ·  Sales tax: ${s.salesTaxRate}% (${stRateStr} vs LA 10.11%)  ·  Grocery food tax: ${groceryTaxRate.toFixed(2)}%`);
+  setEl('d-sub',`County candidate: ${selectedCountyName}  ·  ${selectedCountyType}  ·  State tax ~$${s.stateTax.toLocaleString()} ($${stateTaxPP.toFixed(2)}/period)  ·  Sales tax: ${generalSalesTaxRate.toFixed(2)}% (${stRateStr} vs St. Landry 10.55%)  ·  Grocery food tax: ${groceryTaxRate.toFixed(2)}%`);
   setEl('d-col2',s.name);
 
   // Pay
@@ -875,23 +1016,31 @@ function render(code){
   setEl('u-detail', `Electricity ${fmtD(utilityDetail.electric)} · Water ${fmtD(utilityDetail.water)} · Internet ${fmtD(utilityDetail.internet)} · Core utilities ${fmtD(utilityDetail.total)}`);
 
   // County-level rent candidate
-  setEl('county-name', s.county || s.name);
-  setEl('county-type', s.countyType || 'Primary county/FMR-area candidate');
+  setEl('county-name', selectedCountyName);
+  setEl('county-type', selectedCountyType);
   setEl('county-rent', `${fmtD(newRent/12)} / month · ${fmtD(newRent)} / year`);
-  setEl('county-basis', s.countyBasis || 'county/FMR-area screening benchmark');
+  setEl('county-basis', selectedCandidate.basis || selectedCandidate.countyBasis || s.countyBasis || 'county/FMR-area screening benchmark');
   const altEl=document.getElementById('county-alts');
   if(altEl){
-    if(s.altCandidates && s.altCandidates.length){
-      altEl.innerHTML=s.altCandidates.map(a=>`<span class="alt-pill"><strong>${a.type}:</strong> ${a.county} · ${fmtD(a.rent4br/12)}/mo · ${a.broadband || 'verify exact address'}</span>`).join('');
+    const candidates = getCountyCandidates(code);
+    if(candidates.length){
+      altEl.innerHTML=candidates.map(a=>{
+        const am=metricsForCandidate(a);
+        const active=a.fips && a.fips===selectedCandidate.fips;
+        return `<span class="alt-pill clickable ${active?'active':''}" data-code="${code}" data-fips="${a.fips||''}"><strong>${a.isPrimary?'Primary':a.type}:</strong> ${a.county} · ${fmtD(a.rent4br/12)}/mo · ${am.annNetDelta>=0?'+':''}${fmtI(am.annNetDelta)}/yr · ${a.broadband || 'verify exact address'}</span>`;
+      }).join('');
+      altEl.querySelectorAll('.alt-pill.clickable').forEach(p=>{
+        p.addEventListener('click',()=>selectCountyCandidate(p.dataset.code, p.dataset.fips));
+      });
     } else {
-      altEl.textContent='No alternate county candidate selected for this state in the 12-county shortlist.';
+      altEl.textContent='No county candidate selected for this state.';
     }
   }
 
   // Annual expenses table
   const ar=document.getElementById('ann-rows'); ar.innerHTML='';
   const annItems=[
-    {label:'Housing: LA mortgage vs county 4BR rent', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
+    {label:'Housing: LA mortgage vs selected county 4BR rent', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
     {label:'Recurring spend incl. utility adjustment (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
     {label:'Car Insurance (both veh.)',laAmt:LA_INS_ANNUAL,newAmt:newIns,  rev:true},
     {label:'Vehicle Property Tax',    laAmt:LA_VTAX_ANNUAL,newAmt:newVtax,rev:true},
@@ -934,8 +1083,8 @@ function render(code){
   // Tax profile
   setEl('t-it',s.incomeTax==='No'?'None':s.incomeTax);
   setEl('t-ir',s.incomeRate);
-  setEl('t-st',s.salesTax+(s.salesTaxRate===0&&code!=='LA'?' — see note below':''));
-  const gtNote = GROCERY_TAX_NOTES[code] || (groceryTaxRate===0 ? 'food-for-home exempt' : 'modeled food-for-home rate');
+  setEl('t-st',`${generalSalesTaxRate.toFixed(2)}%${generalSalesTaxRate===0&&code!=='LA'?' — see note below':''}`);
+  const gtNote = (m.tax && m.tax.note) ? m.tax.note : (GROCERY_TAX_NOTES[code] || (groceryTaxRate===0 ? 'food-for-home exempt' : 'modeled food-for-home rate'));
   setEl('t-gt',`${groceryTaxRate.toFixed(2)}% — ${gtNote}`);
   setEl('t-pt',s.propTax);
   const vtEl=document.getElementById('t-vt');
@@ -949,20 +1098,20 @@ function render(code){
   const exciseBlock=document.getElementById('excise-block');
   if(s.excise){
     exciseBlock.innerHTML=`<div class="excise-box"><strong>⚠ No General Sales Tax — Targeted Excise Taxes Apply</strong>${s.excise}</div>`;
-    // Also update sales tax badge
     document.getElementById('t-st').textContent='0.00% (no general sales tax)';
   } else {
     exciseBlock.innerHTML='';
   }
 
-  // Climate
-  setEl('c-baro',climateBadge(s.baro),true);
-  setEl('c-tv',climateBadge(s.tempVol),true);
-  setEl('c-pol',climateBadge(s.pollen),true);
-  setEl('c-aqi',climateBadge(s.aqi),true);
-  setEl('c-hum',s.humidity);
-  setEl('c-tr',s.high+' / '+s.low);
-  setEl('c-path',s.pathogen);
+  // Climate — use county candidate values where available, otherwise state-level fallback.
+  const climateSource = selectedCandidate || s;
+  setEl('c-baro',climateBadge(climateSource.baro || s.baro),true);
+  setEl('c-tv',climateBadge(climateSource.tempVol || s.tempVol),true);
+  setEl('c-pol',climateBadge(climateSource.pollen || s.pollen),true);
+  setEl('c-aqi',climateBadge(climateSource.aqi || s.aqi),true);
+  setEl('c-hum',climateSource.humidity || s.humidity);
+  setEl('c-tr',(climateSource.high || s.high)+' / '+(climateSource.low || s.low));
+  setEl('c-path',climateSource.pathogen || s.pathogen);
 
   // Homeschool
   setEl('h-tier',homeBadge(s.home),true);
