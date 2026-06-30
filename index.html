@@ -51,7 +51,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 #map-svg{width:100%;height:auto;display:block;}
 .sp{stroke:#ffffff;stroke-width:.65;cursor:pointer;transition:filter .1s,stroke .1s;}
 .sp:hover{filter:brightness(.88) saturate(1.3);stroke:var(--gold);stroke-width:1.5;}
-.sp.active{stroke:var(--gold);stroke-width:2.2;filter:saturate(1.3);}
+.sp.active{stroke:var(--gold);stroke-width:2.2;}
+.county-hl{stroke:var(--gold);stroke-width:1.6;pointer-events:none;}
+.county-hl-label{font-family:var(--mono);font-size:9px;fill:var(--text);pointer-events:none;}
 
 /* TOOLTIP */
 #tt{position:fixed;background:#fff;border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-family:var(--mono);font-size:.67rem;color:var(--text);pointer-events:none;opacity:0;transition:opacity .08s;z-index:999;white-space:nowrap;box-shadow:0 4px 14px rgba(27,39,64,.13);}
@@ -233,7 +235,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="main-grid">
   <div class="map-wrap">
     <div class="map-hdr">
-      <span class="map-lbl">// Annual net position change vs St. Landry, LA — income tax + county sales/grocery tax + utilities + insurance + vehicle tax + LA mortgage vs county 4BR rent</span>
+      <span class="map-lbl">// Annual net position change vs St. Landry, LA — click a state to spotlight its candidate county</span>
       <div class="map-legend">
         <span style="color:var(--red);font-size:.62rem">worse off</span>
         <div><div class="ml-grad"></div><div class="ml-labs"><span>worst</span><span>best</span></div></div>
@@ -570,6 +572,18 @@ const SD = {
   WY:{name:'Wyoming',       stateTax:0,    salesTaxRate:5.44, vtax:660,    ins:1418, rent4br:19572, county:"Sweetwater County / Rock Springs-Green River area", countyType:"Primary WY balanced candidate", countyBasis:"HUD/RentData county FMR screen; lower-cost alternative to Cheyenne/Laramie County", altCandidates:[{county:"Sheridan County / Sheridan area",type:"WY quality-of-life alternate",rent4br:20544,broadband:"better town amenities; verify rental inventory and price"}], incomeTax:'No', incomeRate:'0.0%',            salesTax:'5.44%', propTax:'0.55%',vehicleTax:'$660/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',                                 home:'LOW',   homeDetails:'Notification + curriculum statement showing a sequential program; no testing.',baro:'Moderate to High',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'49%',low:'-20°F',high:'95°F', pathogen:'Colorado tick fever and tularemia risk; dry air and winter volatility are bigger day-to-day issues',excise:null},
 };
 
+// County FIPS codes for the primary candidate county in each state (Census county-level FIPS),
+// matched against the county names above so the map can spotlight the exact county, not just the state.
+const COUNTY_FIPS = {
+  AL:'01093', AK:'02090', AZ:'04003', AR:'05093', CA:'06029', CO:'08101', CT:'09015', DE:'10001',
+  FL:'12063', GA:'13261', HI:'15001', ID:'16005', IL:'17183', IN:'18053', IA:'19123', KS:'20191',
+  KY:'21079', LA:'22097', ME:'23003', MD:'24001', MA:'25003', MI:'26145', MN:'27047', MS:'28087',
+  MO:'29187', MT:'30093', NE:'31157', NV:'32023', NH:'33007', NJ:'34011', NM:'35029', NY:'36015',
+  NC:'37155', ND:'38093', OH:'39171', OK:'40123', OR:'41035', PA:'42021', RI:'44007', SC:'45075',
+  SD:'46135', TN:'47099', TX:'48503', UT:'49007', VT:'50021', VA:'51173', WA:'53077', WV:'54107',
+  WI:'55027', WY:'56037'
+};
+
 // ════════════════
 // METRICS FUNCTION
 // ════════════════
@@ -737,13 +751,50 @@ const path=d3.geoPath().projection(proj);
 const tt=document.getElementById('tt');
 const fips={"01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT","10":"DE","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN","19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD","25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE","32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH","40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN","48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"};
 
-fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
-  .then(r=>r.json())
-  .then(us=>{
+// Layer for the spotlighted county outline, drawn above states/borders.
+const countyLayer = svg.append('g').attr('id','county-layer');
+let countyFeatureById = {};
+let activeCode = null;
+
+function stateFillFor(code){
+  return code && SD[code] ? cScale(netDeltas[code]) : '#eef2f7';
+}
+
+function clearCountySpotlight(){
+  countyLayer.selectAll('*').remove();
+}
+
+function spotlightCounty(code){
+  clearCountySpotlight();
+  const fipsId = COUNTY_FIPS[code];
+  const feature = fipsId ? countyFeatureById[fipsId] : null;
+  if(!feature) return;
+  countyLayer.append('path')
+    .attr('class','county-hl')
+    .attr('d', path(feature))
+    .attr('fill', cScale(netDeltas[code]));
+  const centroid = path.centroid(feature);
+  if(centroid && !isNaN(centroid[0])){
+    countyLayer.append('text')
+      .attr('class','county-hl-label')
+      .attr('x', centroid[0])
+      .attr('y', centroid[1])
+      .attr('text-anchor','middle')
+      .text(SD[code].county ? SD[code].county.split(' / ')[0] : '');
+  }
+}
+
+Promise.all([
+  fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json').then(r=>r.json()),
+  fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json').then(r=>r.json())
+]).then(([us, usCounties])=>{
     const feats=topojson.feature(us,us.objects.states).features;
+    const countyFeats=topojson.feature(usCounties,usCounties.objects.counties).features;
+    countyFeats.forEach(f=>{ countyFeatureById[f.id]=f; });
+
     svg.selectAll('path.sp').data(feats).join('path')
       .attr('class','sp').attr('d',path)
-      .attr('fill',d=>{const c=fips[String(d.id).padStart(2,'0')];return c&&SD[c]?cScale(netDeltas[c]):'#eef2f7';})
+      .attr('fill',d=>{const c=fips[String(d.id).padStart(2,'0')];return stateFillFor(c);})
       .on('mousemove',function(event,d){
         const code=fips[String(d.id).padStart(2,'0')];const s=SD[code];if(!s)return;
         const m=metrics(code);
@@ -754,11 +805,21 @@ fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
       .on('mouseleave',()=>tt.classList.remove('show'))
       .on('click',function(event,d){
         const code=fips[String(d.id).padStart(2,'0')];if(!SD[code])return;
-        svg.selectAll('path.sp').classed('active',false);
-        d3.select(this).classed('active',true);render(code);
+        // Restore the previously active state to its normal choropleth fill, then
+        // turn the newly selected state white and spotlight just its candidate county.
+        svg.selectAll('path.sp')
+          .classed('active',false)
+          .attr('fill',dd=>{const c=fips[String(dd.id).padStart(2,'0')];return stateFillFor(c);});
+        d3.select(this).classed('active',true).attr('fill','#ffffff');
+        activeCode=code;
+        spotlightCounty(code);
+        render(code);
       });
     svg.append('path').datum(topojson.mesh(us,us.objects.states,(a,b)=>a!==b))
       .attr('fill','none').attr('stroke','#fff').attr('stroke-width',.7).attr('d',path);
+
+    // County layer must stay above the state mesh/borders.
+    countyLayer.raise();
   });
 
 // ════════════
