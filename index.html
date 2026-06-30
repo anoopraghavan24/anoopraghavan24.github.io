@@ -233,8 +233,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div id="exp-rows"></div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state’s grocery tax treatment; household/convenience uses the state’s general sales tax. Restaurant, Amazon, and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Utilities and Medical 0%.
+            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state’s grocery tax treatment; household/convenience uses the state’s general sales tax. Restaurant, Amazon, and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities now model the user's actual current services separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state residential kWh rate; water and internet use state-level monthly estimates. Phone/storage/other fixed bills are held constant.
           </div>
+          <div class="path-box" style="margin-top:8px;"><strong>Utility detail</strong><span id="u-detail"></span></div>
         </div>
 
         <!-- Annual expenses summary -->
@@ -251,7 +252,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="net-box">
             <div>
               <div class="net-label">Annual net position change vs LA</div>
-              <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + sales-tax spend + housing + insurance + vehicle tax</div>
+              <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + sales/grocery-tax spend + utilities + housing + insurance + vehicle tax</div>
             </div>
             <div class="net-val" id="d-netpos"></div>
           </div>
@@ -311,13 +312,25 @@ const BASE_NET  = LA_BW_NET + LA_STATE_TAX_PP; // 5636.39
 
 // Monthly recurring tax-adjustable spend — Chase Jan-May 2026, normalized
 // Excludes April bus purchase and New Orleans/Alabama vacation food, gas, hotel.
+// Utilities are now split from the old Utilities/Phone/Internet bucket:
+//   SLEMCO electricity $181.00 (1,409 kWh), Bayou Des Cannes water $32.03, Spectrum internet $99.99.
+//   Remaining $122.44 is retained as other phone/storage/fixed-bill spend and is not state-adjusted.
+const LA_ELECTRIC_M = 181.00;
+const LA_ELECTRIC_KWH = 1409;
+const LA_ELECTRIC_RATE_CENTS = (LA_ELECTRIC_M / LA_ELECTRIC_KWH) * 100; // actual SLEMCO effective all-in rate ≈ 12.85¢/kWh
+const LA_WATER_M = 32.03;
+const LA_INTERNET_M = 99.99;
+const LA_UTILITY_CORE_M = LA_ELECTRIC_M + LA_WATER_M + LA_INTERNET_M; // 313.02
+const LA_OTHER_FIXED_UTIL_M = 435.46 - LA_UTILITY_CORE_M; // 122.44, from old Utilities/Phone/Internet bucket
+
 const LA_CATS = {
   GroceriesHousehold: 1847.22,  // grocery + household + Walmart/Sam's/Costco + convenience/gas-station purchases
   Restaurant:         1196.03,
   Amazon:              410.05,
   Goodwill:            116.28,
   RetailHomeMisc:      602.66,
-  Utilities:           435.46,
+  Utilities:           LA_UTILITY_CORE_M,
+  OtherFixedBills:     LA_OTHER_FIXED_UTIL_M,
   MedicalPharmacy:     120.48,
   Subscriptions:        80.58,
 };
@@ -365,8 +378,32 @@ const GROCERY_TAX_NOTES = {
   WY:'food for domestic home consumption exempt'
 };
 
+// State utility model for the user's actual current services.
+// Electricity uses the same 1,409 kWh usage from the SLEMCO bill and applies state average residential electricity rates.
+// Water and internet use state-level average monthly estimates, anchored to the user's current Bayou Des Cannes and Spectrum bills.
+const UTILITY_STATE = {
+  AL:{e:15.00,w:30,i:75}, AK:{e:24.80,w:49,i:110}, AZ:{e:15.50,w:64,i:85}, AR:{e:13.00,w:26,i:75}, CA:{e:35.00,w:77,i:90},
+  CO:{e:16.10,w:49,i:85}, CT:{e:30.90,w:69,i:85}, DE:{e:17.40,w:45,i:80}, FL:{e:15.30,w:33,i:85}, GA:{e:14.60,w:29,i:80},
+  HI:{e:43.00,w:70,i:90}, ID:{e:12.10,w:38,i:80}, IL:{e:16.60,w:26,i:80}, IN:{e:15.10,w:27,i:75}, IA:{e:13.20,w:32,i:75},
+  KS:{e:14.90,w:27,i:75}, KY:{e:13.50,w:49,i:75}, LA:{e:LA_ELECTRIC_RATE_CENTS,w:LA_WATER_M,i:LA_INTERNET_M}, ME:{e:27.70,w:24,i:85}, MD:{e:18.10,w:46,i:90},
+  MA:{e:31.10,w:37,i:90}, MI:{e:19.50,w:29,i:80}, MN:{e:15.60,w:28,i:80}, MS:{e:13.80,w:38,i:75}, MO:{e:13.00,w:43,i:75},
+  MT:{e:12.90,w:34,i:80}, NE:{e:12.20,w:35,i:75}, NV:{e:15.30,w:26,i:85}, NH:{e:25.00,w:27,i:85}, NJ:{e:19.30,w:72,i:90},
+  NM:{e:15.20,w:38,i:80}, NY:{e:25.00,w:40,i:90}, NC:{e:13.80,w:21,i:80}, ND:{e:11.95,w:24,i:80}, OH:{e:15.70,w:29,i:75},
+  OK:{e:12.90,w:35,i:75}, OR:{e:13.00,w:38,i:85}, PA:{e:18.10,w:33,i:80}, RI:{e:29.00,w:32,i:90}, SC:{e:14.40,w:28,i:80},
+  SD:{e:13.10,w:26,i:80}, TN:{e:13.60,w:32,i:75}, TX:{e:15.50,w:45,i:85}, UT:{e:12.90,w:44,i:80}, VT:{e:23.50,w:18,i:90},
+  VA:{e:14.70,w:36,i:85}, WA:{e:12.00,w:40,i:90}, WV:{e:14.00,w:91,i:75}, WI:{e:17.50,w:20,i:75}, WY:{e:12.90,w:40,i:90}
+};
+
+function calcUtilities(code) {
+  const u = UTILITY_STATE[code] || UTILITY_STATE.LA;
+  const electric = LA_ELECTRIC_KWH * u.e / 100;
+  const water = u.w;
+  const internet = u.i;
+  return {electric, water, internet, total:electric + water + internet};
+}
+
 // Taxable % per non-grocery category
-const TAX_PCT = { Restaurant:1.00, Amazon:1.00, Goodwill:1.00, RetailHomeMisc:0.65, Utilities:0.00, MedicalPharmacy:0.00, Subscriptions:0.50 };
+const TAX_PCT = { Restaurant:1.00, Amazon:1.00, Goodwill:1.00, RetailHomeMisc:0.65, OtherFixedBills:0.00, MedicalPharmacy:0.00, Subscriptions:0.50 };
 
 function applyTaxDelta(amount, taxablePct, newRatePct, laRateDecimal) {
   const newRate = newRatePct / 100;
@@ -374,7 +411,7 @@ function applyTaxDelta(amount, taxablePct, newRatePct, laRateDecimal) {
   return newTaxable + amount*(1-taxablePct);
 }
 
-function calcExpenses(salesTaxRate, groceryTaxRate) {
+function calcExpenses(code, salesTaxRate, groceryTaxRate) {
   let total = 0; const breakdown = {};
 
   // Grocery/household/convenience: food-for-home uses grocery tax; household/convenience uses general sales tax.
@@ -384,13 +421,18 @@ function calcExpenses(salesTaxRate, groceryTaxRate) {
   breakdown.GroceriesHousehold = ghFood + ghHousehold;
   total += breakdown.GroceriesHousehold;
 
+  // Utilities: SLEMCO electricity, Bayou Des Cannes water, Spectrum internet modeled by destination state.
+  const utilityDetail = calcUtilities(code);
+  breakdown.Utilities = utilityDetail.total;
+  total += breakdown.Utilities;
+
   for (const [cat, laAmt] of Object.entries(LA_CATS)) {
-    if (cat === 'GroceriesHousehold') continue;
+    if (cat === 'GroceriesHousehold' || cat === 'Utilities') continue;
     const tp = TAX_PCT[cat];
     breakdown[cat] = applyTaxDelta(laAmt, tp, salesTaxRate, LA_SALES_RATE);
     total += breakdown[cat];
   }
-  return {total, breakdown};
+  return {total, breakdown, utilityDetail};
 }
 
 // ══════════════════════════════════════════════════
@@ -459,7 +501,7 @@ function metrics(code){
   const bw = BASE_NET - stateTaxPP;
   const annual = bw*26;
   const groceryTaxRate = GROCERY_TAX_RATES[code] ?? 0;
-  const {total:expM, breakdown:expBreakdown} = calcExpenses(s.salesTaxRate, groceryTaxRate);
+  const {total:expM, breakdown:expBreakdown, utilityDetail} = calcExpenses(code, s.salesTaxRate, groceryTaxRate);
   const expA = expM*12;
   const newIns = s.ins;
   const newVtax = s.vtax;
@@ -473,7 +515,7 @@ function metrics(code){
   const annRentDelta = newRent - LA_RENT_ANNUAL;
   const annNetDelta  = annPayDelta - annExpDelta - annInsDelta - annVtaxDelta - annRentDelta;
   return {bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta:bw-LA_BW_NET,
-          newIns,newVtax,newRent,groceryTaxRate,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta};
+          newIns,newVtax,newRent,groceryTaxRate,utilityDetail,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta};
 }
 
 // Choropleth — annual net position delta
@@ -548,7 +590,7 @@ fetch('https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json')
 function render(code){
   const s=SD[code]; const m=metrics(code);
   const{bw,annual,expM,expA,expBreakdown,stateTaxPP,bwDelta,
-        newIns,newVtax,newRent,groceryTaxRate,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
+        newIns,newVtax,newRent,groceryTaxRate,utilityDetail,annPayDelta,annExpDelta,annInsDelta,annVtaxDelta,annRentDelta,annNetDelta}=m;
 
   // Header
   setEl('d-name',s.name.toUpperCase());
@@ -577,7 +619,8 @@ function render(code){
     {key:'Amazon',name:'Amazon only'},
     {key:'Goodwill',name:'Goodwill only'},
     {key:'RetailHomeMisc',name:'Retail / Home / Misc'},
-    {key:'Utilities',name:'Utilities / Phone / Internet'},
+    {key:'Utilities',name:'Utilities: electric / water / internet'},
+    {key:'OtherFixedBills',name:'Phone / Storage / Other fixed'},
     {key:'MedicalPharmacy',name:'Medical / Pharmacy'},
     {key:'Subscriptions',name:'Subscriptions / Digital'},
   ];
@@ -591,11 +634,13 @@ function render(code){
   const td=tNew-tLA; const {txt:ttxt,cls:tcls}=fmtSign(td,true);
   ec.insertAdjacentHTML('beforeend',`<div class="exp-row" style="font-weight:700"><div class="exp-cat" style="font-weight:700">Monthly Total</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tLA)}</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tNew)}</div><div class="exp-chg ${tcls}">${ttxt}</div></div>`);
 
+  setEl('u-detail', `Electricity ${fmtD(utilityDetail.electric)} · Water ${fmtD(utilityDetail.water)} · Internet ${fmtD(utilityDetail.internet)} · Core utilities ${fmtD(utilityDetail.total)}`);
+
   // Annual expenses table
   const ar=document.getElementById('ann-rows'); ar.innerHTML='';
   const annItems=[
     {label:'Housing: LA mortgage vs 4BR rent', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
-    {label:'Tax-adjusted recurring spend (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
+    {label:'Recurring spend incl. utility adjustment (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
     {label:'Car Insurance (both veh.)',laAmt:LA_INS_ANNUAL,newAmt:newIns,  rev:true},
     {label:'Vehicle Property Tax',    laAmt:LA_VTAX_ANNUAL,newAmt:newVtax,rev:true},
     {label:'Annual Net Pay (×26)',    laAmt:LA_ANNUAL,   newAmt:annual,   rev:false},
