@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relocation Finance Dashboard</title>
+<title>Relocation Finance Dashboard - Mobile Optimized</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -179,6 +179,127 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .expdelta.good{font-weight:700;color:var(--green);} 
 .expdelta.bad{font-weight:700;color:var(--red);} 
 
+
+
+/* MOBILE / PIXEL OPTIMIZATION
+   Keeps all desktop functionality while making the state map, county candidates,
+   detail panel, and bottom tables usable on phone-width screens. */
+.map-scroll{width:100%;overflow:visible;border-radius:8px;}
+.mobile-map-hint{display:none;font-family:var(--mono);font-size:.55rem;color:var(--muted);line-height:1.35;margin-top:7px;padding:6px 8px;background:var(--s2);border:1px solid var(--border2);border-radius:6px;}
+
+@media(max-width:900px){
+  .top-bar{grid-template-columns:1fr;gap:10px;}
+  .snapshot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;}
+  .snap-card{min-width:0;padding:10px 11px;}
+}
+
+@media(max-width:700px){
+  html{font-size:13px;}
+  body{overflow-x:hidden;background-size:20px 20px;}
+  .app{max-width:100%;padding:10px 8px calc(18px + env(safe-area-inset-bottom,0px));}
+
+  .top-bar{display:block;margin-bottom:10px;padding-bottom:10px;}
+  .brand h1{font-size:1.9rem;letter-spacing:.7px;}
+  .brand p{font-size:.53rem;line-height:1.38;margin-top:4px;}
+  .snapshot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px;}
+  .snap-card{min-width:0;padding:9px 10px;border-radius:7px;}
+  .snap-val{font-size:1.34rem;}
+  .snap-label,.snap-sub{font-size:.49rem;line-height:1.25;}
+
+  .main-grid{display:block;}
+  .map-wrap{padding:9px;border-radius:9px;margin-left:-2px;margin-right:-2px;}
+  .map-hdr{display:block;margin-bottom:8px;}
+  .map-lbl{font-size:.51rem;line-height:1.35;display:block;}
+  .map-legend{margin-top:8px;justify-content:flex-start;font-size:.52rem;}
+  .ml-grad,.ml-labs{width:72px;}
+  .map-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x pan-y;padding-bottom:4px;}
+  #map-svg{width:900px;min-width:900px;max-width:none;height:560px;}
+  .mobile-map-hint{display:block;}
+  .sp{stroke-width:.8;}
+  .sp.active{stroke-width:2.4;}
+  .county-hl{stroke-width:2.2;}
+  .county-hl:hover{stroke-width:2.8;}
+  .county-hl.active{stroke-width:3.4;}
+  .county-hl-label{font-size:11px;stroke-width:3.6px;}
+  .county-hl-label.active{font-size:12px;}
+  .county-label-line{stroke-width:.95;}
+
+  .detail{margin-top:12px;max-height:none;overflow:visible;border-radius:9px;}
+  .detail-ph{min-height:170px;padding:28px 16px;font-size:.68rem;}
+  .detail-body.show{display:block;}
+  .detail-scroll{overflow:visible;}
+  .dh{position:sticky;top:0;z-index:20;padding:10px 12px;box-shadow:0 2px 8px rgba(27,39,64,.06);}
+  .dh-name{font-size:1.55rem;}
+  .dh-sub{font-size:.54rem;line-height:1.35;}
+
+  .cmp-grid{grid-template-columns:1fr;border-bottom:1px solid var(--border);}
+  .la-col{border-right:none;border-bottom:1px solid var(--border);}
+  .cmp-col{padding:10px 12px;}
+  .cmp-col-title{font-size:.52rem;margin-bottom:7px;}
+  .cm{margin-bottom:6px;}
+  .cm-val{font-size:1.2rem;}
+
+  .sec{padding:10px 11px;}
+  .sec-title{font-size:.51rem;line-height:1.35;margin-bottom:8px;}
+  .info-grid{grid-template-columns:1fr;gap:7px;}
+  .info-label{font-size:.51rem;}
+  .info-val{font-size:.72rem;}
+
+  .exp-row{grid-template-columns:minmax(0,1fr) 62px 62px 42px;gap:2px;margin-bottom:5px;padding-bottom:5px;}
+  .ann-row{grid-template-columns:minmax(0,1fr) 68px 68px 46px;gap:2px;margin-bottom:5px;padding-bottom:5px;}
+  .exp-cat,.ann-cat{font-size:.62rem;line-height:1.25;overflow-wrap:anywhere;}
+  .exp-cat.hd,.ann-cat.hd,.exp-num.hd,.ann-num.hd{font-size:.47rem;}
+  .exp-num,.ann-num{font-size:.58rem;}
+  .exp-chg,.ann-chg{font-size:.52rem;}
+
+  .stub-note,.path-box,.home-detail,.excise-box{font-size:.56rem;line-height:1.45;border-radius:6px;}
+  .stub-note{margin:8px 0 0;padding:8px 9px;}
+  .net-box{display:block;padding:9px 10px;}
+  .net-label{font-size:.52rem;}
+  .net-val{font-size:1.38rem;margin-top:5px;}
+  .cbadge{font-size:.53rem;padding:2px 6px;}
+
+  .alt-pill{padding:8px 9px;margin:4px 4px 4px 0;min-height:34px;line-height:1.2;}
+  .alt-pill.clickable{touch-action:manipulation;}
+
+  .bottom-tables{margin-top:12px;}
+  .shortlist-wrap{border-radius:9px;margin-bottom:12px;}
+  .shortlist-hdr{display:block;padding:11px 12px;}
+  .shortlist-title{font-size:.56rem;line-height:1.35;}
+  .shortlist-note{text-align:left;max-width:none;margin-top:6px;font-size:.52rem;line-height:1.35;}
+  .shortlist-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;}
+  .shortlist-table{min-width:1100px;}
+  .srow{grid-template-columns:34px 166px 108px 82px 92px 124px 104px 74px 90px 200px;gap:6px;padding:7px 9px;}
+  .erow{grid-template-columns:34px 170px 108px 86px 84px 78px 92px 96px 96px 96px;gap:6px;padding:7px 9px;}
+  .scell,.ecell{font-size:.62rem;line-height:1.28;}
+  .srow.hd .scell,.erow.hd .ecell{font-size:.48rem;}
+  .sbadge{font-size:.49rem;}
+
+  #tt{max-width:calc(100vw - 24px);white-space:normal;font-size:.57rem;line-height:1.35;padding:8px 10px;}
+  #tt .ttn{font-size:.76rem;}
+}
+
+@media(max-width:430px){
+  .app{padding-left:7px;padding-right:7px;}
+  .brand h1{font-size:1.78rem;}
+  .snapshot{gap:7px;}
+  .snap-card{padding:8px 8px;}
+  .snap-val{font-size:1.22rem;}
+  #map-svg{width:860px;min-width:860px;height:535px;}
+  .map-wrap{padding:8px;}
+  .exp-row{grid-template-columns:minmax(0,1fr) 58px 58px 39px;}
+  .ann-row{grid-template-columns:minmax(0,1fr) 64px 64px 42px;}
+  .exp-num,.ann-num{font-size:.55rem;}
+  .exp-chg,.ann-chg{font-size:.49rem;}
+}
+
+@media(max-width:370px){
+  .snapshot{grid-template-columns:1fr;}
+  #map-svg{width:800px;min-width:800px;height:500px;}
+  .cmp-col{padding:9px 10px;}
+  .sec{padding:9px 9px;}
+}
+
 </style>
 </head>
 <body>
@@ -225,7 +346,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         <span style="color:var(--green);font-size:.62rem">better off</span>
       </div>
     </div>
-    <svg id="map-svg" viewBox="0 0 960 600"></svg>
+    <div class="map-scroll" aria-label="Scrollable map area"><svg id="map-svg" viewBox="0 0 960 600"></svg></div>
+    <div class="mobile-map-hint">Swipe horizontally on the map to see labels. Tap a state, then tap a highlighted county candidate.</div>
   </div>
 
   <div class="detail">
