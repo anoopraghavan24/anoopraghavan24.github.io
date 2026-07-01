@@ -21,7 +21,7 @@
 html{font-size:14px;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;overflow-x:hidden;
   background-image:radial-gradient(circle at 1px 1px,rgba(27,39,64,.04) 1px,transparent 0);background-size:26px 26px;}
-.app{position:relative;z-index:1;max-width:1600px;margin:0 auto;padding:20px 18px;}
+.app{position:relative;z-index:1;max-width:1840px;margin:0 auto;padding:20px 18px;}
 
 /* TOP BAR */
 .top-bar{display:grid;grid-template-columns:1fr auto;align-items:start;gap:18px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--border);}
@@ -38,7 +38,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .snap-sub{font-family:var(--mono);font-size:0.58rem;color:var(--muted);margin-top:3px;}
 
 /* MAIN GRID */
-.main-grid{display:grid;grid-template-columns:minmax(0,1fr) 460px;gap:16px;align-items:start;}
+.main-grid{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:18px;align-items:start;}
 @media(max-width:1100px){.main-grid{grid-template-columns:1fr;}}
 
 /* MAP */
@@ -48,14 +48,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .map-legend{display:flex;gap:7px;align-items:center;font-family:var(--mono);font-size:0.57rem;color:var(--muted);}
 .ml-grad{width:80px;height:7px;border-radius:3px;background:linear-gradient(90deg,#e07a4f,#e8edf4,#3f9d63);border:1px solid var(--border);}
 .ml-labs{display:flex;justify-content:space-between;width:80px;font-size:0.54rem;margin-top:1px;}
-#map-svg{width:100%;height:clamp(560px,65vh,760px);display:block;}
+#map-svg{width:100%;height:clamp(740px,82vh,1020px);display:block;}
 .sp{stroke:#ffffff;stroke-width:.65;cursor:pointer;transition:filter .1s,stroke .1s;}
 .sp:hover{filter:brightness(.88) saturate(1.3);stroke:var(--gold);stroke-width:1.5;}
 .sp.active{stroke:var(--gold);stroke-width:2.2;}
 .county-hl{stroke:var(--gold);stroke-width:1.7;cursor:pointer;pointer-events:auto;transition:stroke-width .08s,filter .08s;}
 .county-hl:hover{stroke-width:2.5;filter:brightness(.92) saturate(1.25);}
 .county-hl.active{stroke-width:3;stroke:#7c4a03;filter:saturate(1.25);}
-.county-hl-label{font-family:var(--mono);font-size:9px;fill:var(--text);pointer-events:none;}
+.county-hl-label{font-family:var(--mono);font-size:9.5px;font-weight:600;fill:var(--text);pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round;}
+.county-hl-label.active{font-size:10.5px;font-weight:700;fill:#111827;}
+.county-label-line{stroke:rgba(192,138,30,.9);stroke-width:.7;pointer-events:none;}
 
 /* TOOLTIP */
 #tt{position:fixed;background:#fff;border:1px solid var(--border);border-radius:7px;padding:7px 12px;font-family:var(--mono);font-size:.67rem;color:var(--text);pointer-events:none;opacity:0;transition:opacity .08s;z-index:999;white-space:nowrap;box-shadow:0 4px 14px rgba(27,39,64,.13);}
@@ -628,6 +630,38 @@ const COUNTY_ALT_FIPS = {
   }
 };
 
+// Manual label offsets for compact multi-county states. These keep labels readable
+// when nearby candidates are highlighted inside a small state footprint.
+const COUNTY_LABEL_OFFSETS = {
+  TN: {
+    '47099': {dx:-34, dy:18, anchor:'end'},      // Lawrence
+    '47031': {dx:-8,  dy:-32, anchor:'middle'},  // Coffee
+    '47035': {dx:38,  dy:-26, anchor:'start'},   // Cumberland
+    '47107': {dx:38,  dy:24, anchor:'start'}     // McMinn
+  },
+  SD: {
+    '46135': {dx:0, dy:18, anchor:'middle'},
+    '46035': {dx:32, dy:-12, anchor:'start'},
+    '46013': {dx:28, dy:-18, anchor:'start'}
+  },
+  TX: {
+    '48503': {dx:-24, dy:-14, anchor:'end'},
+    '48485': {dx:26, dy:14, anchor:'start'}
+  },
+  WY: {
+    '56037': {dx:0, dy:18, anchor:'middle'},
+    '56033': {dx:0, dy:-18, anchor:'middle'}
+  }
+};
+function countyLabelOffset(code, cand, idx, count){
+  const byState = COUNTY_LABEL_OFFSETS[code] || {};
+  if(cand && cand.fips && byState[cand.fips]) return byState[cand.fips];
+  if(count <= 1) return {dx:0, dy:0, anchor:'middle'};
+  const spread = 18 + Math.min(18, count * 3);
+  const side = idx % 2 === 0 ? -1 : 1;
+  return {dx:side * spread, dy:(idx - (count-1)/2) * 16, anchor:side < 0 ? 'end' : 'start'};
+}
+
 // ════════════════
 // METRICS FUNCTION
 // ════════════════
@@ -918,11 +952,21 @@ function spotlightCountyCandidates(code, selectedCandidate=null){
       .on('click',function(event,d){ event.stopPropagation(); selectCountyCandidate(d.code, d.fips); });
     const centroid = path.centroid(feature);
     if(centroid && !isNaN(centroid[0])){
+      const offset = countyLabelOffset(code, cand, candidates.indexOf(cand), candidates.length);
+      const lx = centroid[0] + (offset.dx || 0);
+      const ly = centroid[1] + (offset.dy || 0);
+      if(Math.abs(offset.dx || 0) > 4 || Math.abs(offset.dy || 0) > 4){
+        countyLayer.append('line')
+          .attr('class','county-label-line')
+          .attr('x1', centroid[0]).attr('y1', centroid[1])
+          .attr('x2', lx).attr('y2', ly);
+      }
       countyLayer.append('text')
-        .attr('class','county-hl-label')
-        .attr('x', centroid[0])
-        .attr('y', centroid[1])
-        .attr('text-anchor','middle')
+        .attr('class','county-hl-label'+(isActive?' active':''))
+        .attr('x', lx)
+        .attr('y', ly)
+        .attr('text-anchor', offset.anchor || 'middle')
+        .attr('dominant-baseline','central')
         .text(countyShortName(cand.county));
     }
   });
