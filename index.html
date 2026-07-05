@@ -179,6 +179,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .expdelta.good{font-weight:700;color:var(--green);} 
 .expdelta.bad{font-weight:700;color:var(--red);} 
 
+.wrow{display:grid;grid-template-columns:160px 130px 130px 130px 130px 1fr;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);}
+.wrow:last-child{border-bottom:none;}
+.wrow.hd{background:var(--s2);}
+.wcell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);}
+.wrow.hd .wcell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.wcell.strong{font-weight:700;color:var(--text);}
+.grow{display:grid;grid-template-columns:44px 210px 120px 110px 115px 115px 115px 1fr;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);}
+.grow:last-child{border-bottom:none;}
+.grow.hd{background:var(--s2);}
+.gcell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);}
+.grow.hd .gcell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.gcell.strong{font-weight:700;color:var(--text);}
+
+
 
 
 /* MOBILE / PIXEL OPTIMIZATION
@@ -300,6 +314,46 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   .sec{padding:9px 9px;}
 }
 
+
+
+/* Budget/cash-flow lens */
+.budget-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px;}
+.budget-card{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:8px 9px;min-width:0;}
+.budget-card.good{background:var(--green-bg);border-color:rgba(21,128,61,.18);}
+.budget-card.bad{background:var(--red-bg);border-color:rgba(194,65,12,.18);}
+.budget-k{font-family:var(--mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px;line-height:1.25;}
+.budget-v{font-family:var(--display);font-size:1.28rem;letter-spacing:.4px;color:var(--text);line-height:1;}
+.budget-sub{font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:3px;line-height:1.3;}
+.budget-split{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.budget-block{border:1px solid var(--border2);border-radius:6px;overflow:hidden;background:#fff;}
+.budget-block-title{font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--s2);padding:6px 8px;border-bottom:1px solid var(--border2);}
+.budget-line{display:grid;grid-template-columns:1fr 64px 64px 42px;gap:3px;align-items:center;padding:5px 8px;border-bottom:1px solid var(--border2);}
+.budget-line:last-child{border-bottom:none;}
+.budget-line .lbl{font-size:.67rem;line-height:1.22;color:var(--text2);}
+.budget-line .num{font-family:var(--mono);font-size:.62rem;text-align:right;color:var(--text2);}
+.budget-line.total .lbl,.budget-line.total .num{font-weight:700;color:var(--text);}
+.budget-line .chg{font-family:var(--mono);font-size:.55rem;text-align:right;border-radius:3px;padding:1px 3px;}
+.budget-note{font-family:var(--mono);font-size:.57rem;line-height:1.45;color:var(--muted);margin-top:8px;}
+.brow{display:grid;grid-template-columns:44px 192px 118px 92px 92px 96px 98px 110px 108px 120px 1fr;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);}
+.brow:last-child{border-bottom:none;}
+.brow.hd{background:var(--s2);}
+.bcell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);}
+.brow.hd .bcell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.bcell.strong{font-weight:700;color:var(--text);}
+@media(max-width:760px){
+  .budget-summary-grid{grid-template-columns:1fr 1fr;gap:6px;}
+  .budget-card{padding:7px 8px;}
+  .budget-v{font-size:1.12rem;}
+  .budget-split{grid-template-columns:1fr;}
+  .budget-line{grid-template-columns:minmax(0,1fr) 58px 58px 39px;padding:5px 7px;}
+  .budget-line .lbl{font-size:.61rem;overflow-wrap:anywhere;}
+  .budget-line .num{font-size:.55rem;}
+  .budget-line .chg{font-size:.49rem;}
+  .brow{grid-template-columns:34px 166px 108px 80px 80px 84px 90px 96px 96px 104px 190px;gap:6px;padding:7px 9px;}
+  .bcell{font-size:.62rem;line-height:1.28;}
+  .brow.hd .bcell{font-size:.48rem;}
+}
+
 </style>
 </head>
 <body>
@@ -326,6 +380,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <div class="snap-val" style="color:var(--blue)">$4,808.76</div>
       <div class="snap-sub">Recurring Jan–May baseline · St. Landry baseline</div>
     </div>
+    <div class="snap-card" style="border-top:3px solid var(--green)">
+      <div class="snap-label">Monthly Cash-Flow Need</div>
+      <div class="snap-val" style="color:var(--green)">$10,641</div>
+      <div class="snap-sub">Fixed + variable budget + card minimums</div>
+    </div>
     <div class="snap-card" style="border-top:3px solid var(--amber)">
       <div class="snap-label">Annual Ins. + VehicleTax (LA)</div>
       <div class="snap-val" style="color:var(--amber)">$2,916</div>
@@ -339,7 +398,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="main-grid">
   <div class="map-wrap">
     <div class="map-hdr">
-      <span class="map-lbl">// Annual net position change vs St. Landry, LA — click a state to spotlight its candidate county</span>
+      <span class="map-lbl">// Annual net position change vs St. Landry, LA — click a state/county to see expense + cash-flow budget lens</span>
       <div class="map-legend">
         <span style="color:var(--red);font-size:.62rem">worse off</span>
         <div><div class="ml-grad"></div><div class="ml-labs"><span>worst</span><span>best</span></div></div>
@@ -396,7 +455,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div id="exp-rows"></div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is split for tax modeling: 60% food-for-home and 40% household/convenience/non-food. Food-for-home uses each state/county grocery tax treatment; household/convenience uses the destination county general sales tax. Restaurant uses destination restaurant/meals tax where applicable; Amazon and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state residential kWh rate; water and internet use state-level monthly estimates. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline.
+            Recurring Chase baseline Jan–May 2026 with April bus purchase and New Orleans/Alabama vacation food, gas, and hotel removed. Grocery/household/convenience is now Walmart-calibrated: 56.65% food-for-home and 43.35% taxable household/pet/health/general merchandise, inferred from 49 Walmart orders in the uploaded order-history workbook. Food-for-home uses each state/county grocery tax treatment; household/convenience uses the destination county general sales tax. Restaurant uses destination restaurant/meals tax where applicable; Amazon and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state residential kWh rate; water and internet use state-level monthly estimates. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline.
           </div>
           <div class="path-box" style="margin-top:8px;"><strong>Utility detail</strong><span id="u-detail"></span></div>
         </div>
@@ -414,6 +473,26 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>County screen caveat</strong>
             County/FMR-area rent is used to find states where the math can work. Final decision still requires address-level broadband check and active rental listings for a standalone 4BR home.
+          </div>
+        </div>
+
+
+        <!-- Monthly recurring spend + budget allocation -->
+        <div class="sec">
+          <div class="sec-title">// Monthly recurring spend + budget allocation — county-adjusted cash-flow lens</div>
+          <div class="budget-summary-grid" id="budget-summary"></div>
+          <div class="budget-split">
+            <div class="budget-block">
+              <div class="budget-block-title">Fixed recurring obligations</div>
+              <div id="budget-fixed-rows"></div>
+            </div>
+            <div class="budget-block">
+              <div class="budget-block-title">Variable monthly budget allocation</div>
+              <div id="budget-variable-rows"></div>
+            </div>
+          </div>
+          <div class="budget-note">
+            The map itself stays uncluttered on mobile: budget numbers update in this panel and in county tooltips after selecting a state/county. County-varying lines are housing, utilities, insurance, sales/grocery/meals-tax-sensitive categories, and vehicle tax. Wise, vehicle lease, debt payments, credit-card interest, subscriptions, and card minimums are held constant because they do not change by county.
           </div>
         </div>
 
@@ -478,6 +557,46 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 </div><!-- /main-grid -->
 
 <div class="bottom-tables">
+
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// Walmart order history calibration — every row/column reviewed</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Workbook range reviewed: A1:T3280 · 3,279 item rows · 20 columns · 49 unique orders · Aug 07, 2025 – Jul 03, 2026.</div>
+    </div>
+    <div class="shortlist-note">Line-item rows are repeated/revised in the export, so totals use unique Order Number-level subtotals/tax/order totals. The basket split updates the grocery-tax model from 60/40 to 56.65/43.35.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="shortlist-table" id="walmart-audit-table"></div>
+  </div>
+</div>
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// Grocery impact by selected county — Walmart-calibrated basket</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Shows whether the grocery/household category actually moves after applying the real Walmart basket split to each county's grocery/general sales-tax rules.</div>
+    </div>
+    <div class="shortlist-note">Result: grocery tax matters, but the county decision is still dominated by rent, income tax, insurance, and utilities. The Walmart update changes county net results by only a few dollars per month vs the prior 60/40 split.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="shortlist-table" id="walmart-grocery-county-table"></div>
+  </div>
+</div>
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// 12-county monthly recurring spend + budget allocation</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Uses your provided fixed recurring obligations and recommended variable budget allocation, then varies housing, utilities, insurance, vehicle tax, and tax-sensitive spend by selected county.</div>
+    </div>
+    <div class="shortlist-note">This is a cash-flow view, not a spending-history view. Credit-card minimum payments are shown separately to avoid double counting card purchases and card payments.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="shortlist-table" id="county-budget-table"></div>
+  </div>
+</div>
 
 <div class="shortlist-wrap">
   <div class="shortlist-hdr">
@@ -556,9 +675,34 @@ const LA_RENT_ANNUAL = 14181.72;  // current LA mortgage: $1,181.81 × 12; used 
 const LA_SALES_RATE = 0.1055; // St. Landry Parish 2026 combined sales tax baseline
 const LA_GROCERY_TAX_RATE = 0.0555; // St. Landry Parish local grocery tax component; LA state food-for-home is exempt
 
-// Grocery/household category split. No receipt-level line items are available, so food-for-home is modeled separately from household/convenience.
-const GROCERY_FOOD_HOME_SHARE = 0.60;
-const GROCERY_HOUSEHOLD_TAXABLE_SHARE = 0.40;
+// Grocery/household category split calibrated from Walmart_Orders workbook.
+// The workbook had 3,279 item rows across 20 columns and 49 unique orders.
+// Order-level tax inference in St. Landry Parish produced 56.65% food-for-home and 43.35% taxable household/pet/health/general merchandise.
+// This split is applied to the broader grocery/household/convenience bucket because Sam's/Costco/convenience receipts are not itemized.
+const GROCERY_FOOD_HOME_SHARE = 0.566506607808479;
+const GROCERY_HOUSEHOLD_TAXABLE_SHARE = 0.433493392191521;
+
+const WALMART_AUDIT = {
+  "rows": 3279,
+  "columns": 20,
+  "uniqueOrders": 49,
+  "dateRange": "Aug 07, 2025 \u2013 Jul 03, 2026",
+  "fullMonthRange": "Aug 2025 \u2013 Jun 2026",
+  "fullMonthOrders": 48,
+  "orderSubtotal": 8735.12,
+  "tax": 674.13,
+  "tips": 52.9,
+  "deliveryCharges": 0.0,
+  "bagFees": 0.0,
+  "orderTotal": 9416.24,
+  "fullMonthAvgTotal": 848.04,
+  "effectiveTaxRate": 7.717466960957604,
+  "foodHomeShare": 56.6506607808479,
+  "taxableHouseholdShare": 43.34933921915211,
+  "duplicateNote": "Spreadsheet has repeated/revised item rows; order-level totals are deduped by Order Number to avoid double counting.",
+  "columnsAudited": "A:T",
+  "blankCells": 0
+};
 
 // 2026 modeled tax on food-for-home groceries. Most values are state-level grocery tax plus estimated local component where local food taxes commonly apply.
 const GROCERY_TAX_RATES = {
@@ -839,6 +983,7 @@ const COUNTY_SHORTLIST = [
 const LA_TOTAL_EXPENSE_A = LA_EXP_A + LA_RENT_ANNUAL + LA_INS_ANNUAL + LA_VTAX_ANNUAL;
 const LA_TOTAL_EXPENSE_M = LA_TOTAL_EXPENSE_A / 12;
 const COUNTY_TAX_OVERRIDES = {
+  'St. Landry Parish / current home': {general:10.55, grocery:5.55, restaurant:10.55, note:'St. Landry Parish current baseline'},
   'Lawrence County / Lawrenceburg': {general:9.75, grocery:6.75, restaurant:9.75, note:'TN: 7% general + 2.75% local; food-for-home modeled at 4% state + 2.75% local'},
   'McMinn County / Athens': {general:9.75, grocery:6.75, restaurant:9.75, note:'TN: 7% general + 2.75% local; food-for-home modeled at 4% state + 2.75% local'},
   'Jackson County / Marianna': {general:7.50, grocery:0.00, restaurant:7.50, note:'FL: 6% state + 1.5% Jackson surtax; food-for-home groceries exempt'},
@@ -856,6 +1001,87 @@ const COUNTY_TAX_OVERRIDES = {
 function countyTax(row){
   return COUNTY_TAX_OVERRIDES[row.county] || {general:SD[row.code].salesTaxRate, grocery:(GROCERY_TAX_RATES[row.code] ?? 0), restaurant:SD[row.code].salesTaxRate, note:'State-level fallback'};
 }
+
+
+// ══════════════════════════════════════════════════
+// MONTHLY RECURRING SPEND + BUDGET ALLOCATION
+// User-provided recurring-payment/budget lens; county model varies only the lines that should change by location.
+// ══════════════════════════════════════════════════
+const FIXED_RECURRING_BASE = {
+  Housing: 1181.81,
+  VehicleLease: 1025.75,
+  UtilitiesPhoneInternet: 390.79,
+  Insurance: 403.52,
+  LoanDebtPayments: 437.18,
+  WiseTransfer: 646.95,
+  Subscriptions: 52.91,
+  CreditCardInterest: 999.88
+};
+const CREDIT_CARD_MINIMUMS_M = 832.00;
+const VARIABLE_BUDGET_BASE = {
+  GroceriesHouseholdConvenience: 1900.00,
+  GasFuel: 160.00,
+  RestaurantsFastFood: 1300.00,
+  Amazon: 400.00,
+  GoodwillThrift: 110.00,
+  RetailHomeMiscShopping: 150.00,
+  HealthWellness: 200.00,
+  Pets: 75.00,
+  FamilyKids: 50.00,
+  AutoMaintenanceCarWash: 250.00,
+  ServicesPersonal: 75.00
+};
+const UTILITY_PHONE_OTHER_FIXED_M = FIXED_RECURRING_BASE.UtilitiesPhoneInternet - LA_UTILITY_CORE_M; // Spectrum Mobile / phone-like utility residual
+const NON_AUTO_INSURANCE_FIXED_M = FIXED_RECURRING_BASE.Insurance - (LA_INS_ANNUAL/12); // insurance not modeled as auto premium
+
+function adjustGroceryBudget(amount, generalRate, groceryRate){
+  return amount * GROCERY_FOOD_HOME_SHARE * (1+groceryRate/100)/(1+LA_GROCERY_TAX_RATE) +
+         amount * GROCERY_HOUSEHOLD_TAXABLE_SHARE * (1+generalRate/100)/(1+LA_SALES_RATE);
+}
+function adjustBudgetTax(amount, taxablePct, rate){ return applyTaxDelta(amount, taxablePct, rate, LA_SALES_RATE); }
+function budgetForCandidate(candidate){
+  const code = candidate && candidate.code ? candidate.code : 'LA';
+  const s = SD[code] || SD.LA;
+  const tax = candidate ? countyTax(candidate) : {general:10.55, grocery:5.55, restaurant:10.55, note:'St. Landry Parish baseline'};
+  const rentM = candidate && candidate.rent4br ? candidate.rent4br/12 : LA_RENT_ANNUAL/12;
+  const utilityCore = calcUtilities(code).total;
+  const fixed = {
+    Housing: rentM,
+    VehicleLease: FIXED_RECURRING_BASE.VehicleLease,
+    UtilitiesPhoneInternet: utilityCore + UTILITY_PHONE_OTHER_FIXED_M,
+    Insurance: (s.ins/12) + NON_AUTO_INSURANCE_FIXED_M,
+    LoanDebtPayments: FIXED_RECURRING_BASE.LoanDebtPayments,
+    WiseTransfer: FIXED_RECURRING_BASE.WiseTransfer,
+    Subscriptions: FIXED_RECURRING_BASE.Subscriptions,
+    CreditCardInterest: FIXED_RECURRING_BASE.CreditCardInterest
+  };
+  const variable = {
+    GroceriesHouseholdConvenience: adjustGroceryBudget(VARIABLE_BUDGET_BASE.GroceriesHouseholdConvenience, tax.general, tax.grocery),
+    GasFuel: VARIABLE_BUDGET_BASE.GasFuel,
+    RestaurantsFastFood: adjustBudgetTax(VARIABLE_BUDGET_BASE.RestaurantsFastFood, 1.00, tax.restaurant),
+    Amazon: adjustBudgetTax(VARIABLE_BUDGET_BASE.Amazon, 1.00, tax.general),
+    GoodwillThrift: adjustBudgetTax(VARIABLE_BUDGET_BASE.GoodwillThrift, 1.00, tax.general),
+    RetailHomeMiscShopping: adjustBudgetTax(VARIABLE_BUDGET_BASE.RetailHomeMiscShopping, 1.00, tax.general),
+    HealthWellness: adjustBudgetTax(VARIABLE_BUDGET_BASE.HealthWellness, 0.20, tax.general),
+    Pets: adjustBudgetTax(VARIABLE_BUDGET_BASE.Pets, 1.00, tax.general),
+    FamilyKids: adjustBudgetTax(VARIABLE_BUDGET_BASE.FamilyKids, 0.75, tax.general),
+    AutoMaintenanceCarWash: adjustBudgetTax(VARIABLE_BUDGET_BASE.AutoMaintenanceCarWash, 0.90, tax.general),
+    ServicesPersonal: adjustBudgetTax(VARIABLE_BUDGET_BASE.ServicesPersonal, 0.50, tax.general)
+  };
+  const fixedTotal = Object.values(fixed).reduce((a,b)=>a+b,0);
+  const variableTotal = Object.values(variable).reduce((a,b)=>a+b,0);
+  const monthlyBudgetExMin = fixedTotal + variableTotal;
+  const monthlyCashNeed = monthlyBudgetExMin + CREDIT_CARD_MINIMUMS_M;
+  const annualCashNeed = monthlyCashNeed * 12;
+  return {code, tax, fixed, variable, fixedTotal, variableTotal, monthlyBudgetExMin, monthlyCashNeed, annualCashNeed, utilityCore};
+}
+const BASE_BUDGET = budgetForCandidate({code:'LA', county:'St. Landry Parish / current home', rent4br:LA_RENT_ANNUAL});
+function budgetDeltaClass(delta, lowerIsBetter=true){
+  if(Math.abs(delta)<0.5) return 'ec-eq';
+  const better = lowerIsBetter ? delta <= 0 : delta >= 0;
+  return better ? 'ec-dn' : 'ec-up';
+}
+function budgetDeltaText(delta){ return Math.abs(delta)<0.5 ? '—' : (delta>0?'+':'−')+fmtD(delta).replace('$',''); }
 
 function metricsForCounty(row){
   const s = SD[row.code];
@@ -918,6 +1144,39 @@ function setDelta(id,delta,rev=false){
 }
 
 
+
+function renderWalmartAuditTable(){
+  const el=document.getElementById('walmart-audit-table'); if(!el)return;
+  const a=WALMART_AUDIT;
+  el.innerHTML='<div class="wrow hd"><div class="wcell">Audit Item</div><div class="wcell">Count / Amount</div><div class="wcell">Period</div><div class="wcell">Food-Home</div><div class="wcell">Taxable Basket</div><div class="wcell">Model Impact</div></div>';
+  const rows=[
+    ['Workbook rows/columns reviewed', `${a.rows.toLocaleString()} rows × ${a.columns} columns`, a.dateRange, '—', '—', `Range ${a.columnsAudited}; blank cells found: ${a.blankCells}`],
+    ['Unique Walmart orders used for totals', `${a.uniqueOrders} orders`, a.dateRange, '—', '—', a.duplicateNote],
+    ['Order-level subtotal / tax / total', `${fmtD(a.orderSubtotal)} subtotal · ${fmtD(a.tax)} tax · ${fmtD(a.orderTotal)} total`, a.dateRange, `${a.foodHomeShare.toFixed(2)}%`, `${a.taxableHouseholdShare.toFixed(2)}%`, `Effective tax rate ${a.effectiveTaxRate.toFixed(2)}%; split inferred from St. Landry food vs general tax rates`],
+    ['Full-month run-rate', `${fmtD(a.fullMonthAvgTotal)}/mo order total`, a.fullMonthRange, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_FOOD_HOME_SHARE)}/mo modeled food-home`, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_HOUSEHOLD_TAXABLE_SHARE)}/mo modeled taxable`, 'The Chase grocery/household bucket remains $1,847.22/mo; only its tax split changed']
+  ];
+  rows.forEach(r=>{
+    el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">${r[0]}</div><div class="wcell">${r[1]}</div><div class="wcell">${r[2]}</div><div class="wcell">${r[3]}</div><div class="wcell">${r[4]}</div><div class="wcell">${r[5]}</div></div>`);
+  });
+}
+
+function renderWalmartGroceryCountyTable(){
+  const el=document.getElementById('walmart-grocery-county-table'); if(!el)return;
+  el.innerHTML='<div class="grow hd"><div class="gcell">Rank</div><div class="gcell">County / Area</div><div class="gcell">Grocery Tax</div><div class="gcell">General Tax</div><div class="gcell">Grocery / Mo</div><div class="gcell">Δ vs St. Landry</div><div class="gcell">Net / Yr</div><div class="gcell">Read</div></div>';
+  const rows=COUNTY_SHORTLIST.map(x=>({ ...x, metrics:metricsForCounty(x), tax:countyTax(x)})).sort((a,b)=>b.metrics.annNetDelta-a.metrics.annNetDelta);
+  rows.forEach((r,i)=>{
+    const m=r.metrics;
+    const groceryDelta=m.expBreakdown.GroceriesHousehold - LA_CATS.GroceriesHousehold;
+    const dClass=groceryDelta<=0?'good':'bad';
+    const read=Math.abs(groceryDelta)<15 ? 'Basically flat; grocery mix does not change the decision' :
+      groceryDelta<0 ? 'Lower grocery/household tax exposure than St. Landry' :
+      'Slightly higher grocery/household tax exposure than St. Landry';
+    el.insertAdjacentHTML('beforeend',`<div class="grow"><div class="gcell">${i+1}</div><div class="gcell strong">${r.county}<br><span class="sbadge">${r.type}</span></div><div class="gcell">${r.tax.grocery.toFixed(2)}%</div><div class="gcell">${r.tax.general.toFixed(2)}%</div><div class="gcell strong">${fmtD(m.expBreakdown.GroceriesHousehold)}</div><div class="gcell expdelta ${dClass}">${groceryDelta>=0?'+':''}${fmtD(groceryDelta)}/mo</div><div class="gcell ${m.annNetDelta>=0?'simpact pos':'simpact neg'}">${m.annNetDelta>=0?'+':''}${fmtI(m.annNetDelta)}</div><div class="gcell">${read}</div></div>`);
+  });
+  el.insertAdjacentHTML('beforeend',`<div class="grow"><div class="gcell strong">Base</div><div class="gcell strong">St. Landry Parish / current Walmart basket</div><div class="gcell">5.55%</div><div class="gcell">10.55%</div><div class="gcell strong">${fmtD(LA_CATS.GroceriesHousehold)}</div><div class="gcell">—</div><div class="gcell">baseline</div><div class="gcell">Walmart-calibrated split: ${WALMART_AUDIT.foodHomeShare.toFixed(2)}% food-home / ${WALMART_AUDIT.taxableHouseholdShare.toFixed(2)}% taxable basket</div></div>`);
+}
+
+
 function renderCountyShortlist(){
   const el=document.getElementById('county-shortlist'); if(!el)return;
   el.innerHTML='<div class="srow hd"><div class="scell">Rank</div><div class="scell">County / Area</div><div class="scell">Candidate Type</div><div class="scell">4BR Rent</div><div class="scell">Net vs LA</div><div class="scell">Climate</div><div class="scell">Pollen / AQI</div><div class="scell">Humidity</div><div class="scell">Temp Range</div><div class="scell">Environmental Health / Broadband Note</div></div>';
@@ -942,6 +1201,25 @@ function renderCountyExpenseTable(){
   });
   el.insertAdjacentHTML('beforeend',`<div class="erow"><div class="ecell strong">Base</div><div class="ecell strong">St. Landry Parish / current home<br><span class="sbadge">Louisiana</span></div><div class="ecell">Current baseline</div><div class="ecell">10.55% / 5.55% / 10.55%</div><div class="ecell">${fmtD(LA_EXP_M)}</div><div class="ecell">${fmtD(LA_RENT_ANNUAL/12)}</div><div class="ecell">${fmtD((LA_INS_ANNUAL+LA_VTAX_ANNUAL)/12)}</div><div class="ecell strong">${fmtD(LA_TOTAL_EXPENSE_M)}</div><div class="ecell strong">${fmtI(LA_TOTAL_EXPENSE_A)}<br><span style="color:var(--muted)">baseline</span></div><div class="ecell">—</div></div>`);
 }
+
+
+function renderCountyBudgetTable(){
+  const el=document.getElementById('county-budget-table'); if(!el)return;
+  el.innerHTML='<div class="brow hd"><div class="bcell">Rank</div><div class="bcell">County / Area</div><div class="bcell">Candidate Type</div><div class="bcell">Fixed / Mo</div><div class="bcell">Variable / Mo</div><div class="bcell">Budget Ex-Min</div><div class="bcell">Card Min</div><div class="bcell">Cash Need / Mo</div><div class="bcell">Cash Need / Yr</div><div class="bcell">Δ vs St. Landry</div><div class="bcell">What changed by county</div></div>';
+  const rows=COUNTY_SHORTLIST.map(x=>({ ...x, budget:budgetForCandidate(x), metrics:metricsForCounty(x)})).sort((a,b)=>a.budget.monthlyCashNeed-b.budget.monthlyCashNeed);
+  rows.forEach((x,i)=>{
+    const b=x.budget;
+    const delta=b.monthlyCashNeed-BASE_BUDGET.monthlyCashNeed;
+    const dCls=delta<=0?'good':'bad';
+    const changed=`Rent ${fmtD(x.rent4br/12)} · utilities ${fmtD(b.fixed.UtilitiesPhoneInternet)} · insurance ${fmtD(b.fixed.Insurance)} · grocery ${fmtD(b.variable.GroceriesHouseholdConvenience)} · dining ${fmtD(b.variable.RestaurantsFastFood)}`;
+    el.insertAdjacentHTML('beforeend',`<div class="brow"><div class="bcell strong">${i+1}</div><div class="bcell strong">${x.county}<br><span class="sbadge">${SD[x.code].name}</span></div><div class="bcell">${x.type}</div><div class="bcell">${fmtD(b.fixedTotal)}</div><div class="bcell">${fmtD(b.variableTotal)}</div><div class="bcell strong">${fmtD(b.monthlyBudgetExMin)}</div><div class="bcell">${fmtD(CREDIT_CARD_MINIMUMS_M)}</div><div class="bcell strong">${fmtD(b.monthlyCashNeed)}</div><div class="bcell strong">${fmtI(b.annualCashNeed)}</div><div class="bcell expdelta ${dCls}">${delta>=0?'+':'−'}${fmtD(Math.abs(delta)).replace('$','')}/mo</div><div class="bcell">${changed}</div></div>`);
+  });
+  el.insertAdjacentHTML('beforeend',`<div class="brow"><div class="bcell strong">Base</div><div class="bcell strong">St. Landry Parish / current home<br><span class="sbadge">Louisiana</span></div><div class="bcell">Current baseline</div><div class="bcell">${fmtD(BASE_BUDGET.fixedTotal)}</div><div class="bcell">${fmtD(BASE_BUDGET.variableTotal)}</div><div class="bcell strong">${fmtD(BASE_BUDGET.monthlyBudgetExMin)}</div><div class="bcell">${fmtD(CREDIT_CARD_MINIMUMS_M)}</div><div class="bcell strong">${fmtD(BASE_BUDGET.monthlyCashNeed)}</div><div class="bcell strong">${fmtI(BASE_BUDGET.annualCashNeed)}</div><div class="bcell">baseline</div><div class="bcell">Fixed obligations + recommended variable budget from your provided monthly recurring spend table</div></div>`);
+}
+
+renderWalmartAuditTable();
+renderWalmartGroceryCountyTable();
+renderCountyBudgetTable();
 renderCountyExpenseTable();
 
 renderCountyShortlist();
@@ -1067,7 +1345,7 @@ function spotlightCountyCandidates(code, selectedCandidate=null){
       .on('mousemove',function(event,d){
         const dm = metricsForCandidate(d);
         document.getElementById('tt-n').textContent = `${countyShortName(d.county)}, ${SD[d.code].name}`;
-        document.getElementById('tt-d').textContent = `${d.type} · ${fmtD(d.rent4br/12)}/mo rent · ${dm.annNetDelta>=0?'+':''}${fmtI(dm.annNetDelta)}/yr vs LA`;
+        document.getElementById('tt-d').textContent = `${d.type} · ${fmtD(d.rent4br/12)}/mo rent · ${dm.annNetDelta>=0?'+':''}${fmtI(dm.annNetDelta)}/yr vs LA · cash need ${fmtD(budgetForCandidate(d).monthlyCashNeed)}/mo`;
         tt.style.left=(event.clientX+14)+'px'; tt.style.top=(event.clientY-10)+'px'; tt.classList.add('show');
       })
       .on('mouseleave',()=>tt.classList.remove('show'))
@@ -1114,7 +1392,7 @@ Promise.all([
         const cands=getCountyCandidates(code);
         const defaultM=metricsForCandidate(cands[0]);
         document.getElementById('tt-n').textContent=s.name;
-        document.getElementById('tt-d').textContent=`${cands.length} county candidate${cands.length===1?'':'s'} · Primary: ${countyShortName(cands[0].county)} · ${defaultM.annNetDelta>=0?'+':''}${fmtI(defaultM.annNetDelta)}/yr vs LA`;
+        document.getElementById('tt-d').textContent=`${cands.length} county candidate${cands.length===1?'':'s'} · Primary: ${countyShortName(cands[0].county)} · ${defaultM.annNetDelta>=0?'+':''}${fmtI(defaultM.annNetDelta)}/yr vs LA · cash need ${fmtD(budgetForCandidate(cands[0]).monthlyCashNeed)}/mo`;
         tt.style.left=(event.clientX+14)+'px'; tt.style.top=(event.clientY-10)+'px'; tt.classList.add('show');
       })
       .on('mouseleave',()=>tt.classList.remove('show'))
@@ -1186,6 +1464,49 @@ function render(code, candidate=null){
   ec.insertAdjacentHTML('beforeend',`<div class="exp-row" style="font-weight:700"><div class="exp-cat" style="font-weight:700">Monthly Total</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tLA)}</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tNew)}</div><div class="exp-chg ${tcls}">${ttxt}</div></div>`);
 
   setEl('u-detail', `Electricity ${fmtD(utilityDetail.electric)} · Water ${fmtD(utilityDetail.water)} · Internet ${fmtD(utilityDetail.internet)} · Core utilities ${fmtD(utilityDetail.total)}`);
+
+
+  // Monthly recurring spend + budget allocation cash-flow lens
+  const b=budgetForCandidate(selectedCandidate);
+  const baseB=BASE_BUDGET;
+  const budgetSummary=document.getElementById('budget-summary');
+  if(budgetSummary){
+    const monthlyDelta=b.monthlyCashNeed-baseB.monthlyCashNeed;
+    const annualDelta=b.annualCashNeed-baseB.annualCashNeed;
+    budgetSummary.innerHTML=`
+      <div class="budget-card ${monthlyDelta<=0?'good':'bad'}"><div class="budget-k">Monthly cash-flow need</div><div class="budget-v">${fmtD(b.monthlyCashNeed)}</div><div class="budget-sub">${monthlyDelta>=0?'+':'−'}${fmtD(Math.abs(monthlyDelta)).replace('$','')}/mo vs St. Landry</div></div>
+      <div class="budget-card"><div class="budget-k">Fixed recurring</div><div class="budget-v">${fmtD(b.fixedTotal)}</div><div class="budget-sub">housing + lease + debt + interest + Wise</div></div>
+      <div class="budget-card"><div class="budget-k">Variable budget</div><div class="budget-v">${fmtD(b.variableTotal)}</div><div class="budget-sub">tax-adjusted recommended allocation</div></div>
+      <div class="budget-card ${annualDelta<=0?'good':'bad'}"><div class="budget-k">Annualized need</div><div class="budget-v">${fmtI(b.annualCashNeed)}</div><div class="budget-sub">${annualDelta>=0?'+':'−'}${fmtI(Math.abs(annualDelta))}/yr vs St. Landry</div></div>`;
+  }
+  const fixedRows=document.getElementById('budget-fixed-rows');
+  if(fixedRows){
+    const fixedLabels=[
+      ['Housing', 'Housing'],['Vehicle lease','VehicleLease'],['Utilities / phone / internet','UtilitiesPhoneInternet'],['Insurance','Insurance'],['Loan / debt payments','LoanDebtPayments'],['Wise transfer','WiseTransfer'],['Subscriptions','Subscriptions'],['Credit-card interest charges','CreditCardInterest']
+    ];
+    fixedRows.innerHTML='';
+    fixedLabels.forEach(([label,key])=>{
+      const la=baseB.fixed[key], nw=b.fixed[key], d=nw-la;
+      fixedRows.insertAdjacentHTML('beforeend',`<div class="budget-line"><div class="lbl">${label}</div><div class="num">${fmtD(la)}</div><div class="num">${fmtD(nw)}</div><div class="chg ${budgetDeltaClass(d,true)}">${budgetDeltaText(d)}</div></div>`);
+    });
+    const fd=b.fixedTotal-baseB.fixedTotal;
+    fixedRows.insertAdjacentHTML('beforeend',`<div class="budget-line total"><div class="lbl">Fixed recurring baseline</div><div class="num">${fmtD(baseB.fixedTotal)}</div><div class="num">${fmtD(b.fixedTotal)}</div><div class="chg ${budgetDeltaClass(fd,true)}">${budgetDeltaText(fd)}</div></div>`);
+  }
+  const variableRows=document.getElementById('budget-variable-rows');
+  if(variableRows){
+    const varLabels=[
+      ['Groceries / household / convenience','GroceriesHouseholdConvenience'],['Gas / fuel','GasFuel'],['Restaurants / fast food','RestaurantsFastFood'],['Amazon','Amazon'],['Goodwill / thrift','GoodwillThrift'],['Retail / home / misc shopping','RetailHomeMiscShopping'],['Health / wellness','HealthWellness'],['Pets','Pets'],['Family / kids','FamilyKids'],['Auto maintenance / car wash reserve','AutoMaintenanceCarWash'],['Services / personal','ServicesPersonal']
+    ];
+    variableRows.innerHTML='';
+    varLabels.forEach(([label,key])=>{
+      const la=baseB.variable[key], nw=b.variable[key], d=nw-la;
+      variableRows.insertAdjacentHTML('beforeend',`<div class="budget-line"><div class="lbl">${label}</div><div class="num">${fmtD(la)}</div><div class="num">${fmtD(nw)}</div><div class="chg ${budgetDeltaClass(d,true)}">${budgetDeltaText(d)}</div></div>`);
+    });
+    const vd=b.variableTotal-baseB.variableTotal;
+    variableRows.insertAdjacentHTML('beforeend',`<div class="budget-line total"><div class="lbl">Variable budget allocation</div><div class="num">${fmtD(baseB.variableTotal)}</div><div class="num">${fmtD(b.variableTotal)}</div><div class="chg ${budgetDeltaClass(vd,true)}">${budgetDeltaText(vd)}</div></div>`);
+    variableRows.insertAdjacentHTML('beforeend',`<div class="budget-line total"><div class="lbl">Monthly budget excl. card minimums</div><div class="num">${fmtD(baseB.monthlyBudgetExMin)}</div><div class="num">${fmtD(b.monthlyBudgetExMin)}</div><div class="chg ${budgetDeltaClass(b.monthlyBudgetExMin-baseB.monthlyBudgetExMin,true)}">${budgetDeltaText(b.monthlyBudgetExMin-baseB.monthlyBudgetExMin)}</div></div>`);
+    variableRows.insertAdjacentHTML('beforeend',`<div class="budget-line total"><div class="lbl">Cash-flow need incl. card minimums</div><div class="num">${fmtD(baseB.monthlyCashNeed)}</div><div class="num">${fmtD(b.monthlyCashNeed)}</div><div class="chg ${budgetDeltaClass(b.monthlyCashNeed-baseB.monthlyCashNeed,true)}">${budgetDeltaText(b.monthlyCashNeed-baseB.monthlyCashNeed)}</div></div>`);
+  }
 
   // County-level rent candidate
   setEl('county-name', selectedCountyName);
