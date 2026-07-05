@@ -354,6 +354,39 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   .brow.hd .bcell{font-size:.48rem;}
 }
 
+
+/* Expert relocation lens */
+.expert-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px;}
+.expert-card{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:8px 9px;min-width:0;}
+.expert-card.good{background:var(--green-bg);border-color:rgba(21,128,61,.18);}
+.expert-card.warn{background:rgba(180,83,9,.1);border-color:rgba(180,83,9,.2);}
+.expert-card.bad{background:var(--red-bg);border-color:rgba(194,65,12,.18);}
+.expert-k{font-family:var(--mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:3px;line-height:1.25;}
+.expert-v{font-family:var(--display);font-size:1.25rem;letter-spacing:.4px;color:var(--text);line-height:1;}
+.expert-sub{font-family:var(--mono);font-size:.52rem;color:var(--muted);margin-top:3px;line-height:1.3;}
+.expert-verdict{border:1px solid var(--border2);border-radius:6px;background:#fff;padding:9px 10px;font-family:var(--mono);font-size:.62rem;line-height:1.52;color:var(--text2);margin-top:7px;}
+.expert-verdict strong{display:block;font-family:var(--sans);font-size:.77rem;color:var(--text);margin-bottom:3px;}
+.expert-plan{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px;}
+.expert-mini{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:7px 9px;font-family:var(--mono);font-size:.58rem;line-height:1.45;color:var(--text2);}
+.expert-mini strong{display:block;font-size:.52rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:3px;}
+.expert-table{min-width:1320px;display:block;}
+.xrow{display:grid;grid-template-columns:42px 196px 112px 104px 104px 104px 108px 140px 180px 255px;gap:8px;align-items:start;padding:8px 12px;border-bottom:1px solid var(--border2);}
+.xrow:last-child{border-bottom:none;}
+.xrow.hd{background:var(--s2);}
+.xcell{font-family:var(--sans);font-size:.69rem;line-height:1.3;color:var(--text2);}
+.xrow.hd .xcell{font-family:var(--mono);font-size:.53rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);}
+.xcell.strong{font-weight:700;color:var(--text);}
+.xverdict.go{font-weight:700;color:var(--green);}
+.xverdict.conditional{font-weight:700;color:var(--amber);}
+.xverdict.nogo{font-weight:700;color:var(--red);}
+@media(max-width:700px){
+  .expert-summary-grid{grid-template-columns:1fr 1fr;gap:6px;}
+  .expert-card{padding:7px 8px;}
+  .expert-v{font-size:1.1rem;}
+  .expert-plan{grid-template-columns:1fr;}
+  .expert-verdict{font-size:.57rem;}
+}
+
 </style>
 </head>
 <body>
@@ -477,6 +510,18 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
         </div>
 
 
+
+        <!-- Expert relocation verdict -->
+        <div class="sec">
+          <div class="sec-title">// Expert relocation verdict — county-level decision frame</div>
+          <div class="expert-summary-grid" id="expert-summary"></div>
+          <div class="expert-verdict" id="expert-verdict"></div>
+          <div class="expert-plan">
+            <div class="expert-mini"><strong>What can break the math</strong><span id="expert-breakers"></span></div>
+            <div class="expert-mini"><strong>Next validation sequence</strong><span id="expert-next"></span></div>
+          </div>
+        </div>
+
         <!-- Monthly recurring spend + budget allocation -->
         <div class="sec">
           <div class="sec-title">// Monthly recurring spend + budget allocation — county-adjusted cash-flow lens</div>
@@ -492,7 +537,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
             </div>
           </div>
           <div class="budget-note">
-            The map itself stays uncluttered on mobile: budget numbers update in this panel and in county tooltips after selecting a state/county. County-varying lines are housing, utilities, insurance, sales/grocery/meals-tax-sensitive categories, and vehicle tax. Wise, vehicle lease, debt payments, credit-card interest, subscriptions, and card minimums are held constant because they do not change by county.
+            The map itself stays uncluttered on mobile: budget numbers update in this panel and in county tooltips after selecting a state/county. County-varying lines are housing, utilities, insurance, sales/grocery/meals-tax-sensitive categories, and vehicle tax. Wise, vehicle lease, debt payments, credit-card interest, subscriptions, and card minimums are held constant because they do not change by county. Finance-linked account coverage was full-history for transactions and recurring transactions, with freshness reported as unknown; the dashboard therefore treats the provided budget baseline as the governing model input.
           </div>
         </div>
 
@@ -562,8 +607,22 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="shortlist-wrap">
   <div class="shortlist-hdr">
     <div>
-      <div class="shortlist-title">// Walmart order history calibration — every row/column reviewed</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Workbook range reviewed: A1:T3280 · 3,279 item rows · 20 columns · 49 unique orders · Aug 07, 2025 – Jul 03, 2026.</div>
+      <div class="shortlist-title">// Expert relocation decision matrix — 12 county candidates</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">County-level screen that combines net financial position, cash-flow cushion, rent headroom, broadband execution risk, debt pressure, and environmental health/climate friction.</div>
+    </div>
+    <div class="shortlist-note">This is a decision-priority lens, not a final move approval. A county fails if the exact rental, broadband address, insurance quote, employer payroll state, or local tax check fails.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="expert-table" id="expert-matrix-table"></div>
+  </div>
+</div>
+
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// Walmart order-history audit — full workbook review + grocery tax calibration</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Workbook range reviewed: A1:T3280 · 3,279 item rows · 20 columns · 49 unique orders · 6,638 blank cells inspected · Aug 07, 2025 – Jul 03, 2026.</div>
     </div>
     <div class="shortlist-note">Line-item rows are repeated/revised in the export, so totals use unique Order Number-level subtotals/tax/order totals. The basket split updates the grocery-tax model from 60/40 to 56.65/43.35.</div>
   </div>
@@ -697,11 +756,187 @@ const WALMART_AUDIT = {
   "orderTotal": 9416.24,
   "fullMonthAvgTotal": 848.04,
   "effectiveTaxRate": 7.717466960957604,
-  "foodHomeShare": 56.6506607808479,
-  "taxableHouseholdShare": 43.34933921915211,
-  "duplicateNote": "Spreadsheet has repeated/revised item rows; order-level totals are deduped by Order Number to avoid double counting.",
+  "foodHomeShare": 56.65066078084791,
+  "taxableHouseholdShare": 43.34933921915209,
+  "dedupedItemLines": 1638,
+  "uniqueProducts": 978,
+  "categoryBreakdown": [
+    {
+      "category": "Food for home",
+      "itemLines": 867,
+      "subtotal": 4011.78,
+      "taxAllocated": 292.33,
+      "total": 4304.11,
+      "sharePct": 45.7
+    },
+    {
+      "category": "Household taxable",
+      "itemLines": 322,
+      "subtotal": 1462.42,
+      "taxAllocated": 111.8,
+      "total": 1574.23,
+      "sharePct": 16.7
+    },
+    {
+      "category": "Pet",
+      "itemLines": 138,
+      "subtotal": 912.21,
+      "taxAllocated": 71.64,
+      "total": 983.85,
+      "sharePct": 10.5
+    },
+    {
+      "category": "Other general merch",
+      "itemLines": 107,
+      "subtotal": 791.01,
+      "taxAllocated": 66.93,
+      "total": 857.94,
+      "sharePct": 9.1
+    },
+    {
+      "category": "Health / personal care",
+      "itemLines": 85,
+      "subtotal": 489.49,
+      "taxAllocated": 39.36,
+      "total": 528.85,
+      "sharePct": 5.6
+    },
+    {
+      "category": "Family / kids",
+      "itemLines": 51,
+      "subtotal": 462.92,
+      "taxAllocated": 38.06,
+      "total": 500.99,
+      "sharePct": 5.3
+    },
+    {
+      "category": "Apparel",
+      "itemLines": 56,
+      "subtotal": 453.89,
+      "taxAllocated": 39.07,
+      "total": 492.96,
+      "sharePct": 5.2
+    },
+    {
+      "category": "Home / general merch",
+      "itemLines": 12,
+      "subtotal": 151.4,
+      "taxAllocated": 14.92,
+      "total": 166.33,
+      "sharePct": 1.8
+    }
+  ],
+  "monthlyPattern": [
+    {
+      "month": "2025-08",
+      "orders": 5,
+      "subtotal": 772.75,
+      "tax": 60.22,
+      "total": 832.97,
+      "effTax": 7.79
+    },
+    {
+      "month": "2025-09",
+      "orders": 5,
+      "subtotal": 972.18,
+      "tax": 75.88,
+      "total": 1048.06,
+      "effTax": 7.81
+    },
+    {
+      "month": "2025-10",
+      "orders": 4,
+      "subtotal": 853.06,
+      "tax": 66.86,
+      "total": 919.92,
+      "effTax": 7.84
+    },
+    {
+      "month": "2025-11",
+      "orders": 5,
+      "subtotal": 886.61,
+      "tax": 68.12,
+      "total": 954.73,
+      "effTax": 7.68
+    },
+    {
+      "month": "2025-12",
+      "orders": 3,
+      "subtotal": 714.96,
+      "tax": 53.77,
+      "total": 768.73,
+      "effTax": 7.52
+    },
+    {
+      "month": "2026-01",
+      "orders": 5,
+      "subtotal": 835.39,
+      "tax": 64.01,
+      "total": 899.4,
+      "effTax": 7.66
+    },
+    {
+      "month": "2026-02",
+      "orders": 4,
+      "subtotal": 470.1,
+      "tax": 38.18,
+      "total": 508.28,
+      "effTax": 8.12
+    },
+    {
+      "month": "2026-03",
+      "orders": 3,
+      "subtotal": 513.29,
+      "tax": 41.76,
+      "total": 555.05,
+      "effTax": 8.14
+    },
+    {
+      "month": "2026-04",
+      "orders": 5,
+      "subtotal": 947.28,
+      "tax": 71.42,
+      "total": 1018.7,
+      "effTax": 7.54
+    },
+    {
+      "month": "2026-05",
+      "orders": 4,
+      "subtotal": 674.23,
+      "tax": 44.06,
+      "total": 725.28,
+      "effTax": 6.53
+    },
+    {
+      "month": "2026-06",
+      "orders": 5,
+      "subtotal": 1014.92,
+      "tax": 82.42,
+      "total": 1097.34,
+      "effTax": 8.12
+    },
+    {
+      "month": "2026-07",
+      "orders": 1,
+      "subtotal": 80.35,
+      "tax": 7.43,
+      "total": 87.78,
+      "effTax": 9.25
+    }
+  ],
+  "duplicateNote": "Workbook has repeated status/revision rows; order-level totals are deduped by Order Number, and product-title category rows are deduped by Order Number + Product Name.",
   "columnsAudited": "A:T",
-  "blankCells": 0
+  "blankCells": 6638,
+  "auditMethod": "All 3,279 item rows and all 20 columns were scanned. Order totals drive spend; product-title categories are advisory because the export repeats item rows during fulfillment/status updates."
+};
+
+const FINANCE_RISK_SNAPSHOT = {
+  "linkedAccountCoverage": "transactions and recurring_transactions: full_history; freshness unknown",
+  "creditCardCurrentBalance": 49144.31,
+  "creditCardStatementBalance": 49804.71,
+  "knownMinimumPaymentsMonthly": 832.0,
+  "recurringInterestMonthly": 999.88,
+  "cashFlowNote": "Debt pressure is modeled as constant across counties: moving does not fix recurring interest or minimum-payment load unless payoff strategy changes."
 };
 
 // 2026 modeled tax on food-for-home groceries. Most values are state-level grocery tax plus estimated local component where local food taxes commonly apply.
@@ -1145,6 +1380,88 @@ function setDelta(id,delta,rev=false){
 
 
 
+
+
+function expertForCandidate(candidate){
+  const m = metricsForCounty(candidate);
+  const b = budgetForCandidate(candidate);
+  const monthlyAfterTax = m.annual / 12;
+  const cashCushion = monthlyAfterTax - b.monthlyCashNeed;
+  const rentCeilingAnnual = LA_RENT_ANNUAL + m.annPayDelta - m.annExpDelta - m.annInsDelta - m.annVtaxDelta;
+  const rentCeilingM = rentCeilingAnnual / 12;
+  const rentM = candidate.rent4br / 12;
+  const rentHeadroomM = rentCeilingM - rentM;
+  const budgetDeltaM = b.monthlyCashNeed - BASE_BUDGET.monthlyCashNeed;
+
+  let verdict='CONDITIONAL';
+  if(m.annNetDelta >= 4500 && cashCushion >= 1200 && rentHeadroomM >= 175) verdict='GO-CANDIDATE';
+  else if(m.annNetDelta <= 0 || cashCushion < 800 || rentHeadroomM < 0) verdict='NO-GO UNLESS FIXED';
+
+  const riskFlags=[];
+  const bb=(candidate.broadband||'').toLowerCase();
+  if(bb.includes('rural') || bb.includes('must be verified') || bb.includes('address')) riskFlags.push('address-level broadband');
+  if(candidate.tempVol && candidate.tempVol.toLowerCase().includes('highly')) riskFlags.push('climate volatility');
+  if(candidate.pollen && candidate.pollen.toLowerCase().includes('unhealthy')) riskFlags.push('pollen burden');
+  if(rentHeadroomM < 150) riskFlags.push('thin rent headroom');
+  if(candidate.code==='OH' || candidate.code==='IN') riskFlags.push('local/county income-tax check');
+  if(candidate.code==='FL') riskFlags.push('hurricane + insurance stress test');
+  if(candidate.code==='TX') riskFlags.push('heat/wind/storm + rural inventory');
+  if(candidate.code==='SD' || candidate.code==='WY' || candidate.code==='NH') riskFlags.push('winter/climate suitability');
+
+  let score = 0;
+  score += Math.max(-20, Math.min(35, m.annNetDelta/200));
+  score += Math.max(-20, Math.min(25, rentHeadroomM/12));
+  score += Math.max(-20, Math.min(25, (cashCushion-700)/30));
+  score -= riskFlags.length * 4;
+  score = Math.round(Math.max(0, Math.min(100, 50 + score)));
+
+  const strongest = m.annNetDelta > 4000 ? 'financial upside' :
+                    b.monthlyCashNeed < BASE_BUDGET.monthlyCashNeed ? 'lower monthly expense' :
+                    'tax/rent balance';
+  const tripwire = rentHeadroomM < 0 ? `4BR rent is already above break-even by ${fmtD(Math.abs(rentHeadroomM))}/mo` :
+                   rentHeadroomM < 150 ? `rent can only run about ${fmtD(rentHeadroomM)}/mo above benchmark before the case breaks` :
+                   `rent has about ${fmtD(rentHeadroomM)}/mo of headroom before break-even`;
+  return {m,b,monthlyAfterTax,cashCushion,rentCeilingM,rentHeadroomM,rentM,budgetDeltaM,verdict,riskFlags,score,strongest,tripwire};
+}
+
+function verdictClass(v){
+  if(v.startsWith('GO')) return 'go';
+  if(v.startsWith('NO')) return 'nogo';
+  return 'conditional';
+}
+
+function renderExpertPanel(candidate){
+  const el=document.getElementById('expert-summary'); if(!el || !candidate) return;
+  const e=expertForCandidate(candidate);
+  const cushionCls=e.cashCushion>=1200?'good':e.cashCushion>=800?'warn':'bad';
+  const rentCls=e.rentHeadroomM>=175?'good':e.rentHeadroomM>=0?'warn':'bad';
+  const netCls=e.m.annNetDelta>=4500?'good':e.m.annNetDelta>0?'warn':'bad';
+  const scoreCls=e.score>=75?'good':e.score>=58?'warn':'bad';
+  el.innerHTML=`
+    <div class="expert-card ${netCls}"><div class="expert-k">Net position</div><div class="expert-v">${e.m.annNetDelta>=0?'+':''}${fmtI(e.m.annNetDelta)}</div><div class="expert-sub">after tax, rent, insurance, utilities, vehicle tax</div></div>
+    <div class="expert-card ${cushionCls}"><div class="expert-k">Monthly cash cushion</div><div class="expert-v">${e.cashCushion>=0?'+':'−'}${fmtD(Math.abs(e.cashCushion)).replace('$','')}</div><div class="expert-sub">after-tax monthly pay minus modeled cash-flow need</div></div>
+    <div class="expert-card ${rentCls}"><div class="expert-k">Rent headroom</div><div class="expert-v">${e.rentHeadroomM>=0?'+':'−'}${fmtD(Math.abs(e.rentHeadroomM)).replace('$','')}/mo</div><div class="expert-sub">before county case falls below break-even</div></div>
+    <div class="expert-card ${scoreCls}"><div class="expert-k">Expert viability score</div><div class="expert-v">${e.score}/100</div><div class="expert-sub">${e.verdict}</div></div>`;
+  const verdict=document.getElementById('expert-verdict');
+  if(verdict){
+    const risk=e.riskFlags.length?e.riskFlags.join(' · '):'no major county-specific red flags in the model';
+    verdict.innerHTML=`<strong>${candidate.county}: ${e.verdict}</strong>
+      The strongest reason to consider this county is ${e.strongest}. The relocation case is not the state average; it is the county rent, the exact rental address, and whether the employer/payroll move is accepted. Current debt pressure remains a separate constraint: the dashboard carries ${fmtD(FINANCE_RISK_SNAPSHOT.recurringInterestMonthly)}/mo of recurring credit-card interest and ${fmtD(FINANCE_RISK_SNAPSHOT.knownMinimumPaymentsMonthly)}/mo of minimum-payment cash flow regardless of county. Risk flags: ${risk}.`;
+  }
+  setEl('expert-breakers',`${e.tripwire}. Other breakpoints: wired broadband below remote-work standard, insurer quotes above modeled state index, employer keeps LA payroll sourcing, local wage tax surprises, or a higher active 4BR listing than the county benchmark.`);
+  setEl('expert-next',`1) Search active 4BR listings within ${fmtD(Math.max(0,e.rentCeilingM))}/mo ceiling. 2) Run exact-address FCC/provider broadband check. 3) Quote both vehicles by ZIP. 4) Confirm payroll work state and tax residency path. 5) Re-run the dashboard with the actual rental address.`);
+}
+
+function renderExpertMatrixTable(){
+  const el=document.getElementById('expert-matrix-table'); if(!el)return;
+  el.innerHTML='<div class="xrow hd"><div class="xcell">Rank</div><div class="xcell">County / Area</div><div class="xcell">Verdict</div><div class="xcell">Score</div><div class="xcell">Cash Cushion / Mo</div><div class="xcell">Rent Headroom</div><div class="xcell">Net / Yr</div><div class="xcell">Primary Reason</div><div class="xcell">Main Risk Flags</div><div class="xcell">Tripwire</div></div>';
+  const rows=COUNTY_SHORTLIST.map(x=>({ ...x, expert:expertForCandidate(x)})).sort((a,b)=>b.expert.score-a.expert.score || b.expert.m.annNetDelta-a.expert.m.annNetDelta);
+  rows.forEach((x,i)=>{
+    const e=x.expert; const vc=verdictClass(e.verdict);
+    el.insertAdjacentHTML('beforeend',`<div class="xrow"><div class="xcell strong">${i+1}</div><div class="xcell strong">${x.county}<br><span class="sbadge">${SD[x.code].name}</span></div><div class="xcell xverdict ${vc}">${e.verdict}</div><div class="xcell strong">${e.score}/100</div><div class="xcell ${e.cashCushion>=0?'simpact pos':'simpact neg'}">${e.cashCushion>=0?'+':'−'}${fmtD(Math.abs(e.cashCushion))}</div><div class="xcell ${e.rentHeadroomM>=0?'simpact pos':'simpact neg'}">${e.rentHeadroomM>=0?'+':'−'}${fmtD(Math.abs(e.rentHeadroomM))}/mo</div><div class="xcell ${e.m.annNetDelta>=0?'simpact pos':'simpact neg'}">${e.m.annNetDelta>=0?'+':''}${fmtI(e.m.annNetDelta)}</div><div class="xcell">${e.strongest}</div><div class="xcell">${e.riskFlags.join(' · ') || 'none modeled'}</div><div class="xcell">${e.tripwire}</div></div>`);
+  });
+}
+
 function renderWalmartAuditTable(){
   const el=document.getElementById('walmart-audit-table'); if(!el)return;
   const a=WALMART_AUDIT;
@@ -1158,6 +1475,16 @@ function renderWalmartAuditTable(){
   rows.forEach(r=>{
     el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">${r[0]}</div><div class="wcell">${r[1]}</div><div class="wcell">${r[2]}</div><div class="wcell">${r[3]}</div><div class="wcell">${r[4]}</div><div class="wcell">${r[5]}</div></div>`);
   });
+  if(a.categoryBreakdown){
+    const top=a.categoryBreakdown.slice(0,5).map(c=>`${c.category}: ${fmtD(c.total)} (${c.sharePct}%)`).join('<br>');
+    el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">Product-title category signal</div><div class="wcell">${a.dedupedItemLines.toLocaleString()} deduped item lines</div><div class="wcell">${a.uniqueProducts.toLocaleString()} unique product titles</div><div class="wcell" style="grid-column:span 2">${top}</div><div class="wcell">Advisory only; tax-inferred food split remains the model driver</div></div>`);
+  }
+  if(a.monthlyPattern){
+    const range=a.monthlyPattern.filter(m=>m.month>='2025-08' && m.month<='2026-06');
+    const hi=range.reduce((p,c)=>c.total>p.total?c:p,range[0]);
+    const lo=range.reduce((p,c)=>c.total<p.total?c:p,range[0]);
+    el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">Monthly volatility check</div><div class="wcell">High ${hi.month}: ${fmtD(hi.total)}</div><div class="wcell">Low ${lo.month}: ${fmtD(lo.total)}</div><div class="wcell">${fmtD(a.fullMonthAvgTotal)}/mo avg</div><div class="wcell">${a.effectiveTaxRate.toFixed(2)}% avg tax</div><div class="wcell">County grocery tax changes are real but small compared with rent/debt pressure</div></div>`);
+  }
 }
 
 function renderWalmartGroceryCountyTable(){
@@ -1217,6 +1544,7 @@ function renderCountyBudgetTable(){
   el.insertAdjacentHTML('beforeend',`<div class="brow"><div class="bcell strong">Base</div><div class="bcell strong">St. Landry Parish / current home<br><span class="sbadge">Louisiana</span></div><div class="bcell">Current baseline</div><div class="bcell">${fmtD(BASE_BUDGET.fixedTotal)}</div><div class="bcell">${fmtD(BASE_BUDGET.variableTotal)}</div><div class="bcell strong">${fmtD(BASE_BUDGET.monthlyBudgetExMin)}</div><div class="bcell">${fmtD(CREDIT_CARD_MINIMUMS_M)}</div><div class="bcell strong">${fmtD(BASE_BUDGET.monthlyCashNeed)}</div><div class="bcell strong">${fmtI(BASE_BUDGET.annualCashNeed)}</div><div class="bcell">baseline</div><div class="bcell">Fixed obligations + recommended variable budget from your provided monthly recurring spend table</div></div>`);
 }
 
+renderExpertMatrixTable();
 renderWalmartAuditTable();
 renderWalmartGroceryCountyTable();
 renderCountyBudgetTable();
@@ -1465,6 +1793,9 @@ function render(code, candidate=null){
 
   setEl('u-detail', `Electricity ${fmtD(utilityDetail.electric)} · Water ${fmtD(utilityDetail.water)} · Internet ${fmtD(utilityDetail.internet)} · Core utilities ${fmtD(utilityDetail.total)}`);
 
+
+  // Expert relocation verdict
+  renderExpertPanel(selectedCandidate);
 
   // Monthly recurring spend + budget allocation cash-flow lens
   const b=budgetForCandidate(selectedCandidate);
