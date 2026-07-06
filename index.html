@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relocation Finance Dashboard - Actual Bills + County Validated Screening Model v4</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Relocation Finance Dashboard - Clean Financial View v6</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&amp;family=Barlow:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <style>
 :root{
   --bg:#eef1f7;--s1:#ffffff;--s2:#f7f9fc;--s3:#eef2f9;
@@ -217,8 +218,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .gcell.strong{font-weight:700;color:var(--text);}
 
 
-
-
 /* MOBILE / PIXEL OPTIMIZATION
    Keeps all desktop functionality while making the state map, county candidates,
    detail panel, and bottom tables usable on phone-width screens. */
@@ -345,7 +344,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 }
 
 
-
 /* Budget/cash-flow lens */
 .budget-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px;}
 .budget-card{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:8px 9px;min-width:0;}
@@ -385,7 +383,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 }
 
 
-/* Screening verdict lens */
+/* Optional screening verdict lens functions retained but detail panel removed */
 .expert-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:9px;}
 .expert-card{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:8px 9px;min-width:0;}
 .expert-card.good{background:var(--green-bg);border-color:rgba(21,128,61,.18);}
@@ -421,376 +419,195 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 </head>
 <body>
 <div class="app">
-
 <div class="top-bar">
-  <div class="brand">
-    <h1>RELOCATION <span>FINANCE</span> EXPLORER</h1>
-    <p>ANOOP KANGALATH · KINDERCARE · $174,678 GROSS · MFJ · LA MORTGAGE BASELINE · ACTUAL-BILL BASELINE · COUNTY-VALIDATED SCREENING MODEL · SOURCE CONFIDENCE VARIES</p>
-  </div>
-  <div class="snapshot">
-    <div class="snap-card gray-top">
-      <div class="snap-label">Annual Gross</div>
-      <div class="snap-val" style="color:var(--text2)">$174,678</div>
-      <div class="snap-sub">MFJ · bi-weekly · 26 periods</div>
-    </div>
-    <div class="snap-card gold-top">
-      <div class="snap-label">Bi-Weekly Net (LA)</div>
-      <div class="snap-val" style="color:var(--gold)">$4,928.68</div>
-      <div class="snap-sub">After all taxes · paystub 06/26/26</div>
-    </div>
-    <div class="snap-card blue-top">
-      <div class="snap-label">Monthly Tax-Adjusted Spend (LA)</div>
-      <div class="snap-val" style="color:var(--blue)">$4,808.76</div>
-      <div class="snap-sub">Recurring Jan–May baseline · St. Landry baseline</div>
-    </div>
-    <div class="snap-card" style="border-top:3px solid var(--green)">
-      <div class="snap-label">Monthly Cash-Flow Need</div>
-      <div class="snap-val" style="color:var(--green)">$10,641</div>
-      <div class="snap-sub">Fixed + variable budget + card minimums</div>
-    </div>
-    <div class="snap-card" style="border-top:3px solid var(--amber)">
-      <div class="snap-label">Annual Ins. + VehicleTax (LA)</div>
-      <div class="snap-val" style="color:var(--amber)">$2,916</div>
-      <div class="snap-sub">Verified policy $1,458 ×2 · no LA veh. tax</div>
-    </div>
-  </div>
+<div class="brand">
+<h1>RELOCATION <span>FINANCE</span> EXPLORER</h1>
+<p>ANOOP KANGALATH · KINDERCARE · $174,678 GROSS · MFJ · LA MORTGAGE BASELINE · ACTUAL-BILL BASELINE · COUNTY-VALIDATED SCREENING MODEL · SOURCE CONFIDENCE VARIES</p>
 </div>
-
+<div class="snapshot">
+<div class="snap-card gray-top">
+<div class="snap-label">Annual Gross</div>
+<div class="snap-val" style="color:var(--text2)">$174,678</div>
+<div class="snap-sub">MFJ · bi-weekly · 26 periods</div>
+</div>
+<div class="snap-card gold-top">
+<div class="snap-label">Bi-Weekly Net (LA)</div>
+<div class="snap-val" style="color:var(--gold)">$4,928.68</div>
+<div class="snap-sub">After all taxes · paystub 06/26/26</div>
+</div>
+<div class="snap-card blue-top">
+<div class="snap-label">Monthly Tax-Adjusted Spend (LA)</div>
+<div class="snap-val" style="color:var(--blue)">$4,808.76</div>
+<div class="snap-sub">Recurring Jan–May baseline · St. Landry baseline</div>
+</div>
+<div class="snap-card" style="border-top:3px solid var(--green)">
+<div class="snap-label">Monthly Cash-Flow Need</div>
+<div class="snap-val" style="color:var(--green)">$10,641</div>
+<div class="snap-sub">Fixed + variable budget + card minimums</div>
+</div>
+<div class="snap-card" style="border-top:3px solid var(--amber)">
+<div class="snap-label">Annual Ins. + VehicleTax (LA)</div>
+<div class="snap-val" style="color:var(--amber)">$2,916</div>
+<div class="snap-sub">Verified policy $1,458 ×2 · no LA veh. tax</div>
+</div>
+</div>
+</div>
 <div class="method-banner">
-  <strong>Screening model — not a final relocation approval.</strong>
-  Actual Louisiana baseline values are now tied to uploaded source documents: KLC paystub dated 06/26/2026, SLEMCO electric bill dated 06/16/2026, Bayou Des Cannes water bill for 05/20/2026-06/20/2026, Spectrum internet statement dated 05/04/2026, Progressive auto policy page captured 06/30/2026, and Walmart_Orders(2).xlsx. Destination values still mix HUD FY2026 county FMR rent proxies, modeled county/city tax assumptions, modeled destination utilities and insurance, and environmental/legal summaries. Treat rankings as screening only until active 4BR listings, exact-address broadband, insurer quotes, employer payroll state, local tax rules, and current homeschool guidance are confirmed.
+<strong>Core financial screen — source-aware, not a final move approval.</strong>
+  This view keeps the two decision-driving sections in the state panel: monthly recurring spend and annual expense impact. The removed county-detail, screening-verdict, and budget-allocation panels are still represented in the bottom validation/shortlist tables where needed. Current Louisiana paycheck, electric, water, internet, and auto-policy baselines are from uploaded documents; destination rent, utilities, insurance, broadband, active inventory, and some local taxes remain address/quote dependent.
 </div>
-
 <div class="main-grid">
-  <div class="map-wrap">
-    <div class="map-hdr">
-      <span class="map-lbl">// Modeled annual net position vs St. Landry, LA — screening estimate; validate exact address, lease terms, taxes, and insurance</span>
-      <div class="map-legend">
-        <span style="color:var(--red);font-size:.62rem">worse off</span>
-        <div><div class="ml-grad"></div><div class="ml-labs"><span>worst</span><span>best</span></div></div>
-        <span style="color:var(--green);font-size:.62rem">better off</span>
-      </div>
-    </div>
-    <div class="map-scroll" aria-label="Scrollable map area"><svg id="map-svg" viewBox="0 0 960 600"></svg></div>
-    <div class="mobile-map-hint">Swipe horizontally on the map to see labels. Tap a state, then tap a highlighted county candidate.</div>
-  </div>
-
-  <div class="detail">
-    <div class="detail-ph" id="ph">
-      <div class="arr">←</div>
-      Click any state to see your<br>
-      <strong style="color:var(--text)">full relocation breakdown</strong><br><br>
-      Pay · Monthly expenses · Annual costs<br>
-      Insurance · Vehicle tax · Tax profile<br>
+<div class="map-wrap">
+<div class="map-hdr">
+<span class="map-lbl">// Modeled annual net position vs St. Landry, LA — source-aware screen; validate exact address, lease terms, taxes, utilities, and insurance</span>
+<div class="map-legend">
+<span style="color:var(--red);font-size:.62rem">worse off</span>
+<div><div class="ml-grad"></div><div class="ml-labs"><span>worst</span><span>best</span></div></div>
+<span style="color:var(--green);font-size:.62rem">better off</span>
+</div>
+</div>
+<div aria-label="Scrollable map area" class="map-scroll"><svg id="map-svg" viewbox="0 0 960 600"></svg></div>
+<div class="mobile-map-hint">Swipe horizontally on the map to see labels. Tap a state, then tap a highlighted county candidate.</div>
+</div>
+<div class="detail">
+<div class="detail-ph" id="ph">
+<div class="arr">←</div>
+      Click any state to see your<br/>
+<strong style="color:var(--text)">full relocation breakdown</strong><br/><br/>
+      Pay · Monthly expenses · Annual costs<br/>
+      Insurance · Vehicle tax · Tax profile<br/>
       Climate · Homeschool regulation
     </div>
-    <div class="detail-body" id="dbody">
-      <div class="dh">
-        <div class="dh-name" id="d-name"></div>
-        <div class="dh-sub" id="d-sub"></div>
-      </div>
-      <div class="detail-scroll">
-
-        <!-- Pay comparison -->
-        <div class="cmp-grid">
-          <div class="cmp-col la-col">
-            <div class="cmp-col-title">Louisiana (current)</div>
-            <div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
-            <div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val">$184.98</div></div>
-            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val">$4,928.68</div></div>
-            <div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val">$128,145.68</div></div>
-          </div>
-          <div class="cmp-col new-col">
-            <div class="cmp-col-title" id="d-col2"></div>
-            <div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
-            <div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val" id="d-stax"></div></div>
-            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val" id="d-bw"></div><div class="delta" id="d-bwd"></div></div>
-            <div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val" id="d-an"></div><div class="delta" id="d-and"></div></div>
-          </div>
-        </div>
-
-        <!-- Monthly expense breakdown -->
-        <div class="sec">
-          <div class="sec-title">// Monthly recurring spend — sales tax adjusted</div>
-          <div class="exp-row">
-            <div class="exp-cat hd">Category</div>
-            <div class="exp-num hd">LA</div>
-            <div class="exp-num hd">New State</div>
-            <div class="exp-chg ec-eq">Δ</div>
-          </div>
-          <div id="exp-rows"></div>
-          <div class="stub-note" style="margin:8px 0 0;">
-            <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 remains the governing monthly spend baseline. Walmart_Orders(2).xlsx is used only to calibrate the grocery/household tax split: 56.65% food-for-home and 43.35% taxable household/pet/health/general merchandise, inferred from 49 unique Walmart orders and actual order tax behavior. The Walmart full-month average is $848.04/mo, about 45.9% of the broader Chase grocery/household/convenience bucket, so it should not replace the Chase total. Food-for-home uses each state/county grocery tax treatment; household/convenience uses the destination county general sales tax. Restaurant uses destination restaurant/meals tax where applicable; Amazon and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 for 1,409 kWh over 05/13/2026-06/11/2026, Bayou Des Cannes water $32.03 for service 05/20/2026-06/20/2026, and Spectrum Internet Gig $99.99 for service 05/04/2026-06/03/2026. Electricity is adjusted by modeled destination residential kWh rate; water and internet use state-level monthly estimates until the exact address/provider is known. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline. Do not treat combined housing + utilities as a HUD-compliant gross-rent number; final lease terms must confirm whether utilities are included.
-          </div>
-          <div class="path-box" style="margin-top:8px;"><strong>Utility detail</strong><span id="u-detail"></span></div>
-        </div>
-
-        <!-- County rent candidate -->
-        <div class="sec">
-          <div class="sec-title">// County-level 4BR rent candidate used for this state</div>
-          <div class="info-grid">
-            <div style="grid-column:1/-1"><div class="info-label">County / FMR area considered</div><div class="info-val" id="county-name"></div></div>
-            <div><div class="info-label">Candidate type</div><div class="info-val" id="county-type"></div></div>
-            <div><div class="info-label">4BR rent benchmark</div><div class="info-val" id="county-rent"></div></div>
-            <div style="grid-column:1/-1"><div class="info-label">Rent basis</div><div class="info-val" id="county-basis"></div></div>
-            <div style="grid-column:1/-1"><div class="info-label">Alternate county candidates</div><div class="info-val alt-list" id="county-alts"></div></div>
-          </div>
-          <div class="stub-note" style="margin:8px 0 0;">
-            <strong>County screen caveat</strong>
-            HUD/FMR-area rent is only a screening proxy. HUD FMRs are gross-rent estimates, not proof of an active standalone 4BR rental or lease price. Final decision requires active listings, lease utility terms, address-level broadband, insurer quotes, payroll/tax confirmation, and local tax validation.
-          </div>
-        </div>
-
-
-
-        <!-- Screening verdict -->
-        <div class="sec">
-          <div class="sec-title">// Screening verdict — validation required</div>
-          <div class="expert-summary-grid" id="expert-summary"></div>
-          <div class="expert-verdict" id="expert-verdict"></div>
-          <div class="expert-plan">
-            <div class="expert-mini"><strong>What can break the math</strong><span id="expert-breakers"></span></div>
-            <div class="expert-mini"><strong>Next validation sequence</strong><span id="expert-next"></span></div>
-          </div>
-        </div>
-
-        <!-- Monthly recurring spend + budget allocation -->
-        <div class="sec">
-          <div class="sec-title">// Monthly recurring spend + budget allocation — county-adjusted cash-flow lens</div>
-          <div class="budget-summary-grid" id="budget-summary"></div>
-          <div class="budget-split">
-            <div class="budget-block">
-              <div class="budget-block-title">Fixed recurring obligations</div>
-              <div id="budget-fixed-rows"></div>
-            </div>
-            <div class="budget-block">
-              <div class="budget-block-title">Variable monthly budget allocation</div>
-              <div id="budget-variable-rows"></div>
-            </div>
-          </div>
-          <div class="budget-note">
-            County-varying lines are housing, utilities, insurance, sales/grocery/meals-tax-sensitive categories, and vehicle tax. Wise, vehicle lease, debt payments, credit-card interest, subscriptions, and card minimums are held constant because the move itself does not change them. This is a planning cash-flow view, not a verified bank-ledger forecast; re-run it after exact rent, broadband, utilities, insurance, and tax residency are confirmed.
-          </div>
-        </div>
-
-        <!-- Annual expenses summary -->
-        <div class="sec">
-          <div class="sec-title">// Annual expenses — total picture</div>
-          <div class="ann-row">
-            <div class="ann-cat hd">Item</div>
-            <div class="ann-num hd">LA/yr</div>
-            <div class="ann-num hd">New/yr</div>
-            <div class="ann-chg ec-eq">Δ/yr</div>
-          </div>
-          <div id="ann-rows"></div>
-          <!-- Net position -->
-          <div class="net-box">
-            <div>
-              <div class="net-label">Annual net position change vs LA</div>
-              <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + sales/grocery-tax spend + utilities + housing + insurance + vehicle tax</div>
-            </div>
-            <div class="net-val" id="d-netpos"></div>
-          </div>
-        </div>
-
-        <!-- Tax Profile -->
-        <div class="sec">
-          <div class="sec-title">// Tax Profile</div>
-          <div class="info-grid">
-            <div><div class="info-label">Income Tax?</div><div class="info-val" id="t-it"></div></div>
-            <div><div class="info-label">Income Tax Rate</div><div class="info-val" id="t-ir"></div></div>
-            <div><div class="info-label">Avg. Sales Tax</div><div class="info-val" id="t-st"></div></div>
-            <div><div class="info-label">Food-at-home Grocery Tax</div><div class="info-val" id="t-gt"></div></div>
-            <div><div class="info-label">Property Tax (Eff.)</div><div class="info-val" id="t-pt"></div></div>
-            <div style="grid-column:1/-1"><div class="info-label">Annual Vehicle Property Tax (2025 Pacifica + 2008 Sienna)</div><div class="info-val" id="t-vt"></div></div>
-          </div>
-          <div id="excise-block"></div>
-        </div>
-
-        <!-- Climate & Health -->
-        <div class="sec">
-          <div class="sec-title">// Environmental proxies — validation required</div>
-          <div class="info-grid">
-            <div><div class="info-label">Barometric Health</div><div class="info-val" id="c-baro"></div></div>
-            <div><div class="info-label">Temp Volatility</div><div class="info-val" id="c-tv"></div></div>
-            <div><div class="info-label">Pollen Burden</div><div class="info-val" id="c-pol"></div></div>
-            <div><div class="info-label">Air Quality (AQI)</div><div class="info-val" id="c-aqi"></div></div>
-            <div><div class="info-label">Avg. Humidity</div><div class="info-val" id="c-hum"></div></div>
-            <div><div class="info-label">Temp Range (H / L)</div><div class="info-val" id="c-tr"></div></div>
-          </div>
-          <div class="path-box"><strong>Illustrative vector / environmental concern</strong><span id="c-path"></span></div>
-        </div>
-
-        <!-- Homeschool -->
-        <div class="sec" style="border-bottom:none;">
-          <div class="sec-title">// Homeschool Regulation — verify before move</div>
-          <div><div class="info-label">Regulation Tier</div><div class="info-val" id="h-tier" style="margin-top:3px"></div></div>
-          <div class="home-detail"><strong>Working summary; validate current statute/guidance</strong><span id="h-basis"></span></div>
-        </div>
-
-      </div><!-- /detail-scroll -->
-    </div><!-- /detail-body -->
-  </div><!-- /detail -->
+<div class="detail-body" id="dbody">
+<div class="dh">
+<div class="dh-name" id="d-name"></div>
+<div class="dh-sub" id="d-sub"></div>
+</div>
+<div class="detail-scroll">
+<!-- Pay comparison -->
+<div class="cmp-grid">
+<div class="cmp-col la-col">
+<div class="cmp-col-title">Louisiana (current)</div>
+<div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
+<div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val">$184.98</div></div>
+<div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val">$4,928.68</div></div>
+<div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val">$128,145.68</div></div>
+</div>
+<div class="cmp-col new-col">
+<div class="cmp-col-title" id="d-col2"></div>
+<div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
+<div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val" id="d-stax"></div></div>
+<div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val" id="d-bw"></div><div class="delta" id="d-bwd"></div></div>
+<div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val" id="d-an"></div><div class="delta" id="d-and"></div></div>
+</div>
+</div>
+<!-- Monthly expense breakdown -->
+<div class="sec">
+<div class="sec-title">// Monthly recurring spend — sales tax adjusted</div>
+<div class="exp-row">
+<div class="exp-cat hd">Category</div>
+<div class="exp-num hd">LA</div>
+<div class="exp-num hd">Selected</div>
+<div class="exp-chg ec-eq">Δ</div>
+</div>
+<div id="exp-rows"></div>
+</div>
+<!-- Removed: county candidate detail, screening verdict, and budget-allocation panels. Core financial impact remains below; detailed candidates remain in bottom validation tables. -->
+<!-- Annual expenses summary -->
+<div class="sec">
+<div class="sec-title">// Annual expenses — total picture</div>
+<div class="ann-row">
+<div class="ann-cat hd">Item</div>
+<div class="ann-num hd">LA/yr</div>
+<div class="ann-num hd">New/yr</div>
+<div class="ann-chg ec-eq">Δ/yr</div>
+</div>
+<div id="ann-rows"></div>
+<!-- Net position -->
+<div class="net-box">
+<div>
+<div class="net-label">Annual net position change vs LA</div>
+<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + tax-adjusted living spend + HUD/FMR rent proxy + modeled insurance + vehicle tax</div>
+</div>
+<div class="net-val" id="d-netpos"></div>
+</div>
+</div>
+<!-- Tax Profile -->
+<div class="sec">
+<div class="sec-title">// Tax Profile</div>
+<div class="info-grid">
+<div><div class="info-label">Income Tax?</div><div class="info-val" id="t-it"></div></div>
+<div><div class="info-label">Income Tax Rate</div><div class="info-val" id="t-ir"></div></div>
+<div><div class="info-label">Avg. Sales Tax</div><div class="info-val" id="t-st"></div></div>
+<div><div class="info-label">Food-at-home Grocery Tax</div><div class="info-val" id="t-gt"></div></div>
+<div><div class="info-label">Property Tax (Eff.)</div><div class="info-val" id="t-pt"></div></div>
+<div style="grid-column:1/-1"><div class="info-label">Annual Vehicle Property Tax (2025 Pacifica + 2008 Sienna)</div><div class="info-val" id="t-vt"></div></div>
+</div>
+<div id="excise-block"></div>
+</div>
+<!-- Climate & Health -->
+<div class="sec">
+<div class="sec-title">// Environmental proxies — validation required</div>
+<div class="info-grid">
+<div><div class="info-label">Barometric Health</div><div class="info-val" id="c-baro"></div></div>
+<div><div class="info-label">Temp Volatility</div><div class="info-val" id="c-tv"></div></div>
+<div><div class="info-label">Pollen Burden</div><div class="info-val" id="c-pol"></div></div>
+<div><div class="info-label">Air Quality (AQI)</div><div class="info-val" id="c-aqi"></div></div>
+<div><div class="info-label">Avg. Humidity</div><div class="info-val" id="c-hum"></div></div>
+<div><div class="info-label">Temp Range (H / L)</div><div class="info-val" id="c-tr"></div></div>
+</div>
+<div class="path-box"><strong>Illustrative vector / environmental concern</strong><span id="c-path"></span></div>
+</div>
+<!-- Homeschool -->
+<div class="sec" style="border-bottom:none;">
+<div class="sec-title">// Homeschool Regulation — verify before move</div>
+<div><div class="info-label">Regulation Tier</div><div class="info-val" id="h-tier" style="margin-top:3px"></div></div>
+<div class="home-detail"><strong>Working summary; validate current statute/guidance</strong><span id="h-basis"></span></div>
+</div>
+</div><!-- /detail-scroll -->
+</div><!-- /detail-body -->
+</div><!-- /detail -->
 </div><!-- /main-grid -->
-
 <div class="bottom-tables">
-
 <div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// Validation register — before any relocation decision</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Added after hostile review to separate evidence-backed model inputs from assumptions that can break the recommendation.</div>
-    </div>
-    <div class="shortlist-note">Priority order: rent/listings → broadband → insurance → payroll/tax residency → homeschool law → utilities/local services → environmental/health fit.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="validation-table">
-      <div class="vrow hd"><div class="vcell">Input Area</div><div class="vcell">Current Model Status</div><div class="vcell">Main Risk</div><div class="vcell">Validation Required</div></div>
-      <div class="vrow"><div class="vcell strong">Housing</div><div class="vcell">HUD FY2026 4BR FMR gross-rent proxy updated for shortlist counties in this pass.</div><div class="vcell">FMR is not an active standalone 4BR listing; lease may include/exclude utilities differently.</div><div class="vcell">Verify current active listings, lease terms, pet rules, neighborhood quality, deposit/move-in costs, and whether utilities are included.</div></div>
-      <div class="vrow"><div class="vcell strong">Broadband</div><div class="vcell">County/provider shorthand only.</div><div class="vcell">Remote work fails at the address level, not the county level.</div><div class="vcell">Run provider qualification and FCC map check for the exact rental address; confirm wired plan, upload speed, data cap, installation timing, and backup option.</div></div>
-      <div class="vrow"><div class="vcell strong">Taxes / payroll</div><div class="vcell">Modeled state and county/city tax assumptions; current paystub taxable wages are now used for Grant County IN and Bryan OH local income-tax adders.</div><div class="vcell">Local wage tax, grocery/meals tax, residency sourcing, and payroll setup can still change the math, especially if the rental is outside the named city.</div><div class="vcell">Confirm with employer payroll, state revenue department, county/city tax authority, and DMV before ranking as final.</div></div>
-      <div class="vrow"><div class="vcell strong">Insurance / vehicle tax</div><div class="vcell">Modeled state premium and estimated vehicle-tax burden.</div><div class="vcell">Carrier quotes and local vehicle tax can differ materially from index estimates.</div><div class="vcell">Quote both vehicles and renters/home coverage by ZIP; verify catastrophe exclusions, deductibles, registration, and ad valorem/personal-property tax.</div></div>
-      <div class="vrow"><div class="vcell strong">Legal / homeschool</div><div class="vcell">Working summary only.</div><div class="vcell">Law and administrative guidance can change; summaries are not legal advice.</div><div class="vcell">Check current state statute, department of education guidance, local district rules, umbrella/church-school options, testing, reporting, and recordkeeping.</div></div>
-      <div class="vrow"><div class="vcell strong">Environment / health</div><div class="vcell">Illustrative state/county proxies.</div><div class="vcell">Pathogen, pollen, AQI, humidity, and temperature labels are not normalized health-risk forecasts.</div><div class="vcell">Validate with EPA/NOAA/CDC/state health data, medical needs, flood/hurricane/wildfire exposure, and personal tolerance.</div></div>
-    </div>
-  </div>
+<div class="shortlist-hdr">
+<div>
+<div class="shortlist-title">// Grocery impact by selected county — low-materiality tax sensitivity</div>
+<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Shows whether the grocery/household category moves under the modeled Walmart-informed basket split and county tax assumptions.</div>
 </div>
-
+<div class="shortlist-note">Result: grocery tax is useful for sensitivity, but the decision remains dominated by rent, income tax, insurance, utilities, and debt pressure.</div>
+</div>
+<div class="shortlist-scroll">
+<div class="shortlist-table" id="walmart-grocery-county-table"></div>
+</div>
+</div>
 <div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// Uploaded source documents — actual Louisiana baseline</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">These rows show which dashboard baseline inputs were updated from the newly uploaded PDFs/workbook. Destination values remain modeled unless an exact address or quote is provided.</div>
-    </div>
-    <div class="shortlist-note">Actual bill/paystub values are stronger evidence than state averages; destination utilities, insurance, and broadband still need address-level validation.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="source-table">
-      <div class="srcrow hd"><div class="srccell">Source document</div><div class="srccell">Status</div><div class="srccell">Updated value(s)</div><div class="srccell">Model impact</div><div class="srccell">Source detail</div><div class="srccell">Remaining validation need</div></div>
-      <div class="srcrow"><div class="srccell strong">KLC paystub 06/26/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">Gross $6,718.39 / period; net $4,928.68; LA state tax $184.98; taxable wages $5,986.35</div><div class="srccell">Updated LA net baseline, LA state-tax baseline, and taxable wage base used for IN/OH local-tax adders.</div><div class="srccell">Pay period 06/07/2026-06/20/2026; pre-tax deductions $737.67; employee taxes $1,049.94.</div><div class="srccell">Confirm employer will support payroll/tax setup for any destination state before move.</div></div>
-      <div class="srcrow"><div class="srccell strong">SLEMCO electric bill 06/16/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$181.00 current charges; 1,409 kWh; effective all-in rate about 12.85 cents/kWh</div><div class="srccell">Confirms Louisiana electricity baseline and usage used for destination electric modeling.</div><div class="srccell">Service 05/13/2026-06/11/2026; monthly service charge $17.50; base power cost $125.20; PCA $11.51.</div><div class="srccell">Destination electricity still requires exact utility tariff, heating/cooling load, fuel type, and deposit check.</div></div>
-      <div class="srcrow"><div class="srccell strong">Bayou Des Cannes water bill</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$32.03 net amount; $35.23 after 07/15/2026; consumption 4,673</div><div class="srccell">Confirms Louisiana water baseline at $32.03/month.</div><div class="srccell">Service 05/20/2026-06/20/2026; water $31.03 plus SDWP $1.00.</div><div class="srccell">Destination water/sewer/trash requires city/utility rate sheet and lease terms.</div></div>
-      <div class="srcrow"><div class="srccell strong">Spectrum internet bill 05/04/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$99.99 Spectrum Internet Gig; promo discount $20.01 expires 05/03/2027</div><div class="srccell">Confirms Louisiana internet baseline at $99.99/month.</div><div class="srccell">Service 05/04/2026-06/03/2026; Spectrum Internet $90.00, discount -$20.01, Internet Gig $30.00.</div><div class="srccell">Destination broadband requires exact-address serviceability, upload speed, data cap, install timing, and backup option.</div></div>
-      <div class="srcrow"><div class="srccell strong">Progressive auto policy 06/30/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$1,458 policy premium; annualized model $2,916; Sienna $615; Pacifica $843</div><div class="srccell">Confirms Louisiana auto-insurance baseline. Destination premiums remain quote-required.</div><div class="srccell">BI/PD $100k/$300k/$50k; UM $100k/$300k. Pacifica has $1,000 comp/collision deductibles and $5 loan/lease payoff; Sienna has no comp/collision.</div><div class="srccell">Quote both vehicles by destination ZIP/address and coverage level; validate renters coverage and catastrophe exclusions.</div></div>
-      <div class="srcrow"><div class="srccell strong">Walmart_Orders(2).xlsx</div><div class="srccell"><span class="src-status ok">Actual sample</span></div><div class="srccell">49 unique orders; $9,416.24 order total; 56.65% food-home / 43.35% taxable split</div><div class="srccell">Used only to calibrate grocery vs taxable basket split; does not replace the Chase grocery/household baseline.</div><div class="srccell">A1:T3280, 3,279 rows, 20 columns, 0 blank cells in populated range.</div><div class="srccell">Keep as low-materiality tax-split support; rent, payroll/tax, insurance, and broadband dominate decisions.</div></div>
-    </div>
-  </div>
+<div class="shortlist-hdr">
+<div>
+<div class="shortlist-title">// County shortlist — 12 candidates requiring address-level verification</div>
+<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Map remains state-level; this table shows the county/FMR-area rent proxy or alternate used for the financial screen.</div>
 </div>
-
+<div class="shortlist-note">Rent uses HUD FY2026 4BR FMR gross-rent proxy where updated in this pass. It is not proof of active standalone 4BR inventory. Final pass still requires exact-address broadband, active listings, lease utility terms, insurance quotes, and local tax checks.</div>
+</div>
+<div class="shortlist-scroll">
+<div class="shortlist-table" id="county-shortlist"></div>
+</div>
+</div>
 <div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// County-level validation status — counties in scope</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">County-level values updated where public source validation was available. Rent uses HUD FY2026 4BR FMR gross-rent proxy; active rental inventory, broadband, utilities, and insurance still require address/quote validation.</div>
-    </div>
-    <div class="shortlist-note">Use this table to see what is verified, modeled, provisional, or still address-required before trusting the county ranking.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="source-table">
-      <div class="srcrow hd"><div class="srccell">County / Area</div><div class="srccell">HUD 4BR FMR</div><div class="srccell">Rent Source Status</div><div class="srccell">County / City Tax Status</div><div class="srccell">Income-Tax Treatment</div><div class="srccell">Still Required Before Decision</div></div>
-      <div class="srcrow"><div class="srccell strong">Lawrence County / Lawrenceburg, TN</div><div class="srccell">$14,916/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> 9.75% general / 6.75% grocery model; verify TN local option rate by address.</div><div class="srccell">No TN wage income tax modeled.</div><div class="srccell">Active 4BR inventory, Spectrum/address broadband, lease utility terms, insurer quote, homeschool path.</div></div>
-      <div class="srcrow"><div class="srccell strong">McMinn County / Athens, TN</div><div class="srccell">$14,712/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> 9.75% / 6.75% model; verify Athens/McMinn local rate by address.</div><div class="srccell">No TN wage income tax modeled.</div><div class="srccell">Active 4BR inventory, Xfinity/provider qualification, utilities, insurer quote.</div></div>
-      <div class="srcrow"><div class="srccell strong">Jackson County / Marianna, FL</div><div class="srccell">$16,968/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Address check</span> 7.50% model; confirm FL DOR surtax/rate by rental address.</div><div class="srccell">No FL wage income tax modeled.</div><div class="srccell">Active 4BR listing, hurricane/flood/insurance quote, wired broadband, lease utilities.</div></div>
-      <div class="srcrow"><div class="srccell strong">Yankton County / Yankton, SD</div><div class="srccell">$17,256/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Formula validated</span> 6.20% general/grocery + 7.20% restaurant high-side MGRT model; confirm city tax/MGRT.</div><div class="srccell">No SD wage income tax modeled.</div><div class="srccell">Winter fit, exact broadband, active inventory, utility heating source.</div></div>
-      <div class="srcrow"><div class="srccell strong">Young County / Graham, TX</div><div class="srccell">$17,616/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Local tax validated</span> 8.25% general/restaurant; food-for-home modeled exempt.</div><div class="srccell">No TX wage income tax modeled.</div><div class="srccell">Rural inventory, address-level broadband, summer utility load, insurer quote.</div></div>
-      <div class="srcrow"><div class="srccell strong">Wichita County / Wichita Falls, TX</div><div class="srccell">$21,108/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Local tax validated</span> 8.25% general/restaurant; food-for-home modeled exempt.</div><div class="srccell">No TX wage income tax modeled.</div><div class="srccell">Active 4BR rent, provider serviceability, summer electric, insurer quote.</div></div>
-      <div class="srcrow"><div class="srccell strong">Coos County / Berlin-Gorham, NH</div><div class="srccell">$20,496/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Meals tax validated</span> 0% general/grocery + 8.5% meals model.</div><div class="srccell">No NH wage income tax modeled.</div><div class="srccell">Cold-climate utilities/heating fuel, rural broadband, active inventory, homeschool evaluation check.</div></div>
-      <div class="srcrow"><div class="srccell strong">Williams County / Bryan, OH</div><div class="srccell">$15,456/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Address check</span> 7.25% sales model; verify exact municipality/school district.</div><div class="srccell"><span class="src-status warn">Local tax modeled</span> Bryan 1.8% municipal income-tax adder modeled from paystub taxable wage base if rental is inside Bryan.</div><div class="srccell">Exact city/township/school-district tax, active 4BR, broadband, winter utilities.</div></div>
-      <div class="srcrow"><div class="srccell strong">Grant County / Marion, IN</div><div class="srccell">$16,944/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Modeled</span> 7% sales + 8% restaurant/F&B model; verify Marion/Grant applicability by address.</div><div class="srccell"><span class="src-status warn">County tax modeled</span> Indiana 2.95% state + Grant County 2.75% local income-tax estimate modeled from paystub taxable wage base.</div><div class="srccell">Residence/principal-workplace tax rule, active 4BR, broadband, winter utilities.</div></div>
-      <div class="srcrow"><div class="srccell strong">Davison County / Mitchell, SD</div><div class="srccell">$18,840/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Formula validated</span> 6.20% / 7.20% restaurant high-side model; confirm Mitchell MGRT.</div><div class="srccell">No SD wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source.</div></div>
-      <div class="srcrow"><div class="srccell strong">Brown County / Aberdeen, SD</div><div class="srccell">$17,724/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Formula validated</span> 6.20% / 7.20% restaurant high-side model; confirm Aberdeen MGRT.</div><div class="srccell">No SD wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source.</div></div>
-      <div class="srcrow"><div class="srccell strong">Sweetwater County / Rock Springs-Green River, WY</div><div class="srccell">$20,052/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> 6% general model; verify WY city/county rate by address.</div><div class="srccell">No WY wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source, vehicle registration/tax.</div></div>
-      <div class="srcrow"><div class="srccell strong">Cumberland County / Crossville, TN</div><div class="srccell">$16,248/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> TN local tax model; verify Crossville/Cumberland rate by address.</div><div class="srccell">No TN wage income tax modeled.</div><div class="srccell">Active 4BR inventory, broadband, utility/heating source.</div></div>
-      <div class="srcrow"><div class="srccell strong">Coffee County / Manchester-Tullahoma, TN</div><div class="srccell">$16,356/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> TN local tax model; verify city/county rate by address.</div><div class="srccell">No TN wage income tax modeled.</div><div class="srccell">Active 4BR inventory, broadband, utility/heating source.</div></div>
-      <div class="srcrow"><div class="srccell strong">Sheridan County / Sheridan, WY</div><div class="srccell">$22,692/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> WY local tax model; verify city/county rate by address.</div><div class="srccell">No WY wage income tax modeled.</div><div class="srccell">Active inventory, broadband, winter utility/heating source, vehicle registration/tax.</div></div>
-    </div>
-  </div>
+<div class="shortlist-hdr">
+<div>
+<div class="shortlist-title">// 12-county monthly + annual expense recalculation — source-aware</div>
+<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Baseline is your current St. Landry Parish, Louisiana setup: actual mortgage + actual recurring Chase spend + Progressive policy. Destination counties use county/city tax assumptions, utility estimates, HUD FY2026 4BR FMR proxy where updated, modeled state auto insurance, and estimated vehicle tax.</div>
 </div>
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// Screening decision matrix — 12 county candidates</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Screening lens that combines net financial position, cash-flow cushion, rent headroom, broadband execution risk, debt pressure, and environmental/climate proxies. Source confidence varies by field.</div>
-    </div>
-    <div class="shortlist-note">This is not a final move approval. A county remains only a candidate until exact rental, broadband address, insurance quote, employer payroll state, homeschool requirements, and local tax checks pass.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="expert-table" id="expert-matrix-table"></div>
-  </div>
+<div class="shortlist-note">Expense delta excludes paycheck tax impact; net position includes paycheck tax impact. Local tax, rent, utilities, and insurance remain screening assumptions until exact address and quotes are validated.</div>
 </div>
-
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// Walmart order-history source — grocery tax calibration</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Supporting basket sample: 49 unique Walmart orders · Aug 07, 2025 – Jul 03, 2026 · useful for tax split calibration, not a full grocery forecast.</div>
-    </div>
-    <div class="shortlist-note">The basket split is rounded to 56.7/43.3 for readability. This refinement is lower materiality than rent, insurance, taxes, and debt pressure.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="shortlist-table" id="walmart-audit-table"></div>
-  </div>
+<div class="shortlist-scroll">
+<div class="shortlist-table" id="county-expense-table"></div>
 </div>
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// Grocery impact by selected county — low-materiality tax sensitivity</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Shows whether the grocery/household category moves under the modeled Walmart-informed basket split and county tax assumptions.</div>
-    </div>
-    <div class="shortlist-note">Result: grocery tax is useful for sensitivity, but the decision remains dominated by rent, income tax, insurance, utilities, and debt pressure.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="shortlist-table" id="walmart-grocery-county-table"></div>
-  </div>
 </div>
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// 12-county monthly recurring spend + budget allocation</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Uses your provided fixed recurring obligations and recommended variable budget allocation, then varies housing, utilities, insurance, vehicle tax, and tax-sensitive spend by selected county.</div>
-    </div>
-    <div class="shortlist-note">This is a cash-flow view, not a spending-history view. Credit-card minimum payments are shown separately to avoid double counting card purchases and card payments.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="shortlist-table" id="county-budget-table"></div>
-  </div>
-</div>
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// County shortlist — 12 candidates requiring address-level verification</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Map remains state-level; this table shows the county/FMR-area rent proxy or alternate used for the financial screen.</div>
-    </div>
-    <div class="shortlist-note">Rent uses HUD FY2026 4BR FMR gross-rent proxy where updated in this pass. It is not proof of active standalone 4BR inventory. Final pass still requires exact-address broadband, active listings, lease utility terms, insurance quotes, and local tax checks.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="shortlist-table" id="county-shortlist"></div>
-  </div>
-</div>
-
-<div class="shortlist-wrap">
-  <div class="shortlist-hdr">
-    <div>
-      <div class="shortlist-title">// 12-county monthly + annual expense recalculation</div>
-      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Baseline is your current St. Landry Parish, Louisiana setup: actual mortgage + actual recurring Chase spend + Progressive policy. Destination counties use county/city tax assumptions, utility estimates, HUD FY2026 4BR FMR proxy where updated, modeled state auto insurance, and estimated vehicle tax.</div>
-    </div>
-    <div class="shortlist-note">Expense delta excludes paycheck tax impact; net position includes paycheck tax impact. Local tax, rent, utilities, and insurance remain screening assumptions until exact address and quotes are validated.</div>
-  </div>
-  <div class="shortlist-scroll">
-    <div class="shortlist-table" id="county-expense-table"></div>
-  </div>
-</div>
-
 </div><!-- /bottom-tables -->
 </div><!-- /app -->
 <div id="tt"><div class="ttn" id="tt-n"></div><div id="tt-d"></div></div>
-
 <script>
 // ══════════════════════════════════════════════════
 // CONSTANTS — updated from actual KLC paystub 06/07/2026-06/20/2026, check date 06/26/2026
@@ -1521,9 +1338,6 @@ function setDelta(id,delta,rev=false){
 }
 
 
-
-
-
 function expertForCandidate(candidate){
   const m = metricsForCounty(candidate);
   const b = budgetForCandidate(candidate);
@@ -1688,7 +1502,6 @@ function renderCountyBudgetTable(){
 }
 
 renderExpertMatrixTable();
-renderWalmartAuditTable();
 renderWalmartGroceryCountyTable();
 renderCountyBudgetTable();
 renderCountyExpenseTable();
@@ -1919,8 +1732,8 @@ function render(code, candidate=null){
     {key:'Amazon',name:'Amazon only'},
     {key:'Goodwill',name:'Goodwill only'},
     {key:'RetailHomeMisc',name:'Retail / Home / Misc'},
-    {key:'Utilities',name:'Utilities: electric / water / internet'},
-    {key:'OtherFixedBills',name:'Phone / Storage / Other fixed'},
+    {key:'Utilities',name:'Core utilities: electric / water / internet'},
+    {key:'OtherFixedBills',name:'Phone / storage / other fixed bills'},
     {key:'MedicalPharmacy',name:'Medical / Pharmacy'},
     {key:'Subscriptions',name:'Subscriptions / Digital'},
   ];
@@ -1934,13 +1747,13 @@ function render(code, candidate=null){
   const td=tNew-tLA; const {txt:ttxt,cls:tcls}=fmtSign(td,true);
   ec.insertAdjacentHTML('beforeend',`<div class="exp-row" style="font-weight:700"><div class="exp-cat" style="font-weight:700">Monthly Total</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tLA)}</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tNew)}</div><div class="exp-chg ${tcls}">${ttxt}</div></div>`);
 
-  setEl('u-detail', `Electricity ${fmtD(utilityDetail.electric)} · Water ${fmtD(utilityDetail.water)} · Internet ${fmtD(utilityDetail.internet)} · Core utilities ${fmtD(utilityDetail.total)}`);
+  setEl('u-detail', `Selected-county modeled core utilities: electricity ${fmtD(utilityDetail.electric)} · water ${fmtD(utilityDetail.water)} · internet ${fmtD(utilityDetail.internet)} · total ${fmtD(utilityDetail.total)}. Current LA actual core utilities: electric ${fmtD(LA_ELECTRIC_M)} · water ${fmtD(LA_WATER_M)} · internet ${fmtD(LA_INTERNET_M)} · total ${fmtD(LA_UTILITY_CORE_M)}.`);
 
 
   // Expert relocation verdict
   renderExpertPanel(selectedCandidate);
 
-  // Monthly recurring spend + budget allocation cash-flow lens
+  // Removed detail panel budget allocation; budget functions retained for optional future use
   const b=budgetForCandidate(selectedCandidate);
   const baseB=BASE_BUDGET;
   const budgetSummary=document.getElementById('budget-summary');
@@ -2007,11 +1820,11 @@ function render(code, candidate=null){
   // Annual expenses table
   const ar=document.getElementById('ann-rows'); ar.innerHTML='';
   const annItems=[
-    {label:'Housing: LA mortgage vs selected county 4BR rent', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
-    {label:'Recurring spend incl. utility adjustment (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
-    {label:'Car Insurance (both veh.)',laAmt:LA_INS_ANNUAL,newAmt:newIns,  rev:true},
-    {label:'Vehicle Property Tax',    laAmt:LA_VTAX_ANNUAL,newAmt:newVtax,rev:true},
-    {label:'Annual Net Pay (×26)',    laAmt:LA_ANNUAL,   newAmt:annual,   rev:false},
+    {label:'Housing: LA mortgage vs HUD FY2026 4BR FMR proxy', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
+    {label:'Tax-adjusted living spend incl. actual LA utilities + modeled destination utilities (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
+    {label:'Auto insurance: LA Progressive actual annualized vs destination modeled/quote-required',laAmt:LA_INS_ANNUAL,newAmt:newIns,  rev:true},
+    {label:'Vehicle property/registration tax: destination modeled estimate',    laAmt:LA_VTAX_ANNUAL,newAmt:newVtax,rev:true},
+    {label:'Annual net pay: actual LA paystub vs modeled state/local tax (×26)',    laAmt:LA_ANNUAL,   newAmt:annual,   rev:false},
   ];
   annItems.forEach(item=>{
     const dlt = item.newAmt - item.laAmt;
