@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Relocation Finance Dashboard - Clean Financial View v6</title>
+<title>Relocation Finance Dashboard - Monthly Spend Refined v7</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&amp;family=Barlow:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
@@ -137,6 +137,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 .exp-num{font-family:var(--mono);font-size:.67rem;text-align:right;color:var(--text2);}
 .exp-num.hd{font-size:.54rem;color:var(--muted);text-transform:uppercase;}
 .exp-chg{font-family:var(--mono);font-size:.59rem;text-align:right;padding:1px 3px;border-radius:3px;}
+.exp-basis{display:block;font-family:var(--mono);font-size:.52rem;color:var(--muted);line-height:1.25;margin-top:1px;}
+.monthly-spend-note{font-family:var(--mono);font-size:.56rem;line-height:1.45;color:var(--muted);margin-top:8px;padding-top:7px;border-top:1px solid var(--border2);}
 .ec-up{color:var(--red);background:var(--red-bg);}
 .ec-dn{color:var(--green);background:var(--green-bg);}
 .ec-eq{color:var(--muted);}
@@ -288,6 +290,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
   .exp-cat.hd,.ann-cat.hd,.exp-num.hd,.ann-num.hd{font-size:.47rem;}
   .exp-num,.ann-num{font-size:.58rem;}
   .exp-chg,.ann-chg{font-size:.52rem;}
+  .exp-basis{font-size:.48rem;}
 
   .stub-note,.path-box,.home-detail,.excise-box{font-size:.56rem;line-height:1.45;border-radius:6px;}
   .stub-note{margin:8px 0 0;padding:8px 9px;}
@@ -511,6 +514,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="exp-chg ec-eq">Δ</div>
 </div>
 <div id="exp-rows"></div>
+<div class="monthly-spend-note">Includes only living-spend categories that can move through grocery/general/meals tax or basic utilities. Housing, auto insurance, vehicle tax, and paycheck tax are handled in the annual section; debt, card minimums, and card interest are excluded from relocation-variable spend.</div>
 </div>
 <!-- Removed: county candidate detail, screening verdict, and budget-allocation panels. Core financial impact remains below; detailed candidates remain in bottom validation tables. -->
 <!-- Annual expenses summary -->
@@ -527,7 +531,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="net-box">
 <div>
 <div class="net-label">Annual net position change vs LA</div>
-<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + tax-adjusted living spend + HUD/FMR rent proxy + modeled insurance + vehicle tax</div>
+<div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:2px;">paycheck + monthly living-spend categories + HUD/FMR rent proxy + modeled insurance + vehicle tax</div>
 </div>
 <div class="net-val" id="d-netpos"></div>
 </div>
@@ -937,14 +941,19 @@ function calcExpensesByRates(code, generalSalesTaxRate, groceryTaxRate, restaura
   let total = 0; const breakdown = {};
   const restRate = restaurantTaxRate ?? generalSalesTaxRate;
 
-  // Grocery/household/convenience: food-for-home uses grocery tax; household/convenience uses destination general sales tax.
+  // Grocery/household/convenience is split so the table shows the real grocery-tax impact.
+  // Food-for-home uses the destination grocery rate; household/pet/convenience uses destination general sales tax.
   const gh = LA_CATS.GroceriesHousehold;
-  const ghFood = gh * GROCERY_FOOD_HOME_SHARE * (1+groceryTaxRate/100)/(1+LA_GROCERY_TAX_RATE);
-  const ghHousehold = gh * GROCERY_HOUSEHOLD_TAXABLE_SHARE * (1+generalSalesTaxRate/100)/(1+LA_SALES_RATE);
+  const ghFoodLA = gh * GROCERY_FOOD_HOME_SHARE;
+  const ghHouseholdLA = gh * GROCERY_HOUSEHOLD_TAXABLE_SHARE;
+  const ghFood = ghFoodLA * (1+groceryTaxRate/100)/(1+LA_GROCERY_TAX_RATE);
+  const ghHousehold = ghHouseholdLA * (1+generalSalesTaxRate/100)/(1+LA_SALES_RATE);
+  breakdown.GroceryFoodHome = ghFood;
+  breakdown.HouseholdTaxable = ghHousehold;
   breakdown.GroceriesHousehold = ghFood + ghHousehold;
   total += breakdown.GroceriesHousehold;
 
-  // Utilities: SLEMCO electricity, Bayou Des Cannes water, Spectrum internet modeled by destination state.
+  // Utilities: SLEMCO electricity, Bayou Des Cannes water, Spectrum Internet Gig modeled by destination state.
   const utilityDetail = calcUtilities(code);
   breakdown.Utilities = utilityDetail.total;
   total += breakdown.Utilities;
@@ -1726,28 +1735,31 @@ function render(code, candidate=null){
 
   // Monthly expense rows
   const ec=document.getElementById('exp-rows'); ec.innerHTML='';
+  const laGroceryFood = LA_CATS.GroceriesHousehold * GROCERY_FOOD_HOME_SHARE;
+  const laHouseholdTaxable = LA_CATS.GroceriesHousehold * GROCERY_HOUSEHOLD_TAXABLE_SHARE;
   const catKeys=[
-    {key:'GroceriesHousehold',name:'Grocery / Household / Convenience'},
-    {key:'Restaurant',name:'Restaurants / Fast Food'},
-    {key:'Amazon',name:'Amazon only'},
-    {key:'Goodwill',name:'Goodwill only'},
-    {key:'RetailHomeMisc',name:'Retail / Home / Misc'},
-    {key:'Utilities',name:'Core utilities: electric / water / internet'},
-    {key:'OtherFixedBills',name:'Phone / storage / other fixed bills'},
-    {key:'MedicalPharmacy',name:'Medical / Pharmacy'},
-    {key:'Subscriptions',name:'Subscriptions / Digital'},
+    {key:'GroceryFoodHome', name:'Groceries - food for home', basis:`${(GROCERY_FOOD_HOME_SHARE*100).toFixed(2)}% of grocery/household bucket; uses grocery tax`, la:laGroceryFood},
+    {key:'HouseholdTaxable', name:'Household / pet / convenience', basis:`${(GROCERY_HOUSEHOLD_TAXABLE_SHARE*100).toFixed(2)}% of grocery/household bucket; uses general sales tax`, la:laHouseholdTaxable},
+    {key:'Restaurant',name:'Restaurants / fast food', basis:'uses destination restaurant/meals tax', la:LA_CATS.Restaurant},
+    {key:'Amazon',name:'Amazon / online retail', basis:'100% general sales tax sensitivity', la:LA_CATS.Amazon},
+    {key:'Goodwill',name:'Goodwill / thrift', basis:'100% general sales tax sensitivity', la:LA_CATS.Goodwill},
+    {key:'RetailHomeMisc',name:'Retail / home / misc', basis:'65% general sales tax sensitivity', la:LA_CATS.RetailHomeMisc},
+    {key:'Utilities',name:'Core utilities', basis:'electric / water / internet only', la:LA_CATS.Utilities},
+    {key:'OtherFixedBills',name:'Phone / storage / other fixed', basis:'kept constant; not location-tax adjusted', la:LA_CATS.OtherFixedBills},
+    {key:'MedicalPharmacy',name:'Medical / pharmacy', basis:'kept constant; treated as non-tax-adjusted', la:LA_CATS.MedicalPharmacy},
+    {key:'Subscriptions',name:'Digital subscriptions', basis:'50% general sales tax sensitivity', la:LA_CATS.Subscriptions},
   ];
   let tLA=0,tNew=0;
   catKeys.forEach(c=>{
-    const la=LA_CATS[c.key], nw=expBreakdown[c.key], dlt=nw-la;
+    const la=c.la, nw=expBreakdown[c.key], dlt=nw-la;
     tLA+=la; tNew+=nw;
     const {txt,cls}=fmtSign(dlt,true);
-    ec.insertAdjacentHTML('beforeend',`<div class="exp-row"><div class="exp-cat">${c.name}</div><div class="exp-num">${fmtD(la)}</div><div class="exp-num">${fmtD(nw)}</div><div class="exp-chg ${cls}">${txt}</div></div>`);
+    ec.insertAdjacentHTML('beforeend',`<div class="exp-row"><div class="exp-cat">${c.name}<span class="exp-basis">${c.basis}</span></div><div class="exp-num">${fmtD(la)}</div><div class="exp-num">${fmtD(nw)}</div><div class="exp-chg ${cls}">${txt}</div></div>`);
   });
   const td=tNew-tLA; const {txt:ttxt,cls:tcls}=fmtSign(td,true);
-  ec.insertAdjacentHTML('beforeend',`<div class="exp-row" style="font-weight:700"><div class="exp-cat" style="font-weight:700">Monthly Total</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tLA)}</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tNew)}</div><div class="exp-chg ${tcls}">${ttxt}</div></div>`);
+  ec.insertAdjacentHTML('beforeend',`<div class="exp-row" style="font-weight:700"><div class="exp-cat" style="font-weight:700">Monthly living-spend total<span class="exp-basis">matches annual living-spend line before housing/insurance/vehicle/paycheck effects</span></div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tLA)}</div><div class="exp-num" style="font-weight:700;color:var(--text)">${fmtD(tNew)}</div><div class="exp-chg ${tcls}">${ttxt}</div></div>`);
 
-  setEl('u-detail', `Selected-county modeled core utilities: electricity ${fmtD(utilityDetail.electric)} · water ${fmtD(utilityDetail.water)} · internet ${fmtD(utilityDetail.internet)} · total ${fmtD(utilityDetail.total)}. Current LA actual core utilities: electric ${fmtD(LA_ELECTRIC_M)} · water ${fmtD(LA_WATER_M)} · internet ${fmtD(LA_INTERNET_M)} · total ${fmtD(LA_UTILITY_CORE_M)}.`);
+  // Utility-detail panel was intentionally removed; utility values remain visible in the table above.
 
 
   // Expert relocation verdict
@@ -1821,7 +1833,7 @@ function render(code, candidate=null){
   const ar=document.getElementById('ann-rows'); ar.innerHTML='';
   const annItems=[
     {label:'Housing: LA mortgage vs HUD FY2026 4BR FMR proxy', laAmt:LA_RENT_ANNUAL,newAmt:newRent, rev:true},
-    {label:'Tax-adjusted living spend incl. actual LA utilities + modeled destination utilities (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
+    {label:'Monthly living-spend categories above, tax/utility adjusted (×12)', laAmt:LA_EXP_A, newAmt:expA, rev:true},
     {label:'Auto insurance: LA Progressive actual annualized vs destination modeled/quote-required',laAmt:LA_INS_ANNUAL,newAmt:newIns,  rev:true},
     {label:'Vehicle property/registration tax: destination modeled estimate',    laAmt:LA_VTAX_ANNUAL,newAmt:newVtax,rev:true},
     {label:'Annual net pay: actual LA paystub vs modeled state/local tax (×26)',    laAmt:LA_ANNUAL,   newAmt:annual,   rev:false},
