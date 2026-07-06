@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Relocation Finance Dashboard - County-Validated Screening Model v2</title>
+<title>Relocation Finance Dashboard - Actual Bills + County Validated Screening Model v4</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -425,7 +425,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="top-bar">
   <div class="brand">
     <h1>RELOCATION <span>FINANCE</span> EXPLORER</h1>
-    <p>ANOOP KANGALATH · KINDERCARE · $174,678 GROSS · MFJ · LA MORTGAGE BASELINE · COUNTY-VALIDATED SCREENING MODEL · SOURCE CONFIDENCE VARIES</p>
+    <p>ANOOP KANGALATH · KINDERCARE · $174,678 GROSS · MFJ · LA MORTGAGE BASELINE · ACTUAL-BILL BASELINE · COUNTY-VALIDATED SCREENING MODEL · SOURCE CONFIDENCE VARIES</p>
   </div>
   <div class="snapshot">
     <div class="snap-card gray-top">
@@ -435,8 +435,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     </div>
     <div class="snap-card gold-top">
       <div class="snap-label">Bi-Weekly Net (LA)</div>
-      <div class="snap-val" style="color:var(--gold)">$5,428.79</div>
-      <div class="snap-sub">After all taxes · stub 05/23/26</div>
+      <div class="snap-val" style="color:var(--gold)">$4,928.68</div>
+      <div class="snap-sub">After all taxes · paystub 06/26/26</div>
     </div>
     <div class="snap-card blue-top">
       <div class="snap-label">Monthly Tax-Adjusted Spend (LA)</div>
@@ -451,14 +451,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
     <div class="snap-card" style="border-top:3px solid var(--amber)">
       <div class="snap-label">Annual Ins. + VehicleTax (LA)</div>
       <div class="snap-val" style="color:var(--amber)">$2,916</div>
-      <div class="snap-sub">Progressive $1,458 ×2 · no veh. tax</div>
+      <div class="snap-sub">Verified policy $1,458 ×2 · no LA veh. tax</div>
     </div>
   </div>
 </div>
 
 <div class="method-banner">
   <strong>Screening model — not a final relocation approval.</strong>
-  Values use mixed-confidence inputs: actual pay stub/current bills, HUD FY2026 4BR FMR gross-rent proxies updated for counties in scope, modeled county/city tax assumptions, modeled state utility and insurance assumptions, and environmental/legal summaries that still need source validation. Treat rankings as directionally useful only until active 4BR listings, exact-address broadband, insurer quotes, employer payroll state, local tax rules, and current homeschool guidance are confirmed.
+  Actual Louisiana baseline values are now tied to uploaded source documents: KLC paystub dated 06/26/2026, SLEMCO electric bill dated 06/16/2026, Bayou Des Cannes water bill for 05/20/2026-06/20/2026, Spectrum internet statement dated 05/04/2026, Progressive auto policy page captured 06/30/2026, and Walmart_Orders(2).xlsx. Destination values still mix HUD FY2026 county FMR rent proxies, modeled county/city tax assumptions, modeled destination utilities and insurance, and environmental/legal summaries. Treat rankings as screening only until active 4BR listings, exact-address broadband, insurer quotes, employer payroll state, local tax rules, and current homeschool guidance are confirmed.
 </div>
 
 <div class="main-grid">
@@ -496,14 +496,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div class="cmp-col la-col">
             <div class="cmp-col-title">Louisiana (current)</div>
             <div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
-            <div class="cm"><div class="cm-lbl">Income tax / period</div><div class="cm-val">$207.60</div></div>
-            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val">$5,428.79</div></div>
-            <div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val">$141,148.54</div></div>
+            <div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val">$184.98</div></div>
+            <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val">$4,928.68</div></div>
+            <div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val">$128,145.68</div></div>
           </div>
           <div class="cmp-col new-col">
             <div class="cmp-col-title" id="d-col2"></div>
             <div class="cm"><div class="cm-lbl">Gross / period</div><div class="cm-val">$6,718.39</div></div>
-            <div class="cm"><div class="cm-lbl">Income tax / period</div><div class="cm-val" id="d-stax"></div></div>
+            <div class="cm"><div class="cm-lbl">State/local tax / period</div><div class="cm-val" id="d-stax"></div></div>
             <div class="cm"><div class="cm-lbl">Bi-weekly net</div><div class="cm-val" id="d-bw"></div><div class="delta" id="d-bwd"></div></div>
             <div class="cm"><div class="cm-lbl">Annual net (×26)</div><div class="cm-val" id="d-an"></div><div class="delta" id="d-and"></div></div>
           </div>
@@ -521,7 +521,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
           <div id="exp-rows"></div>
           <div class="stub-note" style="margin:8px 0 0;">
             <strong>Basis</strong>
-            Recurring Chase baseline Jan–May 2026 with major one-off travel/bus items removed. Grocery/household/convenience uses a Walmart-informed basket split rounded for modeling: 56.7% food-for-home and 43.3% taxable household/pet/health/general merchandise. Food-for-home uses modeled state/county grocery-tax treatment; household/convenience and most retail use destination general sales tax. Utilities model your current usage separately: SLEMCO electricity $181.00 at 1,409 kWh, Bayou Des Cannes water $32.03, and Spectrum internet $99.99. Electricity is adjusted by state average residential kWh rate; water and internet use state-level estimates. Housing uses a HUD FY2026 4BR FMR gross-rent proxy where updated in this pass, while Louisiana remains your actual mortgage baseline. Do not treat combined housing + utilities as a HUD-compliant gross-rent number; final lease terms must confirm whether utilities are included.
+            Recurring Chase baseline Jan–May 2026 remains the governing monthly spend baseline. Walmart_Orders(2).xlsx is used only to calibrate the grocery/household tax split: 56.65% food-for-home and 43.35% taxable household/pet/health/general merchandise, inferred from 49 unique Walmart orders and actual order tax behavior. The Walmart full-month average is $848.04/mo, about 45.9% of the broader Chase grocery/household/convenience bucket, so it should not replace the Chase total. Food-for-home uses each state/county grocery tax treatment; household/convenience uses the destination county general sales tax. Restaurant uses destination restaurant/meals tax where applicable; Amazon and Goodwill use 100% general sales tax; Retail/Home/Misc 65%; Subscriptions 50%; Medical 0%. Utilities model your actual current services separately: SLEMCO electricity $181.00 for 1,409 kWh over 05/13/2026-06/11/2026, Bayou Des Cannes water $32.03 for service 05/20/2026-06/20/2026, and Spectrum Internet Gig $99.99 for service 05/04/2026-06/03/2026. Electricity is adjusted by modeled destination residential kWh rate; water and internet use state-level monthly estimates until the exact address/provider is known. Phone/storage/other fixed bills are held constant. Housing uses the selected county/FMR-area 4BR rent benchmark, while Louisiana remains your actual mortgage baseline. Do not treat combined housing + utilities as a HUD-compliant gross-rent number; final lease terms must confirm whether utilities are included.
           </div>
           <div class="path-box" style="margin-top:8px;"><strong>Utility detail</strong><span id="u-detail"></span></div>
         </div>
@@ -649,10 +649,31 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <div class="vrow hd"><div class="vcell">Input Area</div><div class="vcell">Current Model Status</div><div class="vcell">Main Risk</div><div class="vcell">Validation Required</div></div>
       <div class="vrow"><div class="vcell strong">Housing</div><div class="vcell">HUD FY2026 4BR FMR gross-rent proxy updated for shortlist counties in this pass.</div><div class="vcell">FMR is not an active standalone 4BR listing; lease may include/exclude utilities differently.</div><div class="vcell">Verify current active listings, lease terms, pet rules, neighborhood quality, deposit/move-in costs, and whether utilities are included.</div></div>
       <div class="vrow"><div class="vcell strong">Broadband</div><div class="vcell">County/provider shorthand only.</div><div class="vcell">Remote work fails at the address level, not the county level.</div><div class="vcell">Run provider qualification and FCC map check for the exact rental address; confirm wired plan, upload speed, data cap, installation timing, and backup option.</div></div>
-      <div class="vrow"><div class="vcell strong">Taxes / payroll</div><div class="vcell">Modeled state and county/city tax assumptions; Grant County IN and Bryan OH local income-tax adders are now included as county-level overrides.</div><div class="vcell">Local wage tax, grocery/meals tax, residency sourcing, and payroll setup can still change the math, especially if the rental is outside the named city.</div><div class="vcell">Confirm with employer payroll, state revenue department, county/city tax authority, and DMV before ranking as final.</div></div>
+      <div class="vrow"><div class="vcell strong">Taxes / payroll</div><div class="vcell">Modeled state and county/city tax assumptions; current paystub taxable wages are now used for Grant County IN and Bryan OH local income-tax adders.</div><div class="vcell">Local wage tax, grocery/meals tax, residency sourcing, and payroll setup can still change the math, especially if the rental is outside the named city.</div><div class="vcell">Confirm with employer payroll, state revenue department, county/city tax authority, and DMV before ranking as final.</div></div>
       <div class="vrow"><div class="vcell strong">Insurance / vehicle tax</div><div class="vcell">Modeled state premium and estimated vehicle-tax burden.</div><div class="vcell">Carrier quotes and local vehicle tax can differ materially from index estimates.</div><div class="vcell">Quote both vehicles and renters/home coverage by ZIP; verify catastrophe exclusions, deductibles, registration, and ad valorem/personal-property tax.</div></div>
       <div class="vrow"><div class="vcell strong">Legal / homeschool</div><div class="vcell">Working summary only.</div><div class="vcell">Law and administrative guidance can change; summaries are not legal advice.</div><div class="vcell">Check current state statute, department of education guidance, local district rules, umbrella/church-school options, testing, reporting, and recordkeeping.</div></div>
       <div class="vrow"><div class="vcell strong">Environment / health</div><div class="vcell">Illustrative state/county proxies.</div><div class="vcell">Pathogen, pollen, AQI, humidity, and temperature labels are not normalized health-risk forecasts.</div><div class="vcell">Validate with EPA/NOAA/CDC/state health data, medical needs, flood/hurricane/wildfire exposure, and personal tolerance.</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="shortlist-wrap">
+  <div class="shortlist-hdr">
+    <div>
+      <div class="shortlist-title">// Uploaded source documents — actual Louisiana baseline</div>
+      <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">These rows show which dashboard baseline inputs were updated from the newly uploaded PDFs/workbook. Destination values remain modeled unless an exact address or quote is provided.</div>
+    </div>
+    <div class="shortlist-note">Actual bill/paystub values are stronger evidence than state averages; destination utilities, insurance, and broadband still need address-level validation.</div>
+  </div>
+  <div class="shortlist-scroll">
+    <div class="source-table">
+      <div class="srcrow hd"><div class="srccell">Source document</div><div class="srccell">Status</div><div class="srccell">Updated value(s)</div><div class="srccell">Model impact</div><div class="srccell">Source detail</div><div class="srccell">Remaining validation need</div></div>
+      <div class="srcrow"><div class="srccell strong">KLC paystub 06/26/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">Gross $6,718.39 / period; net $4,928.68; LA state tax $184.98; taxable wages $5,986.35</div><div class="srccell">Updated LA net baseline, LA state-tax baseline, and taxable wage base used for IN/OH local-tax adders.</div><div class="srccell">Pay period 06/07/2026-06/20/2026; pre-tax deductions $737.67; employee taxes $1,049.94.</div><div class="srccell">Confirm employer will support payroll/tax setup for any destination state before move.</div></div>
+      <div class="srcrow"><div class="srccell strong">SLEMCO electric bill 06/16/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$181.00 current charges; 1,409 kWh; effective all-in rate about 12.85 cents/kWh</div><div class="srccell">Confirms Louisiana electricity baseline and usage used for destination electric modeling.</div><div class="srccell">Service 05/13/2026-06/11/2026; monthly service charge $17.50; base power cost $125.20; PCA $11.51.</div><div class="srccell">Destination electricity still requires exact utility tariff, heating/cooling load, fuel type, and deposit check.</div></div>
+      <div class="srcrow"><div class="srccell strong">Bayou Des Cannes water bill</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$32.03 net amount; $35.23 after 07/15/2026; consumption 4,673</div><div class="srccell">Confirms Louisiana water baseline at $32.03/month.</div><div class="srccell">Service 05/20/2026-06/20/2026; water $31.03 plus SDWP $1.00.</div><div class="srccell">Destination water/sewer/trash requires city/utility rate sheet and lease terms.</div></div>
+      <div class="srcrow"><div class="srccell strong">Spectrum internet bill 05/04/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$99.99 Spectrum Internet Gig; promo discount $20.01 expires 05/03/2027</div><div class="srccell">Confirms Louisiana internet baseline at $99.99/month.</div><div class="srccell">Service 05/04/2026-06/03/2026; Spectrum Internet $90.00, discount -$20.01, Internet Gig $30.00.</div><div class="srccell">Destination broadband requires exact-address serviceability, upload speed, data cap, install timing, and backup option.</div></div>
+      <div class="srcrow"><div class="srccell strong">Progressive auto policy 06/30/2026</div><div class="srccell"><span class="src-status ok">Actual</span></div><div class="srccell">$1,458 policy premium; annualized model $2,916; Sienna $615; Pacifica $843</div><div class="srccell">Confirms Louisiana auto-insurance baseline. Destination premiums remain quote-required.</div><div class="srccell">BI/PD $100k/$300k/$50k; UM $100k/$300k. Pacifica has $1,000 comp/collision deductibles and $5 loan/lease payoff; Sienna has no comp/collision.</div><div class="srccell">Quote both vehicles by destination ZIP/address and coverage level; validate renters coverage and catastrophe exclusions.</div></div>
+      <div class="srcrow"><div class="srccell strong">Walmart_Orders(2).xlsx</div><div class="srccell"><span class="src-status ok">Actual sample</span></div><div class="srccell">49 unique orders; $9,416.24 order total; 56.65% food-home / 43.35% taxable split</div><div class="srccell">Used only to calibrate grocery vs taxable basket split; does not replace the Chase grocery/household baseline.</div><div class="srccell">A1:T3280, 3,279 rows, 20 columns, 0 blank cells in populated range.</div><div class="srccell">Keep as low-materiality tax-split support; rent, payroll/tax, insurance, and broadband dominate decisions.</div></div>
     </div>
   </div>
 </div>
@@ -675,8 +696,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
       <div class="srcrow"><div class="srccell strong">Young County / Graham, TX</div><div class="srccell">$17,616/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Local tax validated</span> 8.25% general/restaurant; food-for-home modeled exempt.</div><div class="srccell">No TX wage income tax modeled.</div><div class="srccell">Rural inventory, address-level broadband, summer utility load, insurer quote.</div></div>
       <div class="srcrow"><div class="srccell strong">Wichita County / Wichita Falls, TX</div><div class="srccell">$21,108/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Local tax validated</span> 8.25% general/restaurant; food-for-home modeled exempt.</div><div class="srccell">No TX wage income tax modeled.</div><div class="srccell">Active 4BR rent, provider serviceability, summer electric, insurer quote.</div></div>
       <div class="srcrow"><div class="srccell strong">Coos County / Berlin-Gorham, NH</div><div class="srccell">$20,496/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status ok">Meals tax validated</span> 0% general/grocery + 8.5% meals model.</div><div class="srccell">No NH wage income tax modeled.</div><div class="srccell">Cold-climate utilities/heating fuel, rural broadband, active inventory, homeschool evaluation check.</div></div>
-      <div class="srcrow"><div class="srccell strong">Williams County / Bryan, OH</div><div class="srccell">$15,456/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Address check</span> 7.25% sales model; verify exact municipality/school district.</div><div class="srccell"><span class="src-status warn">Local tax modeled</span> Bryan 1.8% municipal income-tax adder included if rental is inside Bryan.</div><div class="srccell">Exact city/township/school-district tax, active 4BR, broadband, winter utilities.</div></div>
-      <div class="srcrow"><div class="srccell strong">Grant County / Marion, IN</div><div class="srccell">$16,944/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Modeled</span> 7% sales + 8% restaurant/F&B model; verify Marion/Grant applicability by address.</div><div class="srccell"><span class="src-status warn">County tax modeled</span> Indiana 2.95% state + Grant County 2.75% local income-tax estimate included.</div><div class="srccell">Residence/principal-workplace tax rule, active 4BR, broadband, winter utilities.</div></div>
+      <div class="srcrow"><div class="srccell strong">Williams County / Bryan, OH</div><div class="srccell">$15,456/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Address check</span> 7.25% sales model; verify exact municipality/school district.</div><div class="srccell"><span class="src-status warn">Local tax modeled</span> Bryan 1.8% municipal income-tax adder modeled from paystub taxable wage base if rental is inside Bryan.</div><div class="srccell">Exact city/township/school-district tax, active 4BR, broadband, winter utilities.</div></div>
+      <div class="srcrow"><div class="srccell strong">Grant County / Marion, IN</div><div class="srccell">$16,944/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Modeled</span> 7% sales + 8% restaurant/F&B model; verify Marion/Grant applicability by address.</div><div class="srccell"><span class="src-status warn">County tax modeled</span> Indiana 2.95% state + Grant County 2.75% local income-tax estimate modeled from paystub taxable wage base.</div><div class="srccell">Residence/principal-workplace tax rule, active 4BR, broadband, winter utilities.</div></div>
       <div class="srcrow"><div class="srccell strong">Davison County / Mitchell, SD</div><div class="srccell">$18,840/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Formula validated</span> 6.20% / 7.20% restaurant high-side model; confirm Mitchell MGRT.</div><div class="srccell">No SD wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source.</div></div>
       <div class="srcrow"><div class="srccell strong">Brown County / Aberdeen, SD</div><div class="srccell">$17,724/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Formula validated</span> 6.20% / 7.20% restaurant high-side model; confirm Aberdeen MGRT.</div><div class="srccell">No SD wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source.</div></div>
       <div class="srcrow"><div class="srccell strong">Sweetwater County / Rock Springs-Green River, WY</div><div class="srccell">$20,052/yr</div><div class="srccell"><span class="src-status ok">HUD verified</span></div><div class="srccell"><span class="src-status warn">Provisional</span> 6% general model; verify WY city/county rate by address.</div><div class="srccell">No WY wage income tax modeled.</div><div class="srccell">Inventory, exact broadband, winter utility/heating source, vehicle registration/tax.</div></div>
@@ -704,7 +725,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 <div class="shortlist-wrap">
   <div class="shortlist-hdr">
     <div>
-      <div class="shortlist-title">// Walmart order-history support — grocery tax calibration</div>
+      <div class="shortlist-title">// Walmart order-history source — grocery tax calibration</div>
       <div style="font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:4px;">Supporting basket sample: 49 unique Walmart orders · Aug 07, 2025 – Jul 03, 2026 · useful for tax split calibration, not a full grocery forecast.</div>
     </div>
     <div class="shortlist-note">The basket split is rounded to 56.7/43.3 for readability. This refinement is lower materiality than rent, insurance, taxes, and debt pressure.</div>
@@ -772,18 +793,20 @@ body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:1
 
 <script>
 // ══════════════════════════════════════════════════
-// CONSTANTS — from actual pay stub 05/10-05/23/2026
+// CONSTANTS — updated from actual KLC paystub 06/07/2026-06/20/2026, check date 06/26/2026
 // ══════════════════════════════════════════════════
 const GROSS_BW  = 6718.39;
-const LA_BW_NET = 5428.79;
-const LA_ANNUAL = LA_BW_NET * 26;   // 141,148.54
-const LA_STATE_TAX_PP = 207.60;
-const BASE_NET  = LA_BW_NET + LA_STATE_TAX_PP; // 5636.39
+const PAYSTUB_TAXABLE_WAGES_BW = 5986.35; // OASDI/Medicare/Federal/LA taxable wages from 06/26/2026 paystub
+const PAYSTUB_TAXABLE_WAGES_ANNUAL = PAYSTUB_TAXABLE_WAGES_BW * 26; // 155,645.10 modeled annual taxable wage base
+const LA_BW_NET = 4928.68;
+const LA_ANNUAL = LA_BW_NET * 26;   // 128,145.68
+const LA_STATE_TAX_PP = 184.98;
+const BASE_NET  = LA_BW_NET + LA_STATE_TAX_PP; // 5113.66
 
 // Monthly recurring tax-adjustable spend — Chase Jan-May 2026, normalized
 // Excludes April bus purchase and New Orleans/Alabama vacation food, gas, hotel.
 // Utilities are now split from the old Utilities/Phone/Internet bucket:
-//   SLEMCO electricity $181.00 (1,409 kWh), Bayou Des Cannes water $32.03, Spectrum internet $99.99.
+//   SLEMCO electricity $181.00 (1,409 kWh), Bayou Des Cannes water $32.03, Spectrum Internet Gig $99.99.
 //   Remaining $122.44 is retained as other phone/storage/fixed-bill spend and is not state-adjusted.
 const LA_ELECTRIC_M = 181.00;
 const LA_ELECTRIC_KWH = 1409;
@@ -828,8 +851,8 @@ const WALMART_AUDIT = {
   "rows": 3279,
   "columns": 20,
   "uniqueOrders": 49,
-  "dateRange": "Aug 07, 2025 \u2013 Jul 03, 2026",
-  "fullMonthRange": "Aug 2025 \u2013 Jun 2026",
+  "dateRange": "Aug 07, 2025 – Jul 03, 2026",
+  "fullMonthRange": "Aug 2025 – Jun 2026 (Jul 2026 partial month excluded)",
   "fullMonthOrders": 48,
   "orderSubtotal": 8735.12,
   "tax": 674.13,
@@ -1007,10 +1030,21 @@ const WALMART_AUDIT = {
       "effTax": 9.25
     }
   ],
-  "duplicateNote": "Workbook has repeated status/revision rows; order-level totals are deduped by Order Number, and product-title category rows are deduped by Order Number + Product Name.",
+  "duplicateNote": "Workbook repeats order/item rows across fulfillment and status updates; order-level totals are deduped by Order Number, and advisory product rows are deduped by Order Number + Product Name.",
   "columnsAudited": "A:T",
-  "blankCells": 6638,
-  "auditMethod": "All 3,279 item rows and all 20 columns were scanned. Order totals drive spend; product-title categories are advisory because the export repeats item rows during fulfillment/status updates."
+  "blankCells": 0,
+  "auditMethod": "Imported from Walmart_Orders(2).xlsx / Walmart Orders / A1:T3280. Order totals drive spend. Product-title categories are advisory. The 56.65% food-home / 43.35% taxable split is inferred from actual order tax behavior under St. Landry grocery vs general sales tax rates, not from manual product labels.",
+  "sourceWorkbook": "Walmart_Orders(2).xlsx",
+  "sourceSheet": "Walmart Orders",
+  "sourceRange": "A1:T3280",
+  "subtotalBeforeSavings": 8703.14,
+  "savings": -290.43,
+  "sepToJunAvgTotal": 849.55,
+  "fullMonthAvgSubtotal": 786.8,
+  "fullMonthAvgTax": 60.61,
+  "chaseGroceryBucketMonthly": 1847.22,
+  "walmartShareOfChaseBucketPct": 45.90898755968428,
+  "modelUse": "Use this workbook to calibrate grocery-vs-taxable basket mix only. Do not replace the Chase grocery/household/convenience total with Walmart average because Walmart is only part of the broader category."
 };
 
 const FINANCE_RISK_SNAPSHOT = {
@@ -1129,11 +1163,11 @@ const SD = {
   HI:{name:'Hawaii',        stateTax:19215,salesTaxRate:4.50, vtax:0,    ins:1355, rent4br:25200, county:"Hawaii County / Hilo area", countyBasis:"lower-cost island county screen; inventory risk high", incomeTax:'Yes',incomeRate:'1.4% – 11.0%',   salesTax:'4.50%', propTax:'0.32%',vehicleTax:'None', home:'MEDIUM',homeDetails:'Notification + standardized testing in grades 3, 5, 8, 10.',baro:'Low',    tempVol:'Stable',         pollen:'Healthy',  aqi:'Healthy',  humidity:'72%',low:'58°F', high:'91°F', pathogen:'Leptospirosis (Tropical bacterial runoff; ~50–100 cases)',excise:null},
   ID:{name:'Idaho',         stateTax:9258, salesTaxRate:6.02, vtax:0,    ins:1300, rent4br:19068, county:"Bannock County / Pocatello area", countyBasis:"lower-cost Idaho metro county screen", incomeTax:'Yes',incomeRate:'5.3% (Flat)',     salesTax:'6.02%', propTax:'0.49%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice — no notification, testing, or recordkeeping mandate.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Healthy',  aqi:'Healthy',  humidity:'63%',low:'-10°F',high:'100°F',pathogen:'West Nile Virus (Volatile seasonal spikes; ~10–50 cases)',excise:null},
   IL:{name:'Illinois',      stateTax:8647, salesTaxRate:8.86, vtax:0,    ins:1753, rent4br:15000, county:"Vermilion County / Danville area", countyBasis:"low-rent Illinois county screen", incomeTax:'Yes',incomeRate:'4.95% (Flat)',    salesTax:'8.86%', propTax:'2.08%',vehicleTax:'None',                                 home:'LOW',   homeDetails:'No notice. HB2827 (2025 "Homeschool Act") failed; Illinois remains no-notice.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'69%',low:'-10°F',high:'97°F', pathogen:'Histoplasmosis & Lyme Disease (~500+ combined cases)',excise:null},
-  IN:{name:'Indiana',       stateTax:5153, salesTaxRate:7.00, vtax:440,  ins:1498, rent4br:16944, county:"Grant County / Marion area", countyType:"Primary IN candidate; Grant County income tax modeled", countyBasis:"HUD FY2026 4BR FMR gross-rent proxy; Indiana 2.95% state + Grant County 2.75% local income-tax override included, but residence/principal-workplace rule must be verified", incomeTax:'Yes',incomeRate:'2.95% state + 2.75% Grant County local (modeled)',     salesTax:'7.00%', propTax:'0.75%',vehicleTax:'$440/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',      home:'LOW',   homeDetails:'No notice — no notification required.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus expanding tick-borne disease risk',excise:null},
+  IN:{name:'Indiana',       stateTax:4591.53, salesTaxRate:7.00, vtax:440,  ins:1498, rent4br:16944, county:"Grant County / Marion area", countyType:"Primary IN candidate; Grant County income tax modeled", countyBasis:"HUD FY2026 4BR FMR gross-rent proxy; Indiana 2.95% state + Grant County 2.75% local income-tax override modeled from current taxable wage base, but residence/principal-workplace rule must be verified", incomeTax:'Yes',incomeRate:'2.95% state + 2.75% Grant County local (modeled)',     salesTax:'7.00%', propTax:'0.75%',vehicleTax:'$440/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',      home:'LOW',   homeDetails:'No notice — no notification required.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'71%',low:'-5°F', high:'95°F', pathogen:'Histoplasmosis/mold exposure corridor plus expanding tick-borne disease risk',excise:null},
   IA:{name:'Iowa',          stateTax:6638, salesTaxRate:6.94, vtax:367,  ins:1503, rent4br:14304, county:"Mahaska County / Oskaloosa area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'3.8% (Flat)',     salesTax:'6.94%', propTax:'1.43%',vehicleTax:'$367/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'No notice for independent private instruction; 2024–2026 legislation further loosened rules.',baro:'High',    tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'70%',low:'-12°F',high:'96°F', pathogen:'Lyme Disease (Expanding woodland tick corridor; ~300+)',excise:null},
   KS:{name:'Kansas',        stateTax:9747, salesTaxRate:8.75, vtax:708,  ins:2063, rent4br:15084, county:"Sumner County / Wellington area", countyBasis:"HUD/RentData county FMR screen", incomeTax:'Yes',incomeRate:'5.2% – 5.58%',   salesTax:'8.75%', propTax:'1.34%',vehicleTax:'$708/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'Register as a non-accredited private school (notification only); no testing.',baro:'Moderate',tempVol:'Highly Volatile',pollen:'Unhealthy',aqi:'Healthy',  humidity:'66%',low:'0°F',   high:'102°F',pathogen:'Ehrlichiosis & Bourbon/Heartland Viruses (Tick focus)',excise:null},
   KY:{name:'Kentucky',      stateTax:6988, salesTaxRate:6.00, vtax:528,  ins:2550, rent4br:15360, county:"Garrard County / Lancaster area", countyBasis:"HUD/HiSec8 city/ZIP FMR screen", incomeTax:'Yes',incomeRate:'4.0% (Flat)',     salesTax:'6.00%', propTax:'0.80%',vehicleTax:'$528/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',          home:'LOW',   homeDetails:'Notification only; no testing submitted.',baro:'Moderate',tempVol:'Moderate',       pollen:'Unhealthy',aqi:'Healthy',  humidity:'72%',low:'5°F',   high:'96°F', pathogen:'Histoplasmosis & Spotted Fever (~200–400 cases)',excise:null},
-  LA:{name:'Louisiana',     stateTax:5397.6, salesTaxRate:10.11,vtax:0,    ins:2916, rent4br:14181.7, county:"St. Landry Parish / Eunice current home", countyBasis:"actual current mortgage baseline, not rent", incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'10.11%',propTax:'0.56%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notification + BESE approval/renewal with evidence of a satisfactory program (home-study option).',baro:'Low to Mod',tempVol:'Stable',      pollen:'Unhealthy',aqi:'Healthy',  humidity:'74%',low:'22°F', high:'98°F', pathogen:'West Nile Virus (High-severity neuroinvasive spikes)',excise:null},
+  LA:{name:'Louisiana',     stateTax:4809.48, salesTaxRate:10.11,vtax:0,    ins:2916, rent4br:14181.7, county:"St. Landry Parish / Eunice current home", countyBasis:"actual current mortgage baseline, not rent", incomeTax:'Yes',incomeRate:'3.0% (Flat)',     salesTax:'10.11%',propTax:'0.56%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notification + BESE approval/renewal with evidence of a satisfactory program (home-study option).',baro:'Low to Mod',tempVol:'Stable',      pollen:'Unhealthy',aqi:'Healthy',  humidity:'74%',low:'22°F', high:'98°F', pathogen:'West Nile Virus (High-severity neuroinvasive spikes)',excise:null},
   ME:{name:'Maine',         stateTax:12490,salesTaxRate:5.50, vtax:880, ins:1339, rent4br:19800, county:"Aroostook County / Presque Isle area", countyBasis:"lower-cost Maine county screen", incomeTax:'Yes',incomeRate:'5.8% – 7.15%',   salesTax:'5.50%', propTax:'1.20%',vehicleTax:'$880/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'MEDIUM',homeDetails:'Notification + annual assessment (standardized test or approved evaluation).',baro:'High',    tempVol:'Moderate',       pollen:'Healthy',  aqi:'Healthy',  humidity:'73%',low:'-15°F',high:'90°F', pathogen:'Lyme Disease & Anaplasmosis (Hyper-Endemic; 2,000+)',excise:null},
   MD:{name:'Maryland',      stateTax:10044, salesTaxRate:6.00, vtax:0,    ins:1990, rent4br:18912, county:"Allegany County / Cumberland area", countyBasis:"lower-cost western Maryland county screen", incomeTax:'Yes',incomeRate:'2.0% – 5.75%',   salesTax:'6.00%', propTax:'0.99%',vehicleTax:'None',                                 home:'MEDIUM',homeDetails:'Notification + periodic portfolio review by local school system (2–3×/yr) or umbrella school.',baro:'Moderate',tempVol:'Stable',         pollen:'Unhealthy',aqi:'Healthy',  humidity:'67%',low:'12°F', high:'97°F', pathogen:'Lyme Disease (Highly Endemic; 1,500–2,000+ cases)',excise:null},
   MA:{name:'Massachusetts', stateTax:8734, salesTaxRate:6.25, vtax:825, ins:1425, rent4br:22560, county:"Berkshire County / North Adams-Pittsfield area", countyBasis:"lower-cost western Massachusetts county screen", incomeTax:'Yes',incomeRate:'5.0% (Flat)',     salesTax:'6.25%', propTax:'1.12%',vehicleTax:'$825/yr — estimated vehicle property/excise/registration tax for 2025 Pacifica + 2008 Sienna',home:'HIGH',homeDetails:'Local district must pre-approve the education plan; progress via testing/evaluation.',baro:'High',    tempVol:'Moderate',       pollen:'Moderate', aqi:'Healthy',  humidity:'68%',low:'5°F',   high:'94°F', pathogen:'Lyme & Babesiosis (Tick blood parasite; 1,000+ cases)',excise:null},
@@ -1326,8 +1360,8 @@ function countyTax(row){
 // County-level income-tax adders validated during the county pass.
 // These are intentionally separate from sales/meals/grocery taxes because they affect take-home pay.
 const COUNTY_INCOME_TAX_OVERRIDES = {
-  'Grant County / Marion': {localAnnual:GROSS_BW*26*0.0275, localRate:'2.75%', label:'Grant County local income tax', confidence:'MODELED_FROM_OFFICIAL_RATE', note:'Indiana state AGI tax is modeled in SD.IN.stateTax; Grant County 2.75% local income-tax adder is included for the Marion/Grant candidate. Confirm residence/principal-workplace rule before decision.'},
-  'Williams County / Bryan': {localAnnual:GROSS_BW*26*0.0180, localRate:'1.8%', label:'Bryan municipal income tax', confidence:'MODELED_FROM_OFFICIAL_RATE', note:'Bryan municipal income-tax adder is included when the rental is inside Bryan city limits. If outside Bryan, validate township/municipality and school-district tax by exact address.'}
+  'Grant County / Marion': {localAnnual:PAYSTUB_TAXABLE_WAGES_ANNUAL*0.0275, localRate:'2.75%', label:'Grant County local income tax', confidence:'MODELED_FROM_OFFICIAL_RATE', note:'Indiana state AGI tax is modeled in SD.IN.stateTax using the current paystub taxable wage base; Grant County 2.75% local income-tax adder is included for the Marion/Grant candidate using the same taxable wage base. Confirm residence/principal-workplace rule before decision.'},
+  'Williams County / Bryan': {localAnnual:PAYSTUB_TAXABLE_WAGES_ANNUAL*0.0180, localRate:'1.8%', label:'Bryan municipal income tax', confidence:'MODELED_FROM_OFFICIAL_RATE', note:'Bryan municipal income-tax adder is modeled using the current paystub taxable wage base when the rental is inside Bryan city limits. If outside Bryan, validate township/municipality and school-district tax by exact address.'}
 };
 
 function countyIncomeTax(row){
@@ -1575,10 +1609,10 @@ function renderWalmartAuditTable(){
   const a=WALMART_AUDIT;
   el.innerHTML='<div class="wrow hd"><div class="wcell">Audit Item</div><div class="wcell">Count / Amount</div><div class="wcell">Period</div><div class="wcell">Food-Home</div><div class="wcell">Taxable Basket</div><div class="wcell">Model Impact</div></div>';
   const rows=[
-    ['Workbook rows/columns reviewed', `${a.rows.toLocaleString()} rows × ${a.columns} columns`, a.dateRange, '—', '—', `Range ${a.columnsAudited}; blank cells found: ${a.blankCells}`],
+    ['Workbook source reviewed', `${a.sourceWorkbook || 'Walmart_Orders workbook'} · ${a.sourceSheet || 'Walmart Orders'} · ${a.sourceRange || 'A1:T3280'}`, a.dateRange, '—', '—', `${a.rows.toLocaleString()} item/status rows × ${a.columns} columns; blank cells in populated range: ${a.blankCells}`],
     ['Unique Walmart orders used for totals', `${a.uniqueOrders} orders`, a.dateRange, '—', '—', a.duplicateNote],
     ['Order-level subtotal / tax / total', `${fmtD(a.orderSubtotal)} subtotal · ${fmtD(a.tax)} tax · ${fmtD(a.orderTotal)} total`, a.dateRange, `${a.foodHomeShare.toFixed(2)}%`, `${a.taxableHouseholdShare.toFixed(2)}%`, `Effective tax rate ${a.effectiveTaxRate.toFixed(2)}%; split inferred from St. Landry food vs general tax rates`],
-    ['Full-month run-rate', `${fmtD(a.fullMonthAvgTotal)}/mo order total`, a.fullMonthRange, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_FOOD_HOME_SHARE)}/mo modeled food-home`, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_HOUSEHOLD_TAXABLE_SHARE)}/mo modeled taxable`, 'The Chase grocery/household bucket remains $1,847.22/mo; only its tax split changed']
+    ['Full-month Walmart run-rate', `${fmtD(a.fullMonthAvgTotal)}/mo order total`, a.fullMonthRange, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_FOOD_HOME_SHARE)}/mo modeled food-home`, `${fmtD(LA_CATS.GroceriesHousehold*GROCERY_HOUSEHOLD_TAXABLE_SHARE)}/mo modeled taxable`, `Walmart average is about ${a.walmartShareOfChaseBucketPct.toFixed(1)}% of the broader Chase grocery/household/convenience bucket; keep Chase total as governing baseline`]
   ];
   rows.forEach(r=>{
     el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">${r[0]}</div><div class="wcell">${r[1]}</div><div class="wcell">${r[2]}</div><div class="wcell">${r[3]}</div><div class="wcell">${r[4]}</div><div class="wcell">${r[5]}</div></div>`);
@@ -1592,6 +1626,7 @@ function renderWalmartAuditTable(){
     const hi=range.reduce((p,c)=>c.total>p.total?c:p,range[0]);
     const lo=range.reduce((p,c)=>c.total<p.total?c:p,range[0]);
     el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">Monthly volatility check</div><div class="wcell">High ${hi.month}: ${fmtD(hi.total)}</div><div class="wcell">Low ${lo.month}: ${fmtD(lo.total)}</div><div class="wcell">${fmtD(a.fullMonthAvgTotal)}/mo avg</div><div class="wcell">${a.effectiveTaxRate.toFixed(2)}% avg tax</div><div class="wcell">County grocery tax changes are real but small compared with rent/debt pressure</div></div>`);
+    el.insertAdjacentHTML('beforeend',`<div class="wrow"><div class="wcell strong">How this source is used</div><div class="wcell">Tax split only</div><div class="wcell">Not a full grocery forecast</div><div class="wcell" style="grid-column:span 2">${a.modelUse || 'Use to calibrate basket mix, not replace the Chase category total.'}</div><div class="wcell">Decision impact remains lower than rent, local tax, insurance, and utilities</div></div>`);
   }
 }
 
@@ -1861,7 +1896,7 @@ function render(code, candidate=null){
   setEl('d-name',s.name.toUpperCase());
   const stRateDelta=(generalSalesTaxRate-10.55).toFixed(2);
   const stRateStr=stRateDelta>=0?`+${stRateDelta}%`:`${stRateDelta}%`;
-  setEl('d-sub',`County candidate: ${selectedCountyName}  ·  ${selectedCountyType}  ·  Income tax est. ~$${m.incomeTax.totalAnnual.toLocaleString(undefined,{maximumFractionDigits:0})} ($${stateTaxPP.toFixed(2)}/period; includes county/city override where applicable)  ·  Sales tax: ${generalSalesTaxRate.toFixed(2)}% (${stRateStr} vs St. Landry 10.55%)  ·  Grocery food tax: ${groceryTaxRate.toFixed(2)}%`);
+  setEl('d-sub',`County candidate: ${selectedCountyName}  ·  ${selectedCountyType}  ·  Modeled state/local income tax ~$${m.incomeTax.totalAnnual.toLocaleString(undefined,{maximumFractionDigits:0})} ($${stateTaxPP.toFixed(2)}/period; includes county/city override where applicable)  ·  Sales tax: ${generalSalesTaxRate.toFixed(2)}% (${stRateStr} vs St. Landry 10.55%)  ·  Grocery food tax: ${groceryTaxRate.toFixed(2)}%`);
   setEl('d-col2',s.name);
 
   // Pay
