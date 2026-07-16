@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#13213b">
+<title>U.S. County Relocation Explorer — Validated 2026</title>
+<meta name="description" content="Static validated U.S. county relocation model using revised FY2026 HUD rents, recalculated airport access, 2026 tax assumptions, corrected homeschool rules, and explicit proxy-quality flags.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef2f7;--panel:#fff;--panel2:#f7f9fc;--ink:#17233b;--ink2:#34425d;--muted:#6b7891;
+  --line:#d9e1ed;--line2:#e7ecf4;--gold:#bd8617;--blue:#2357c6;--green:#147a40;
+  --amber:#a85b08;--red:#bc431d;--purple:#6b4ab6;--shadow:0 14px 38px rgba(24,38,66,.10);
+  --mono:'DM Mono',monospace;--sans:'Barlow',sans-serif;--display:'Bebas Neue',sans-serif;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;background-image:radial-gradient(circle at 1px 1px,rgba(23,35,59,.045) 1px,transparent 0);background-size:25px 25px}
+button,select,input{font:inherit}button{cursor:pointer}.app{max-width:1900px;margin:0 auto;padding:18px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(580px,auto);gap:18px;align-items:start;padding-bottom:15px;border-bottom:1px solid var(--line)}
+h1{font-family:var(--display);font-size:clamp(2rem,4vw,3.1rem);letter-spacing:.8px;line-height:.95;margin:0}h1 span{color:var(--gold)}
+.sub{font-family:var(--mono);font-size:.64rem;line-height:1.58;color:var(--muted);margin-top:8px;max-width:920px}
+.snapshot{display:grid;grid-template-columns:repeat(3,minmax(135px,1fr));gap:8px}
+.snap{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--blue);border-radius:9px;padding:9px 12px;box-shadow:0 2px 7px rgba(24,38,66,.04)}
+.snap.gold{border-top-color:var(--gold)}.snap.green{border-top-color:var(--green)}.snap.amber{border-top-color:var(--amber)}.snap.red{border-top-color:var(--red)}
+.snap .k{font-family:var(--mono);font-size:.49rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.snap .v{font-family:var(--display);font-size:1.48rem;line-height:1;margin-top:4px;white-space:nowrap}.snap .ss{font:400 .48rem var(--mono);color:var(--muted);margin-top:3px}
+.notice{margin:13px 0 0;border:1px solid #e4c785;background:#fff9e8;border-radius:10px;padding:10px 13px;display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font:400 .62rem var(--mono);line-height:1.48;color:#70450a}
+.notice strong{font-family:var(--sans);font-size:.8rem;color:#573407}.notice .badge{margin-top:1px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--ink2);border-radius:8px;padding:9px 13px;font:500 .58rem var(--mono);letter-spacing:.06em;text-transform:uppercase}.tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.view{display:none}.view.active{display:block}
+.controls{display:grid;grid-template-columns:minmax(250px,1.4fr) minmax(170px,.7fr) minmax(220px,1fr) auto auto;gap:9px;margin-bottom:12px}
+.control{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:8px 10px;box-shadow:0 2px 7px rgba(24,38,66,.035)}
+.control label{display:block;font-family:var(--mono);font-size:.49rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 4px}
+.control select,.control input{width:100%;border:0;outline:0;background:transparent;color:var(--ink);font-weight:600;min-height:28px}
+.btn{border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-weight:700;padding:0 14px;min-height:54px;box-shadow:0 2px 7px rgba(24,38,66,.035)}
+.btn:hover{border-color:var(--gold);background:#fffbef}.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}.btn.primary:hover{background:#263857}
+.workspace{display:grid;grid-template-columns:minmax(0,1fr) 430px;gap:14px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:11px;box-shadow:0 2px 8px rgba(24,38,66,.045);overflow:hidden}
+.panel-h{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 13px;background:var(--panel2);border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:.52rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.crumb{font-weight:700;font-size:.78rem}.crumb span{color:var(--gold)}
+.map-wrap{position:relative;overflow:hidden;min-height:665px;background:linear-gradient(180deg,#fbfcfe 0%,#f3f6fa 100%)}
+#map{width:100%;height:665px;display:block;touch-action:manipulation}
+.county{stroke:#fff;stroke-width:.4;vector-effect:non-scaling-stroke;cursor:pointer;transition:opacity .12s}.county:hover{stroke:#0f172a;stroke-width:1.2;filter:brightness(.93)}.county.selected{stroke:#0f172a;stroke-width:2}
+.state-line{fill:none;stroke:#fff;stroke-width:1.05;vector-effect:non-scaling-stroke;pointer-events:none}
+.state-hit{fill:transparent;stroke:transparent;stroke-width:0;pointer-events:none;cursor:pointer}
+.map-message{position:absolute;left:13px;bottom:13px;background:rgba(255,255,255,.95);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-family:var(--mono);font-size:.54rem;color:var(--muted);box-shadow:0 5px 16px rgba(24,38,66,.09);max-width:520px;line-height:1.43}
+.legend{position:absolute;right:13px;bottom:13px;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:8px;padding:9px 10px;box-shadow:0 5px 16px rgba(24,38,66,.09);min-width:210px}
+.legend-title{font-family:var(--mono);font-size:.5rem;color:var(--muted);line-height:1.35;margin-bottom:5px}.legend-grad{height:9px;border-radius:5px;border:1px solid rgba(0,0,0,.08)}.legend-labels{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:.47rem;color:var(--muted);margin-top:3px}
+.detail{min-height:665px;max-height:calc(100vh - 194px);display:flex;flex-direction:column;position:sticky;top:10px}.detail-scroll{overflow:auto;min-height:0}
+.detail-empty{padding:45px 24px;text-align:center;font:400 .64rem var(--mono);line-height:1.6;color:var(--muted)}.detail-empty strong{display:block;color:var(--ink);font:700 1rem var(--sans);margin-bottom:7px}
+.detail-head{padding:12px 14px;background:#edf2f8;border-bottom:1px solid var(--line)}.detail-name{font-family:var(--display);font-size:1.9rem;line-height:.95}.detail-sub{font:400 .54rem var(--mono);color:var(--muted);margin-top:4px;line-height:1.4}
+.sec{padding:11px 13px;border-bottom:1px solid var(--line2)}.sec-title{font:500 .5rem var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.metric{border:1px solid var(--line2);background:var(--panel2);border-radius:7px;padding:8px}.mk{font:500 .46rem var(--mono);text-transform:uppercase;color:var(--muted)}.mv{font-weight:700;font-size:.84rem;margin-top:3px;line-height:1.25;overflow-wrap:anywhere}
+.gate-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.gate{display:flex;justify-content:space-between;gap:8px;border:1px solid var(--line2);border-radius:6px;padding:7px;font:500 .52rem var(--mono)}.gate.yes{background:#eef9f2;color:var(--green)}.gate.no{background:#fff3ee;color:var(--red)}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 11px}.ik{font:500 .46rem var(--mono);text-transform:uppercase;color:var(--muted)}.iv{font-weight:600;font-size:.69rem;line-height:1.35;margin-top:2px;overflow-wrap:anywhere}
+.note{font:400 .54rem var(--mono);line-height:1.5;color:var(--muted);background:#f8fafc;border:1px solid var(--line2);border-radius:7px;padding:8px}
+.badge{display:inline-block;padding:2px 7px;border-radius:4px;font:500 .52rem var(--mono);text-transform:uppercase;border:1px solid var(--line);background:#f7f9fc}.pass{color:var(--green)}.fail{color:var(--red)}.warn{color:var(--amber)}.blue{color:var(--blue)}
+.table-panel{margin-top:14px}.table-scroll{overflow:auto}.rank-table{min-width:1320px}.tr{display:grid;grid-template-columns:54px 210px 72px 110px 105px 95px 84px 84px 84px 84px 84px 150px;gap:7px;align-items:center;padding:7px 10px;border-bottom:1px solid var(--line2);cursor:pointer}.tr.hd{background:var(--panel2);position:sticky;top:0;z-index:2;cursor:default}.tr:not(.hd):hover{background:#fffaf0}.tc{font-size:.64rem;line-height:1.28;color:var(--ink2);overflow-wrap:anywhere}.tr.hd .tc{font:500 .47rem var(--mono);text-transform:uppercase;color:var(--muted)}.tc.strong{font-weight:700;color:var(--ink)}
+.pager{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;background:var(--panel2);font:400 .54rem var(--mono);color:var(--muted)}.pager button{border:1px solid var(--line);background:white;border-radius:5px;padding:6px 10px}.pager button:disabled{opacity:.4;cursor:default}
+.filterbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line);font:500 .52rem var(--mono);color:var(--muted)}.filterbar label{display:flex;align-items:center;gap:5px}.filterbar input[type=number]{width:70px;border:1px solid var(--line);border-radius:5px;padding:5px}
+.validation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:13px}.base-card{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:9px;padding:10px 12px}.base-card .bk{font:500 .49rem var(--mono);text-transform:uppercase;color:var(--muted)}.base-card .bv{font-family:var(--display);font-size:1.45rem;margin-top:3px}.base-card .bn{font:400 .49rem var(--mono);color:var(--muted);line-height:1.35;margin-top:2px}
+.validation-columns{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(350px,.65fr);gap:14px;align-items:start}
+.audit-table{min-width:1050px}.ar{display:grid;grid-template-columns:190px 190px 86px 86px 1.25fr 1.4fr;gap:8px;padding:7px 10px;border-bottom:1px solid var(--line2);align-items:start}.ar.hd{background:var(--panel2);position:sticky;top:0;z-index:2}.ac{font-size:.63rem;line-height:1.35;color:var(--ink2);overflow-wrap:anywhere}.ar.hd .ac{font:500 .47rem var(--mono);text-transform:uppercase;color:var(--muted)}
+.source-list{padding:4px 12px 12px}.source-item{padding:9px 0;border-bottom:1px solid var(--line2)}.source-item:last-child{border-bottom:0}.source-item a{font-weight:700;color:var(--blue);text-decoration:none}.source-item a:hover{text-decoration:underline}.source-item p{font:400 .54rem var(--mono);color:var(--muted);line-height:1.45;margin:3px 0 0}
+#tooltip{position:fixed;z-index:80;pointer-events:none;opacity:0;background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 10px;box-shadow:0 8px 25px rgba(10,20,40,.16);max-width:340px;font-family:var(--mono);font-size:.55rem;line-height:1.45}.tt-name{font-family:var(--sans);font-weight:700;font-size:.78rem;margin-bottom:2px}.tt-value{color:var(--blue);font-weight:500}
+.loading{position:fixed;inset:0;background:rgba(238,242,247,.94);display:flex;align-items:center;justify-content:center;z-index:100}.loading.hidden{display:none}.load-card{width:min(520px,calc(100vw - 30px));background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:var(--shadow);text-align:center}.spinner{width:36px;height:36px;border-radius:50%;border:4px solid #e5eaf2;border-top-color:var(--gold);animation:spin .8s linear infinite;margin:0 auto 13px}@keyframes spin{to{transform:rotate(360deg)}}.load-title{font-weight:700}.load-detail{font:400 .58rem var(--mono);color:var(--muted);line-height:1.5;margin-top:6px}
+footer{font:400 .51rem var(--mono);color:var(--muted);line-height:1.5;margin:12px 2px 0}footer a{color:var(--blue)}
+
+.raw-details summary{cursor:pointer;font:600 .58rem var(--mono);color:var(--blue);padding:3px 0}
+.raw-details[open] summary{margin-bottom:9px}.raw-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.raw-item{border:1px solid var(--line2);border-radius:7px;padding:7px;background:#fbfcfe;min-width:0}
+.raw-source{font:500 .42rem var(--mono);text-transform:uppercase;color:var(--gold)}
+.raw-key{font:500 .45rem var(--mono);text-transform:uppercase;color:var(--muted);margin-top:2px}
+.raw-value{font-size:.68rem;font-weight:600;line-height:1.35;margin-top:3px;overflow-wrap:anywhere;white-space:pre-wrap}
+
+@media(pointer:coarse){.state-hit{stroke-width:16;pointer-events:all}.county:hover{filter:none}#tooltip{display:none}button,.btn,.control select,.control input{min-height:48px}}
+@media(max-width:1180px){.top{grid-template-columns:1fr}.snapshot{grid-template-columns:repeat(3,1fr)}.workspace{grid-template-columns:1fr}.detail{position:static;max-height:none;min-height:0}.validation-columns{grid-template-columns:1fr}.validation-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:760px){.map-wrap{overflow:auto}.app{padding:8px}.snapshot{display:flex;overflow-x:auto;gap:7px;padding-bottom:5px}.snap{flex:0 0 145px}.controls{grid-template-columns:1fr 1fr;grid-template-areas:"metric metric" "state search" "open reset"}.controls .control:nth-child(1){grid-area:metric}.controls .control:nth-child(2){grid-area:state}.controls .control:nth-child(3){grid-area:search}#openBtn{grid-area:open}#resetBtn{grid-area:reset}.map-wrap{min-height:510px}.map-inner{width:880px;overflow-x:auto}#map{height:540px}.map-message,.legend{position:static;margin:7px 8px 0;max-width:none;min-width:0;box-shadow:none}.legend{margin-bottom:8px}.metric-grid,.info-grid{grid-template-columns:1fr 1fr}.validation-grid{grid-template-columns:1fr 1fr}.notice{grid-template-columns:1fr}.rank-table{min-width:1240px}}
+@media(max-width:440px){.raw-grid{grid-template-columns:1fr}h1{font-size:2rem}.sub{font-size:.56rem}.controls{grid-template-columns:1fr;grid-template-areas:"metric" "state" "search" "open" "reset"}.metric-grid,.info-grid,.gate-grid{grid-template-columns:1fr}.validation-grid{grid-template-columns:1fr 1fr}.map-inner{width:820px}#map{height:505px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div>
+    <h1>U.S. COUNTY <span>RELOCATION EXPLORER</span></h1>
+    <div class="sub">VALIDATED COMPANION SNAPSHOT · 3,144 COUNTY EQUIVALENTS · 2026-07-16<br>REVISED FY2026 HUD 4BR FMR · RECALCULATED AIRPORT ACCESS · 2026 TAX SCREENING · CORRECTED HOMESCHOOL LOGIC · EXPLICIT PROXY FLAGS</div>
+  </div>
+  <div class="snapshot">
+    <div class="snap gold"><div class="k">Counties validated</div><div class="v">3,144</div><div class="ss">Unique county FIPS</div></div>
+    <div class="snap red"><div class="k">All hard gates pass</div><div class="v">0</div><div class="ss">Current recalculated result</div></div>
+    <div class="snap green"><div class="k">Financial gate pass</div><div class="v">676</div><div class="ss">Of 3,144 counties</div></div>
+    <div class="snap"><div class="k">Broadband gate pass</div><div class="v">621</div><div class="ss">25↓ / 100↑ proxy screen</div></div>
+    <div class="snap amber"><div class="k">Average confidence</div><div class="v">74.4</div><div class="ss">Proxy-aware score</div></div>
+    <div class="snap amber"><div class="k">Manual review</div><div class="v">3,144</div><div class="ss">Finalist verification required</div></div>
+  </div>
+</header>
+
+<div class="notice">
+  <span class="badge warn">Screening model</span>
+  <div><strong>No county currently passes every hard gate.</strong> Rankings identify tradeoffs, not move-ready approvals. Active rental inventory is not an eligibility gate; HUD FMR is a program benchmark, not proof a suitable home is available. Broadband requires exact-address verification at 25 Mbps download / 100 Mbps upload. EPA 2025 county AQI is used where monitored; unmonitored counties remain explicitly proxy-based.</div>
+</div>
+
+<nav class="tabs" aria-label="Dashboard sections">
+  <button class="tab active" data-view="explorer">County Explorer</button>
+  <button class="tab" data-view="validation">Baseline &amp; Validation</button>
+</nav>
+
+<section class="view active" id="view-explorer">
+  <section class="controls" aria-label="Map controls">
+    <div class="control"><label for="metricSelect">Map metric</label><select id="metricSelect"></select></div>
+    <div class="control"><label for="stateSelect">State</label><select id="stateSelect"><option value="">United States</option></select></div>
+    <div class="control"><label for="countySearch">Find county</label><input id="countySearch" list="countyOptions" placeholder="County, state, or FIPS" autocomplete="off"><datalist id="countyOptions"></datalist></div>
+    <button class="btn" id="openBtn" type="button">Open county</button>
+    <button class="btn primary" id="resetBtn" type="button">Reset view</button>
+  </section>
+
+  <main class="workspace">
+    <section class="panel">
+      <div class="panel-h"><div class="eyebrow">// Validated county choropleth</div><div class="crumb" id="crumb">United States · <span>click a county or choose a state</span></div></div>
+      <div class="map-wrap"><div class="map-inner"><svg id="map" viewBox="0 0 1000 650" role="img" aria-label="Interactive map of validated U.S. county relocation data"></svg></div>
+        <div class="map-message" id="mapMessage">Color shows overall relocation score. Filters dim excluded counties; click a county for its full screening record.</div>
+        <div class="legend" id="legend"></div>
+      </div>
+    </section>
+
+    <aside class="panel detail" id="detailPanel">
+      <div class="detail-scroll" id="detailBody"><div class="detail-empty"><strong>Select a county</strong>Use the map, ranking table, or county search to inspect finances, gates, validated fields, and remaining proxy limitations.</div></div>
+    </aside>
+  </main>
+
+  <section class="panel table-panel">
+    <div class="panel-h"><div><div class="eyebrow">// All-county ranking</div><div class="crumb" id="resultCount"></div></div><div class="crumb">Lower rank number = stronger modeled candidate</div></div>
+    <div class="filterbar">
+      <label><input type="checkbox" id="financialOnly"> Financial gate pass only</label>
+      <label>Minimum score <input type="number" id="minScore" min="0" max="100" value="0"></label>
+      <span>Every row remains subject to exact-address and finalist verification.</span>
+    </div>
+    <div class="table-scroll"><div class="rank-table" id="rankTable"></div></div>
+    <div class="pager"><span id="pageInfo"></span><div><button id="prevPage">Previous</button> <button id="nextPage">Next</button></div></div>
+  </section>
+</section>
+
+<section class="view" id="view-validation">
+  <div class="validation-grid">
+    <div class="base-card"><div class="bk">Annual gross income</div><div class="bv">$174,678.14</div><div class="bn">Current household salary baseline</div></div>
+    <div class="base-card"><div class="bk">Biweekly net pay</div><div class="bv">$4,928.68</div><div class="bn">2026-06-26 paystub</div></div>
+    <div class="base-card"><div class="bk">LA withholding / period</div><div class="bv">$184.98</div><div class="bn">Current Louisiana state tax</div></div>
+    <div class="base-card"><div class="bk">Current housing / month</div><div class="bv">$1,181.81</div><div class="bn">Mortgage baseline</div></div>
+    <div class="base-card"><div class="bk">Core utilities / month</div><div class="bv">$313.02</div><div class="bn">Electricity + water + internet</div></div>
+    <div class="base-card"><div class="bk">Auto insurance / year</div><div class="bv">$2,916</div><div class="bn">Current Progressive annualized premium</div></div>
+    <div class="base-card"><div class="bk">Monthly cash need</div><div class="bv">$10,640.79</div><div class="bn">Fixed + variable budget + minimums</div></div>
+    <div class="base-card"><div class="bk">Broadband hard screen</div><div class="bv">25↓ / 100↑</div><div class="bn">Exact-address confirmation required</div></div>
+    <div class="base-card"><div class="bk">Active rental inventory</div><div class="bv">Not required</div><div class="bn">Removed as an eligibility criterion</div></div>
+    <div class="base-card"><div class="bk">Airport maximum</div><div class="bv">90 min</div><div class="bn">Drive time is a routing estimate</div></div>
+    <div class="base-card"><div class="bk">Preferred / max 4BR rent</div><div class="bv">$1,500 / $1,700</div><div class="bn">HUD FMR is a benchmark</div></div>
+    <div class="base-card"><div class="bk">Validation snapshot</div><div class="bv">07·16·26</div><div class="bn">Static, reproducible source</div></div>
+  </div>
+
+  <div class="validation-columns">
+    <section class="panel">
+      <div class="panel-h"><div class="eyebrow">// Validation_Audit</div><div class="crumb">Final workbook status and remaining limitations</div></div>
+      <div class="table-scroll"><div class="audit-table" id="auditTable"></div></div>
+    </section>
+    <aside class="panel">
+      <div class="panel-h"><div class="eyebrow">// Authoritative sources &amp; datasets</div></div>
+      <div class="source-list">
+        <div class="source-item"><a href="https://docs.google.com/spreadsheets/d/115fmSq3ScaYNC4AMLgof7F74-bQtBH4E-6pE3ecmuRY/edit" target="_blank" rel="noopener">Original workbook and audit registry</a><p>Configuration, Sources, Data Dictionary, Validation_Audit, and legacy tabs.</p></div>
+        <div class="source-item"><a href="https://docs.google.com/spreadsheets/d/1OYL5ppvIgAqVABx-hHnU_XXQb7iMv3winvDKE2_hwCc/edit" target="_blank" rel="noopener">Validated County Master</a><p>Current county data for all 3,144 county equivalents, including revised HUD FMR and recalculated airport assignments.</p></div>
+        <div class="source-item"><a href="https://docs.google.com/spreadsheets/d/1Idx5klepx9M3CYC4PIVVF316c4DTsFuBdBsYsfmZwzs/edit" target="_blank" rel="noopener">Validated Household Results</a><p>Recalculated results and gate outcomes for all 3,144 counties.</p></div>
+        <div class="source-item"><a href="https://www.huduser.gov/portal/datasets/fmr.html" target="_blank" rel="noopener">HUD FY2026 revised Fair Market Rents</a><p>Official 4-bedroom FMR benchmark, effective May 21, 2026.</p></div>
+        <div class="source-item"><a href="https://ourairports.com/data/" target="_blank" rel="noopener">OurAirports scheduled-service data</a><p>Airport coordinates used for nearest-airport assignment; routed drive time must be confirmed for finalists.</p></div>
+        <div class="source-item"><a href="https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/" target="_blank" rel="noopener">Tax Foundation — 2026 income-tax structures</a><p>State screening assumptions; actual household liability depends on deductions, credits, and local taxes.</p></div>
+        <div class="source-item"><a href="https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/" target="_blank" rel="noopener">Tax Foundation — midyear 2026 sales tax</a><p>Population-weighted state + local averages; exact address, grocery, meals, and district rates vary.</p></div>
+        <div class="source-item"><a href="https://aqs.epa.gov/aqsweb/airdata/download_files.html" target="_blank" rel="noopener">EPA AirData 2025 annual AQI by county</a><p>Official records cover 985 monitored counties; proxy labels remain for unmonitored counties.</p></div>
+        <div class="source-item"><a href="https://hazards.fema.gov/nri/" target="_blank" rel="noopener">FEMA National Risk Index reference</a><p>Current hazard fields remain explicit static screening proxies, not official downloaded county NRI scores.</p></div>
+        <div class="source-item"><a href="https://hslda.org/legal" target="_blank" rel="noopener">HSLDA state law framework</a><p>Static homeschool screening summaries; verify finalist-state requirements before moving.</p></div>
+        <div class="source-item"><a href="https://legiscan.com/NH/bill/HB1268/2026" target="_blank" rel="noopener">New Hampshire HB1268 (2026)</a><p>Notice generally removed except for public-school participation; annual evaluation is optional.</p></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer>GitHub Pages dashboard backed by the validated companion sheets. The viewer must have permission to read those sheets; the page never falls back to the legacy county or household-result ranges. No personal account identifiers are embedded. Proxy-based fields remain screening inputs and require exact-address or finalist verification.</footer>
+</div>
+
+<div class="loading" id="loading"><div class="load-card"><div class="spinner"></div><div class="load-title">Loading validated county map</div><div class="load-detail">Connecting to validated companion sheets and U.S. map geometry…</div></div></div>
+<div id="tooltip"></div>
+
+<script>
+
+'use strict';
+const COUNTY_SOURCE={id:'1OYL5ppvIgAqVABx-hHnU_XXQb7iMv3winvDKE2_hwCc',sheet:'County Master - Validated 2026-07-16'};
+const RESULT_SOURCE={id:'1Idx5klepx9M3CYC4PIVVF316c4DTsFuBdBsYsfmZwzs',sheet:'Household Results - Validated 2026-07-16'};
+const MAP_URL='https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json';
+let rows=[],byFips=new Map();
+
+const AUDIT=[
+['County identity / FIPS','PASS',3144,0,'U.S. Census county keys; duplicate and state-prefix checks','3,144 unique county FIPS; no identity issue found.'],
+['HUD 4BR rent','VALIDATED — COMPANION',3144,3144,'Official revised HUD FY2026 county/HUD-area data','Use validated County Master; FMR is a benchmark, not active inventory.'],
+['Airport assignments','VALIDATED — COMPANION',3144,3144,'Current scheduled-service airport coordinates and nearest-airport recalculation','Drive time is estimated; confirm routed time for finalists.'],
+['Sales tax','UPDATED',51,3144,'Tax Foundation population-weighted state + local rates as of 2026-07-01','Exact local, grocery, meals, and special-district rates require address validation.'],
+['Income-tax structure','UPDATED',51,3144,'Published 2026 state structures; Louisiana calibrated to actual withholding','Screening estimate; local tax, deductions, and credits are not fully modeled.'],
+['Homeschool law logic','UPDATED',51,3144,'Current state summaries; New Hampshire HB1268 update','1,834 note / boolean contradictions removed; not legal advice.'],
+['Broadband criteria','UPDATED',3144,3144,'Project requirement corrected to 25 Mbps down / 100 Mbps up','County fields remain screening proxies; exact-address validation required.'],
+['Household baseline','PASS',5,5,'2026-06-26 paystub and uploaded insurance, electric, water, and internet records','Validated values only; account identifiers excluded.'],
+['Household results','RECALCULATED — COMPANION',3144,3144,'Corrected HUD, airport, tax, homeschool, broadband, and baseline assumptions','Use validated Household Results rather than the legacy original tab.'],
+['Data dictionary / provenance','REVIEWED',145,20,'Core source and proxy classifications corrected','Full field-level rewrite is represented in the validated export and audit notes.'],
+['Legacy import tab','ARCHIVED',1,1,'Sheet1 renamed Legacy_Import_Archive','Not used by this dashboard.'],
+['Broadband availability / provider fields','STATIC PROXY',3144,3144,'Explicitly relabeled screening source','Finalist address validation required.'],
+['FEMA / NRI hazard scores','STATIC PROXY',3144,3144,'Explicitly relabeled screening source','Not official downloaded county NRI observations.'],
+['AQI for unmonitored counties','STATIC PROXY',3144,3144,'EPA 2025 county AQI where monitored; proxy elsewhere','Official county records exist for 985 monitored counties.'],
+['Climate / pressure / humidity / precipitation / elevation','STATIC PROXY',3144,3144,'Explicitly relabeled screening source','Finalist location verification required.'],
+['Utilities and insurance outside Louisiana baseline','STATIC PROXY',3144,3144,'State-level or modeled screening values','Obtain local utility and insurance quotes for finalists.'],
+['Property, vehicle, and local tax details','STATIC PROXY',3144,3144,'Static screening assumptions','Confirm county, city, grocery, meals, and special-district rates by address.'],
+['Census population vintage','UPDATE AVAILABLE',3144,0,'Vintage 2025 county estimates released March 2026','Current identity count remains valid; refresh before population-sensitive ranking.'],
+['Workbook formula / error scan','PASS',72680,1,'Static export XML scan and temporary test cleanup','No cached #REF!, #DIV/0!, #VALUE!, #NAME?, or #N/A errors found.']
+];
+
+const METRICS=[
+ {k:'score',label:'Overall relocation score',type:'number',fmt:'number'},
+ {k:'del',label:'Annual net position delta vs baseline',type:'number',fmt:'usd',diverging:true},
+ {k:'cush',label:'Monthly cash-flow cushion',type:'number',fmt:'usd',diverging:true},
+ {k:'head',label:'Rent headroom',type:'number',fmt:'usd',diverging:true},
+ {k:'fmr',label:'HUD FY2026 4BR FMR',type:'number',fmt:'usd'},
+ {k:'it',label:'Combined effective income tax',type:'number',fmt:'pct'},
+ {k:'st',label:'Combined general sales tax',type:'number',fmt:'pct'},
+ {k:'dn',label:'Maximum wired download speed',type:'number',fmt:'mbps'},
+ {k:'up',label:'Maximum wired upload speed',type:'number',fmt:'mbps'},
+ {k:'am',label:'Nearest commercial airport time',type:'number',fmt:'min'},
+ {k:'conf',label:'Data confidence score',type:'number',fmt:'number'},
+ {k:'aq',label:'AQI screening value',type:'number',fmt:'number'},
+ {k:'gf',label:'Financial gate pass',type:'boolean',fmt:'bool'},
+ {k:'gb',label:'Broadband gate pass',type:'boolean',fmt:'bool'},
+ {k:'ga',label:'Airport access gate pass',type:'boolean',fmt:'bool'},
+ {k:'gc',label:'Climate / health gate pass',type:'boolean',fmt:'bool'},
+ {k:'gs',label:'Severe-weather gate pass',type:'boolean',fmt:'bool'},
+ {k:'gh',label:'Homeschool gate pass',type:'boolean',fmt:'bool'},
+ {k:'rev',label:'Manual review required',type:'boolean',fmt:'bool'}
+];
+
+
+const metricMap=new Map(METRICS.map(m=>[m.k,m]));
+const els=Object.fromEntries(['loading','metricSelect','stateSelect','countySearch','countyOptions','openBtn','resetBtn','mapMessage','legend','crumb','detailBody','resultCount','financialOnly','minScore','rankTable','pageInfo','prevPage','nextPage','auditTable','tooltip'].map(id=>[id,document.getElementById(id)]));
+const svg=d3.select('#map'),W=1000,H=650,root=svg.append('g'),countyLayer=root.append('g'),stateLayer=root.append('g'),stateHitLayer=root.append('g');
+let topology,projection,path,countyPaths,stateHits,selectedFips=null,selectedState='',selectedMetric='score',page=1;
+const PAGE_SIZE=50;
+let colorModel=null;
+
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===`view-${btn.dataset.view}`));
+}));
+METRICS.forEach(m=>els.metricSelect.add(new Option(m.label,m.k)));
+els.metricSelect.value=selectedMetric;
+els.metricSelect.addEventListener('change',()=>{selectedMetric=els.metricSelect.value;applyMetric()});
+els.stateSelect.addEventListener('change',()=>selectState(els.stateSelect.value));
+els.openBtn.addEventListener('click',openSearch);
+els.countySearch.addEventListener('keydown',e=>{if(e.key==='Enter')openSearch()});
+els.resetBtn.addEventListener('click',resetView);
+els.financialOnly.addEventListener('change',()=>{page=1;applyFilters()});
+els.minScore.addEventListener('input',()=>{page=1;applyFilters()});
+els.prevPage.addEventListener('click',()=>{if(page>1){page--;renderTable()}});
+els.nextPage.addEventListener('click',()=>{const total=Math.ceil(filteredRows().length/PAGE_SIZE);if(page<total){page++;renderTable()}});
+renderAudit();
+
+google.charts.load('current',{packages:[]});
+google.charts.setOnLoadCallback(init);
+
+async function init(){
+  showLoading('Loading validated county data','Reading the validated County Master and Household Results companion sheets…');
+  try{
+    const [countyRows,resultRows,mapData]=await Promise.all([
+      querySheet(COUNTY_SOURCE),querySheet(RESULT_SOURCE),d3.json(MAP_URL)
+    ]);
+    if(countyRows.length!==3144)throw new Error(`Validated County Master returned ${countyRows.length.toLocaleString()} rows; expected 3,144.`);
+    buildRows(countyRows,resultRows);
+    setupSearchAndStates();
+    buildMap(mapData);
+    applyMetric();applyFilters();
+    const first=rows.slice().sort((a,b)=>(a.rank??99999)-(b.rank??99999))[0];
+    if(first)selectCounty(first.f,false);
+    hideLoading();
+  }catch(err){
+    console.error(err);showLoadError(err);
+  }
+}
+
+function querySheet(source){
+  return new Promise((resolve,reject)=>{
+    const url=`https://docs.google.com/spreadsheets/d/${source.id}/gviz/tq?sheet=${encodeURIComponent(source.sheet)}&headers=1`;
+    const query=new google.visualization.Query(url);query.setQuery('select *');
+    query.send(response=>{
+      if(response.isError()){
+        reject(new Error(`${source.sheet}: ${response.getMessage()} ${response.getDetailedMessage()||''}`.trim()));return;
+      }
+      const table=response.getDataTable(),headers=[];
+      for(let c=0;c<table.getNumberOfColumns();c++)headers.push(String(table.getColumnLabel(c)||table.getColumnId(c)||`column_${c+1}`).trim());
+      const out=[];
+      for(let r=0;r<table.getNumberOfRows();r++){
+        const obj={};
+        for(let c=0;c<headers.length;c++){
+          let v=table.getValue(r,c);if(v instanceof Date)v=v.toISOString().slice(0,10);obj[headers[c]]=v;
+        }
+        out.push(obj);
+      }
+      resolve(out);
+    });
+  });
+}
+
+function buildRows(countyRows,resultRows){
+  const resultMap=new Map(resultRows.map(r=>[normalizeFips(r.county_fips),r]));
+  rows=countyRows.map(c=>{
+    const f=normalizeFips(c.county_fips),r=resultMap.get(f)||{};
+    return {
+      f,c:c.county_name,s:c.state_code,sn:c.state_name,m:c.primary_market_name,
+      it:c.combined_effective_income_tax_rate_pct,st:c.combined_general_sales_tax_rate_pct,ft:c.food_at_home_tax_rate_pct,
+      fmr:c.hud_fmr_4br_monthly_usd,rma:c.rent_market_area_name,rc:c.rent_confidence_score,
+      wb:toBoolean(c.wired_broadband_available),dn:c.maximum_wired_download_mbps,up:c.maximum_wired_upload_mbps,
+      br:c.broadband_reliability_score,bx:c.broadband_execution_risk,
+      ap:c.nearest_commercial_airport_name,ai:c.nearest_commercial_airport_iata,
+      am:c.nearest_commercial_airport_drive_time_minutes,hm:c.nearest_large_hub_airport_drive_time_minutes,
+      ut:c.modeled_monthly_core_utilities_usd,ins:c.modeled_annual_auto_insurance_usd,
+      swt:c.severe_weather_risk_tier,swf:toBoolean(c.severe_weather_corridor_flag),
+      aq:c.annual_average_aqi,aqd:c.unhealthy_aqi_days_per_year,env:c.environmental_health_risk_tier,
+      hs:c.homeschool_regulation_tier,hn:toBoolean(c.homeschool_notice_required),ht:toBoolean(c.homeschool_testing_or_evaluation_required),
+      conf:c.data_confidence_score,rev:toBoolean(c.manual_review_required),
+      pay:r.estimated_annual_net_pay_usd,mx:r.modeled_monthly_total_expense_usd,need:r.modeled_monthly_cash_need_usd,
+      cush:r.monthly_cash_flow_cushion_usd,del:r.annual_net_position_delta_vs_baseline_usd,head:r.rent_headroom_monthly_usd,
+      gf:toBoolean(r.financial_gate_pass),gb:toBoolean(r.broadband_gate_pass),ga:toBoolean(r.airport_access_gate_pass),
+      gc:toBoolean(r.climate_health_gate_pass),gs:toBoolean(r.severe_weather_gate_pass),gh:toBoolean(r.homeschool_gate_pass),
+      gall:toBoolean(r.all_hard_gates_pass),score:r.overall_relocation_score,ver:r.relocation_verdict,
+      adv:r.primary_advantage,risk:r.primary_risk,flags:r.risk_flags,rank:r.candidate_rank,
+      _county:c,_result:r
+    };
+  }).filter(r=>/^\d{5}$/.test(r.f));
+  byFips=new Map(rows.map(r=>[r.f,r]));
+}
+
+function setupSearchAndStates(){
+  els.stateSelect.innerHTML='<option value="">United States</option>';
+  const states=[...new Map(rows.map(r=>[r.s,r.sn])).entries()].sort((a,b)=>a[1].localeCompare(b[1]));
+  states.forEach(([code,name])=>els.stateSelect.add(new Option(`${name} (${code})`,code)));
+  els.countyOptions.innerHTML=rows.slice().sort((a,b)=>String(a.c).localeCompare(String(b.c))).map(r=>`<option value="${escapeHtml(`${r.c}, ${r.s}`)}"></option>`).join('');
+}
+
+function buildMap(t){
+  topology=t;
+  const countyFeatures=topojson.feature(t,t.objects.counties).features.filter(d=>byFips.has(String(d.id).padStart(5,'0')));
+  const stateFeatures=topojson.feature(t,t.objects.states).features;
+  projection=d3.geoAlbersUsa().fitExtent([[12,12],[W-12,H-12]],{type:'FeatureCollection',features:stateFeatures});
+  path=d3.geoPath(projection);
+  countyPaths=countyLayer.selectAll('path').data(countyFeatures,d=>String(d.id).padStart(5,'0')).join('path')
+    .attr('class','county').attr('d',path)
+    .on('click',(e,d)=>{e.stopPropagation();selectCounty(String(d.id).padStart(5,'0'))})
+    .on('mousemove',(e,d)=>showTooltip(e,byFips.get(String(d.id).padStart(5,'0'))))
+    .on('mouseleave',hideTooltip);
+  stateLayer.append('path').datum(topojson.mesh(t,t.objects.states,(a,b)=>a!==b)).attr('class','state-line').attr('d',path);
+  stateHits=stateHitLayer.selectAll('path').data(stateFeatures,d=>String(d.id).padStart(2,'0')).join('path')
+    .attr('class','state-hit').attr('d',path).on('click',(e,d)=>{
+      e.stopPropagation();const sf=String(d.id).padStart(2,'0'),row=rows.find(r=>r.f.slice(0,2)===sf);
+      if(row){els.stateSelect.value=row.s;selectState(row.s)}
+    });
+}
+
+function normalizeFips(v){const s=String(v??'').replace(/\.0$/,'').replace(/\D/g,'');return s.padStart(5,'0').slice(-5)}
+function toBoolean(v){
+  if(typeof v==='boolean')return v;
+  const s=String(v??'').trim().toLowerCase();
+  if(['true','yes','y','1','pass','passed'].includes(s))return true;
+  if(['false','no','n','0','fail','failed'].includes(s))return false;
+  return null;
+}
+function renderRawFields(r){
+  const cards=[];
+  [['Validated County Master',r._county||{}],['Validated Household Results',r._result||{}]].forEach(([source,obj])=>{
+    Object.entries(obj).forEach(([k,v])=>{
+      cards.push(`<div class="raw-item"><div class="raw-source">${escapeHtml(source)}</div><div class="raw-key">${escapeHtml(rawLabel(k))}</div><div class="raw-value ${valueClass(v,k)}">${escapeHtml(formatRaw(v,k))}</div></div>`);
+    });
+  });
+  return cards.join('');
+}
+function rawLabel(s){return String(s||'').replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase()).replace(/Fips\b/g,'FIPS').replace(/Aqi\b/g,'AQI').replace(/Usd\b/g,'USD').replace(/Mbps\b/g,'Mbps').replace(/Pct\b/g,'%')}
+function formatRaw(v,field=''){
+  if(v===null||v===undefined||String(v).trim()==='')return'Not available';
+  const b=toBoolean(v);
+  if(b!==null&&(/(_pass|_required|_available|_applies|_flag|manual_review)/i.test(field)||typeof v==='boolean'))return b?'Yes':'No';
+  const n=Number(v);
+  if(Number.isFinite(n)){
+    if(/usd/i.test(field))return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:Math.abs(n)>=100?0:2}).format(n);
+    if(/pct/i.test(field))return `${n.toLocaleString('en-US',{maximumFractionDigits:2})}%`;
+    if(/mbps/i.test(field))return `${n.toLocaleString('en-US',{maximumFractionDigits:0})} Mbps`;
+    if(/minutes/i.test(field))return `${n.toLocaleString('en-US',{maximumFractionDigits:0})} min`;
+    return n.toLocaleString('en-US',{maximumFractionDigits:2});
+  }
+  return String(v);
+}
+function showLoading(title,detail){
+  els.loading.classList.remove('hidden');
+  const card=els.loading.querySelector('.load-card');
+  card.innerHTML=`<div class="spinner"></div><div class="load-title">${escapeHtml(title)}</div><div class="load-detail">${escapeHtml(detail)}</div>`;
+}
+function hideLoading(){els.loading.classList.add('hidden')}
+function showLoadError(err){
+  const card=els.loading.querySelector('.load-card');
+  card.innerHTML=`<div class="load-title" style="color:var(--red)">Validated companion sheets could not be read</div>
+    <div class="load-detail" style="text-align:left;margin-top:10px">The dashboard now uses the validated County Master and Household Results companion sheets. Sign in to Google with an account that can view them, or grant viewer access appropriate for this GitHub Pages site.<br><br><b>Error:</b> ${escapeHtml(err.message||err)}<br><br>
+    <a href="https://docs.google.com/spreadsheets/d/1OYL5ppvIgAqVABx-hHnU_XXQb7iMv3winvDKE2_hwCc/edit" target="_blank" rel="noopener">Open validated County Master</a><br>
+    <a href="https://docs.google.com/spreadsheets/d/1Idx5klepx9M3CYC4PIVVF316c4DTsFuBdBsYsfmZwzs/edit" target="_blank" rel="noopener">Open validated Household Results</a></div>
+    <button class="btn primary" type="button" style="margin-top:12px" onclick="init()">Retry</button>`;
+}
+
+function filteredRows(){
+  const min=Number(els.minScore.value||0),financial=els.financialOnly.checked;
+  return rows.filter(r=>(!selectedState||r.s===selectedState)&&Number(r.score)>=min&&(!financial||r.gf===true)).sort((a,b)=>(a.rank??99999)-(b.rank??99999));
+}
+function applyFilters(){
+  const set=new Set(filteredRows().map(r=>r.f));
+  if(countyPaths)countyPaths.style('opacity',d=>set.has(String(d.id).padStart(5,'0'))?1:.08).style('pointer-events',d=>set.has(String(d.id).padStart(5,'0'))?'all':'none');
+  const total=filteredRows().length;
+  els.resultCount.textContent=`${total.toLocaleString()} counties shown`;
+  renderTable();
+}
+function renderTable(){
+  const data=filteredRows(),pages=Math.max(1,Math.ceil(data.length/PAGE_SIZE));page=Math.min(page,pages);
+  const slice=data.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);
+  const h=['Rank','County','Score','Annual net Δ','Monthly cushion','HUD 4BR FMR','Financial','Broadband','Airport','Climate','Weather','Primary risk'];
+  els.rankTable.innerHTML=`<div class="tr hd">${h.map(x=>`<div class="tc">${x}</div>`).join('')}</div>`+
+    slice.map(r=>`<div class="tr" data-fips="${r.f}">
+      <div class="tc">${r.rank??'—'}</div><div class="tc strong">${escapeHtml(r.c)}, ${r.s}<br><span class="badge ${r.rev?'warn':'pass'}">${r.rev?'manual review':'reviewed'}</span></div>
+      <div class="tc strong">${fmt(r.score,'number')}</div><div class="tc ${num(r.del)>=0?'pass':'fail'}">${fmt(r.del,'usd')}</div>
+      <div class="tc ${num(r.cush)>=0?'pass':'fail'}">${fmt(r.cush,'usd')}</div><div class="tc">${fmt(r.fmr,'usd')}</div>
+      ${['gf','gb','ga','gc','gs'].map(k=>`<div class="tc"><span class="badge ${r[k]?'pass':'fail'}">${r[k]?'Pass':'Fail'}</span></div>`).join('')}
+      <div class="tc">${escapeHtml(r.risk||'—')}</div></div>`).join('');
+  els.rankTable.querySelectorAll('.tr[data-fips]').forEach(el=>el.addEventListener('click',()=>selectCounty(el.dataset.fips)));
+  els.pageInfo.textContent=`Page ${page} of ${pages} · ${data.length.toLocaleString()} results`;
+  els.prevPage.disabled=page<=1;els.nextPage.disabled=page>=pages;
+}
+function applyMetric(){
+  const m=metricMap.get(selectedMetric),vals=rows.map(r=>r[m.k]).filter(v=>v!==null&&v!==undefined&&v!=='');
+  if(m.type==='boolean'){
+    colorModel={type:'boolean',color:v=>v===true?'#17834b':v===false?'#c94a26':'#dfe5ed'};
+  }else{
+    const ns=vals.map(Number).filter(Number.isFinite).sort(d3.ascending);
+    let lo=d3.quantile(ns,.03)??d3.min(ns),hi=d3.quantile(ns,.97)??d3.max(ns);if(lo===hi)hi=lo+1;
+    if(m.diverging&&lo<0&&hi>0){const max=Math.max(Math.abs(lo),Math.abs(hi));colorModel={type:'numeric',lo:-max,hi:max,diverging:true,color:d3.scaleDiverging([-max,0,max],d3.interpolateRdYlGn).clamp(true)}}
+    else colorModel={type:'numeric',lo,hi,diverging:false,color:d3.scaleSequential([lo,hi],d3.interpolateYlGnBu).clamp(true)};
+  }
+  if(countyPaths)countyPaths.attr('fill',d=>{const r=byFips.get(String(d.id).padStart(5,'0')),v=r?.[m.k];return v===null||v===undefined||v===''?'#e3e8ef':colorModel.color(m.type==='boolean'?v:Number(v))});
+  renderLegend();els.mapMessage.textContent=`Color = ${m.label}. Filters dim excluded counties; click a county for the complete validated screening record.`;
+  if(selectedFips)renderDetail(byFips.get(selectedFips));
+}
+function renderLegend(){
+  const m=metricMap.get(selectedMetric);
+  if(colorModel.type==='boolean'){
+    els.legend.innerHTML=`<div class="legend-title">${escapeHtml(m.label)}</div><div class="legend-labels"><span><b style="color:#17834b">■</b> Pass / yes</span><span><b style="color:#c94a26">■</b> Fail / no</span></div>`;
+  }else{
+    const stops=d3.range(0,1.001,.1).map(t=>colorModel.color(colorModel.lo+t*(colorModel.hi-colorModel.lo))).join(',');
+    els.legend.innerHTML=`<div class="legend-title">${escapeHtml(m.label)} · clipped at 3rd/97th percentile</div><div class="legend-grad" style="background:linear-gradient(90deg,${stops})"></div><div class="legend-labels"><span>${fmt(colorModel.lo,m.fmt)}</span><span>${colorModel.diverging?'0':'median'}</span><span>${fmt(colorModel.hi,m.fmt)}</span></div>`;
+  }
+}
+function selectState(code){
+  selectedState=code||'';page=1;
+  if(!topology){applyFilters();return}
+  if(!code){root.transition().duration(500).attr('transform',null);els.crumb.innerHTML='United States · <span>click a county or choose a state</span>';stateHits.style('display',null)}
+  else{
+    const sf=rows.find(r=>r.s===code)?.f.slice(0,2),feature=topojson.feature(topology,topology.objects.states).features.find(d=>String(d.id).padStart(2,'0')===sf);
+    if(feature){const [[x0,y0],[x1,y1]]=path.bounds(feature),dx=x1-x0,dy=y1-y0,cx=(x0+x1)/2,cy=(y0+y1)/2,scale=Math.min(9,.88/Math.max(dx/W,dy/H)),tx=W/2-scale*cx,ty=H/2-scale*cy;root.transition().duration(600).attr('transform',`translate(${tx},${ty}) scale(${scale})`);stateHits.style('display','none')}
+    const name=rows.find(r=>r.s===code)?.sn||code;els.crumb.innerHTML=`United States → <span>${escapeHtml(name)}</span>`;
+  }
+  applyFilters();
+}
+function resetView(){
+  selectedState='';selectedMetric='score';page=1;els.stateSelect.value='';els.metricSelect.value='score';els.countySearch.value='';els.financialOnly.checked=false;els.minScore.value=0;
+  if(root)root.transition().duration(500).attr('transform',null);if(stateHits)stateHits.style('display',null);
+  els.crumb.innerHTML='United States · <span>click a county or choose a state</span>';applyMetric();applyFilters();
+}
+function openSearch(){
+  const q=els.countySearch.value.trim().toLowerCase();if(!q)return;
+  const row=rows.find(r=>`${r.c}, ${r.s}`.toLowerCase()===q)||rows.find(r=>`${r.c} ${r.sn} ${r.s} ${r.f}`.toLowerCase().includes(q));
+  if(row)selectCounty(row.f);else{els.countySearch.setCustomValidity('County not found');els.countySearch.reportValidity();setTimeout(()=>els.countySearch.setCustomValidity(''),1200)}
+}
+function selectCounty(fips,scroll=true){
+  const r=byFips.get(String(fips).padStart(5,'0'));if(!r)return;selectedFips=r.f;
+  if(countyPaths)countyPaths.classed('selected',d=>String(d.id).padStart(5,'0')===r.f);
+  renderDetail(r);
+  if(scroll&&window.matchMedia('(max-width:1180px)').matches)document.getElementById('detailPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderDetail(r){
+  const m=metricMap.get(selectedMetric);
+  els.detailBody.innerHTML=`<div class="detail-head"><div class="detail-name">${escapeHtml(r.c)}, ${r.s}</div><div class="detail-sub">FIPS ${r.f} · ${escapeHtml(r.m||r.rma||'No market label')} · Candidate rank ${r.rank??'—'} of 3,144</div></div>
+  <section class="sec"><div class="sec-title">// Model outcome</div><div class="metric-grid">
+    ${metric('Verdict',badge(r.ver,valueClass(r.ver)))}
+    ${metric('Overall score',fmt(r.score,'number'))}
+    ${metric('Annual net Δ',`<span class="${num(r.del)>=0?'pass':'fail'}">${fmt(r.del,'usd')}</span>`)}
+    ${metric('Monthly cushion',`<span class="${num(r.cush)>=0?'pass':'fail'}">${fmt(r.cush,'usd')}</span>`)}
+    ${metric('HUD 4BR FMR',fmt(r.fmr,'usd'))}
+    ${metric('Rent headroom',`<span class="${num(r.head)>=0?'pass':'fail'}">${fmt(r.head,'usd')}</span>`)}
+    ${metric(escapeHtml(m.label),fmt(r[m.k],m.fmt))}
+    ${metric('Data confidence',`${fmt(r.conf,'number')} / 100`)}
+  </div></section>
+  <section class="sec"><div class="sec-title">// Hard gates</div><div class="gate-grid">
+    ${gate('Financial',r.gf)}${gate('Broadband 25/100',r.gb)}${gate('Airport access',r.ga)}${gate('Climate / health',r.gc)}${gate('Severe weather',r.gs)}${gate('Homeschool',r.gh)}
+  </div><div class="note" style="margin-top:8px"><b>All hard gates:</b> ${r.gall?'PASS':'FAIL'} · <b>Primary risk:</b> ${escapeHtml(r.risk||'—')}<br>${escapeHtml(r.flags||'No risk flags listed.')}</div></section>
+  <section class="sec"><div class="sec-title">// Validated county fields</div><div class="info-grid">
+    ${info('HUD rent market',r.rma)}${info('Rent confidence',`${fmt(r.rc,'number')} / 100`)}
+    ${info('Income tax screen',fmt(r.it,'pct'))}${info('General sales tax',fmt(r.st,'pct'))}
+    ${info('Food-at-home tax',fmt(r.ft,'pct'))}${info('Core utilities / month',fmt(r.ut,'usd'))}
+    ${info('Auto insurance / year',fmt(r.ins,'usd'))}${info('Annual estimated net pay',fmt(r.pay,'usd'))}
+    ${info('Wired broadband proxy',r.wb?'Available':'Not indicated')}${info('Maximum speed',`${fmt(r.dn,'mbps')} down / ${fmt(r.up,'mbps')} up`)}
+    ${info('Broadband reliability',`${fmt(r.br,'number')} / 100 · ${r.bx||'—'}`)}${info('Nearest airport',`${r.ap||'—'}${r.ai?` (${r.ai})`:''}`)}
+    ${info('Airport drive estimate',fmt(r.am,'min'))}${info('Large-hub estimate',fmt(r.hm,'min'))}
+    ${info('Severe-weather tier',`${r.swt||'—'}${r.swf?' · corridor flag':''}`)}${info('Environmental health tier',r.env)}
+    ${info('AQI screening value',`${fmt(r.aq,'number')} · ${fmt(r.aqd,'number')} unhealthy days`)}${info('Homeschool tier',r.hs)}
+    ${info('Homeschool notice',r.hn?'Required':'Not required')}${info('Testing / evaluation',r.ht?'Required':'Not required')}
+    ${info('Manual review',r.rev?'Required':'Not flagged')}${info('Monthly cash need',fmt(r.need,'usd'))}
+  </div></section>
+  <section class="sec"><div class="sec-title">// Interpretation limits</div><div class="note">HUD FMR is not an active listing. Broadband is a county screening proxy until an exact address confirms at least 25 Mbps down / 100 Mbps up. Airport drive time is estimated rather than routed. Local taxes, utilities, insurance, FEMA risk, climate, pressure, pollen, mold, and unmonitored-county AQI require finalist verification. Active rental inventory is intentionally not a hard gate.</div></section>
+  <section class="sec"><details class="raw-details"><summary>View all source fields (${Object.keys(r._county||{}).length + Object.keys(r._result||{}).length})</summary><div class="raw-grid">${renderRawFields(r)}</div></details></section>`;
+}
+function metric(k,v){return `<div class="metric"><div class="mk">${k}</div><div class="mv">${v}</div></div>`}
+function gate(k,v){return `<div class="gate ${v?'yes':'no'}"><span>${k}</span><b>${v?'PASS':'FAIL'}</b></div>`}
+function info(k,v){return `<div><div class="ik">${k}</div><div class="iv">${escapeHtml(v??'Not available')}</div></div>`}
+function badge(v,cls=''){return `<span class="badge ${cls}">${escapeHtml(v??'—')}</span>`}
+function valueClass(v){const s=String(v||'').toLowerCase();if(/pass|eligible|go/.test(s))return'pass';if(/fail|ineligible|no-go/.test(s))return'fail';return'warn'}
+function renderAudit(){
+  const h=['Validation area','Status','Checked','Updated','Source / method','Remaining limitation'];
+  els.auditTable.innerHTML=`<div class="ar hd">${h.map(x=>`<div class="ac">${x}</div>`).join('')}</div>`+AUDIT.map(r=>`<div class="ar"><div class="ac"><b>${escapeHtml(r[0])}</b></div><div class="ac">${badge(r[1],auditClass(r[1]))}</div><div class="ac">${Number(r[2]).toLocaleString()}</div><div class="ac">${Number(r[3]).toLocaleString()}</div><div class="ac">${escapeHtml(r[4])}</div><div class="ac">${escapeHtml(r[5])}</div></div>`).join('');
+}
+function auditClass(s){s=String(s).toLowerCase();if(s.includes('pass')||s.includes('validated')||s.includes('updated')||s.includes('recalculated'))return'pass';if(s.includes('proxy')||s.includes('review')||s.includes('available'))return'warn';return'blue'}
+function showTooltip(e,r){if(!r)return;const m=metricMap.get(selectedMetric);els.tooltip.innerHTML=`<div class="tt-name">${escapeHtml(r.c)}, ${r.s}</div><div class="tt-value">${escapeHtml(m.label)}: ${escapeHtml(fmt(r[m.k],m.fmt))}</div><div>Rank ${r.rank??'—'} · ${escapeHtml(r.risk||'No primary risk')}</div>`;els.tooltip.style.left=`${Math.min(e.clientX+14,window.innerWidth-355)}px`;els.tooltip.style.top=`${Math.min(e.clientY+14,window.innerHeight-105)}px`;els.tooltip.style.opacity='1'}
+function hideTooltip(){els.tooltip.style.opacity='0'}
+function num(v){const n=Number(v);return Number.isFinite(n)?n:NaN}
+function fmt(v,type='number'){
+  if(v===null||v===undefined||v==='')return'Not available';
+  if(type==='bool')return v?'Yes':'No';
+  const n=Number(v);if(!Number.isFinite(n))return String(v);
+  if(type==='usd')return new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:Math.abs(n)>=100?0:2}).format(n);
+  if(type==='pct')return `${n.toLocaleString('en-US',{maximumFractionDigits:2})}%`;
+  if(type==='mbps')return `${n.toLocaleString('en-US',{maximumFractionDigits:0})} Mbps`;
+  if(type==='min')return `${n.toLocaleString('en-US',{maximumFractionDigits:0})} min`;
+  return n.toLocaleString('en-US',{maximumFractionDigits:1});
+}
+function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+</script>
+</body>
+</html>
